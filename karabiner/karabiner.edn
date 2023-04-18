@@ -1,0 +1,530 @@
+;; After running goku, check instructions to tweak the json file at the bottom of this file
+{
+    :devices {:applekeyboard [{:vendor_id 1452 :product_id 835}]}
+    :profiles {:default {:default true
+        :alone   1000 ; hold for .. ms to register single tap
+        :held    160 ; to_if_held_down, a -> b if held down (like hold-tap) I don't use it anyway
+        :delay   0 ; time after which the key press is delayed
+        :sim     160}} ; keys need to be pressed within this threshold to be considered simultaneous (this not only affects combos, but also layer taps, so make it higher than you would for QMK combos)
+    :simlayers {
+        :nav-layer {:key :q}
+        :sym-layer {:key :w}
+        :kb-layer {:key :z}
+        :num-layer {:key :x}
+        :fnc-layer {:key :p}
+    }
+    :main [
+        {
+            :des "combos"
+            :rules [
+                [[:i :o] :delete_or_backspace] ;; qwerty still
+                ;; [[:i :o] :delete_forward :modi {:mandatory [:left_shift]}] ;; doesn't work
+                [[:m :comma] :tab]
+                [[:m :slash] :escape]
+                [[:comma :period] :return_or_enter]
+                [[:c :v] :grave_accent_and_tilde]
+                ;; [[:!Sc :!Sv] :!Sgrave_accent_and_tilde] ;; breaks
+                [[:v :m] :caps_lock]
+            ]
+        }
+        {
+            :des "nav layer"
+            :rules [
+                [:w :left_shift :nav-layer]
+                [:e :volume_increment :nav-layer]
+                [:r :!Cg :nav-layer]
+                [:#St [:!CSf :#Sf4] :nav-layer]
+                [:##y :##f :nav-layer]
+                [:#Su :!O#Sleft_arrow :nav-layer]
+                [:#Si :#Spage_up :nav-layer]
+                [:#So :#Spage_down :nav-layer]
+                [:#Sp :!O#Sright_arrow :nav-layer]
+                ;; middle row
+                ;; [:s :scan_previous_track :nav-layer] ;; breaks goku?
+                [:d :volume_decrement :nav-layer]
+                [:f :play_or_pause :nav-layer]
+                ;; [:g :scan_next_track :nav-layer] ;; breaks goku?
+                [:#COTh :#COTdelete_or_backspace :nav-layer]
+                [:!S#COTh :#COTdelete_forward :nav-layer]
+                [:##j :##left_arrow :nav-layer]
+                [:##k :##up_arrow :nav-layer]
+                [:##l :##down_arrow :nav-layer]
+                [:##semicolon :##right_arrow :nav-layer]
+                ;; bottom row
+                [:x :!CSdelete_or_backspace :nav-layer]
+                [:##c :!CTq :nav-layer]
+                [:##v :s :nav-layer]
+                [:##b :!CSm :nav-layer]
+                [:##n :!CSk :nav-layer]
+                [:#Sm :!C#Sleft_arrow :nav-layer]
+                [:#Scomma :!C#Sup_arrow :nav-layer]
+                [:#Speriod :!C#Sdown_arrow :nav-layer]
+                [:#Sslash :!C#Sright_arrow :nav-layer]
+            ]
+        }
+        {
+            :des "sym layer"
+            :rules [
+                [:e :left_shift :sym-layer]
+                [:#Sr :!O#Sl :sym-layer]
+                [:#St :!OSl :sym-layer]
+                [:##y :##backslash :sym-layer]
+                [:##u :##quote :sym-layer]
+                [:#COTi :#COTopen_bracket :sym-layer]
+                [:!S#COTi :#COTclose_bracket :sym-layer]
+                [:#So :!O#Shyphen :sym-layer]
+                [:##p :##semicolon :sym-layer]
+                ;; middle row
+                [:d [:h :t :t :p :s :!Ssemicolon :slash :slash] :sym-layer]
+                [:f :!Ck :sym-layer]
+                [:g :keypad_plus :sym-layer]
+                [:#COTh :#COTdelete_or_backspace :sym-layer]
+                [:!S#COTh :#COTdelete_forward :sym-layer]
+                [:#COTj :!S9 :sym-layer]
+                [:!S#COTj :!S#COT0 :sym-layer]
+                [:#COTk :!S#COTopen_bracket :sym-layer]
+                [:!S#COTk :!S#COTclose_bracket :sym-layer]
+                [:##l :##hyphen :sym-layer]
+                [:##semicolon :##equal_sign :sym-layer]
+                ;; bottom row
+                [:n [:!S4 :!Sopen_bracket :!Sclose_bracket :left_arrow] :sym-layer]
+                [:m :!S1 :sym-layer]
+                [:comma :!Scomma :sym-layer]
+                [:period :!Speriod :sym-layer]
+                [:##slash :##slash :sym-layer]
+            ]
+        }
+        {
+            :des "num layer"
+            :rules [
+                [:##r :##open_bracket :num-layer]
+                [:##t :##close_bracket :num-layer]
+                [:##y :##backslash :num-layer]
+                [:##u :##7 :num-layer]
+                [:##i :##8 :num-layer]
+                [:##o :##9 :num-layer]
+                [:##p :##keypad_plus :num-layer]
+                ;; middle row
+                [:##d :##equal_sign :num-layer]
+                [:##f :##slash :num-layer]
+                [:##g :##comma :num-layer]
+                [:#COTh :#COTdelete_or_backspace :num-layer]
+                [:!S#COTh :#COTdelete_forward :num-layer]
+                [:##j :##4 :num-layer]
+                [:##k :##5 :num-layer]
+                [:##l :##6 :num-layer]
+                [:##semicolon :##0 :num-layer]
+                ;; bottom row
+                [:##c :##left_shift :num-layer]
+                [:##v :!S#COTcomma :num-layer]
+                [:##b :!S#COTperiod :num-layer]
+                [:##n :!S8 :num-layer]
+                [:##m :##1 :num-layer]
+                [:##comma :##2 :num-layer]
+                [:##period :##3 :num-layer]
+                [:##slash :##period :num-layer]
+            ]
+        }
+        {
+            :des "kb layer"
+            :rules [
+                [:u :!SOf5 :kb-layer]
+                [:i :!SOf8 :kb-layer]
+                [:o :!Of8 :kb-layer]
+                [:p :!Of5 :kb-layer]
+                ;; middle row
+                [:h :f11 :kb-layer]
+                [:j :f12 :kb-layer]
+                [:k :!CSy :kb-layer]
+                [:l :!TSspacebar :kb-layer]
+                [:semicolon :!Tdown_arrow :kb-layer]
+                ;; bottom row
+                [:x :!CS4 :kb-layer]
+                [:c :!CST4 :kb-layer]
+                [:v :!CS3 :kb-layer]
+                [:b :!CST3 :kb-layer]
+                [:m :!Cf2 :kb-layer]
+                [:comma :pause :kb-layer]
+                [:period :scroll_lock :kb-layer]
+                [:slash :!Tup_arrow :kb-layer]
+            ]
+        }
+        {
+            :des "function layer"
+            :rules [
+                [:w :!Tup_arrow :fnc-layer]
+                [:e :!Tdown_arrow :fnc-layer]
+                [:r :!Cgrave_accent_and_tilde :fnc-layer]
+                [:y :f10 :fnc-layer]
+                [:u :f7 :fnc-layer]
+                [:i :f8 :fnc-layer]
+                [:o :f9 :fnc-layer]
+                ;; middle row
+                [:s :!Tf8 :fnc-layer]
+                [:d :!Tf2 :fnc-layer]
+                [:f :!Tf3 :fnc-layer]
+                [:h :f11 :fnc-layer]
+                [:j :f4 :fnc-layer]
+                [:k :f5 :fnc-layer]
+                [:l :f6 :fnc-layer]
+                ;; bottom row
+                [:c :!Tf5 :fnc-layer]
+                [:v :!Tf4 :fnc-layer]
+                [:n :f12 :fnc-layer]
+                [:m :f1 :fnc-layer]
+                [:comma :f2 :fnc-layer]
+                [:period :f3 :fnc-layer]
+            ]
+        }
+        {
+            :des "vanilla colemak"
+            :rules [
+                [:##e :##f]
+                [:##r :##p]
+                [:##t :##g]
+                [:##y :##j]
+                [:##u :##l]
+                [:##i :##u]
+                [:##o :##y]
+                [:##p :##semicolon]
+                ;; middle row
+                [:##s :##r]
+                [:##d :##s]
+                [:##f :##t]
+                [:##g :##d]
+                [:##j :##n]
+                [:##k :##e]
+                [:##l :##i]
+                [:##semicolon :##o]
+                ;; bottom row
+                [:##n :##k]
+                [:##spacebar :##left_command nil {:alone :spacebar}]
+                ;; others
+                [:##left_command :##left_command nil {:alone :quote}]
+                [:##left_option :##left_option nil {:alone :hyphen}]
+                [:##right_command :##left_shift]
+                ;; when there's a sticky option in goku, do something like this
+                ;; [:##left_shift :##left_shift :sticky]
+                ;; [:##right_shift :##right_shift :sticky]
+            ]
+        }
+    ]
+}
+
+;; In ~/.config/karabiner/karabiner.json (the output of this file)
+
+;; At the start of manipulators, replace all combos like so (if you've changed some combos then you'll have to manually edit):
+;; "manipulators": [
+;;                             {
+;;                                 "from": {
+;;                                     "modifiers": {
+;;                                         "optional": [
+;;                                             "left_command",
+;;                                             "left_control",
+;;                                             "left_option"
+;;                                         ]
+;;                                     },
+;;                                     "simultaneous": [
+;;                                         {
+;;                                             "key_code": "i"
+;;                                         },
+;;                                         {
+;;                                             "key_code": "o"
+;;                                         }
+;;                                     ],
+;;                                     "simultaneous_options": {
+;;                                         "detect_key_down_uninterruptedly": false,
+;;                                         "key_down_order": "insensitive",
+;;                                         "key_up_order": "insensitive",
+;;                                         "key_up_when": "any"
+;;                                     }
+;;                                 },
+;;                                 "to": [
+;;                                     {
+;;                                         "key_code": "delete_or_backspace"
+;;                                     }
+;;                                 ],
+;;                                 "type": "basic"
+;;                             },
+;;                             {
+;;                                 "from": {
+;;                                     "modifiers": {
+;;                                         "mandatory": [
+;;                                             "left_shift"
+;;                                         ],
+;;                                         "optional": [
+;;                                             "left_command",
+;;                                             "left_control",
+;;                                             "left_option"
+;;                                         ]
+;;                                     },
+;;                                     "simultaneous": [
+;;                                         {
+;;                                             "key_code": "i"
+;;                                         },
+;;                                         {
+;;                                             "key_code": "o"
+;;                                         }
+;;                                     ],
+;;                                     "simultaneous_options": {
+;;                                         "detect_key_down_uninterruptedly": false,
+;;                                         "key_down_order": "insensitive",
+;;                                         "key_up_order": "insensitive",
+;;                                         "key_up_when": "any"
+;;                                     }
+;;                                 },
+;;                                 "to": [
+;;                                     {
+;;                                         "key_code": "delete_forward"
+;;                                     }
+;;                                 ],
+;;                                 "type": "basic"
+;;                             },
+;;                             {
+;;                                 "from": {
+;;                                     "modifiers": {
+;;                                         "optional": [
+;;                                             "any"
+;;                                         ]
+;;                                     },
+;;                                     "simultaneous": [
+;;                                         {
+;;                                             "key_code": "m"
+;;                                         },
+;;                                         {
+;;                                             "key_code": "comma"
+;;                                         }
+;;                                     ],
+;;                                     "simultaneous_options": {
+;;                                         "detect_key_down_uninterruptedly": false,
+;;                                         "key_down_order": "insensitive",
+;;                                         "key_up_order": "insensitive",
+;;                                         "key_up_when": "any"
+;;                                     }
+;;                                 },
+;;                                 "to": [
+;;                                     {
+;;                                         "key_code": "tab"
+;;                                     }
+;;                                 ],
+;;                                 "type": "basic"
+;;                             },
+;;                             {
+;;                                 "from": {
+;;                                     "modifiers": {
+;;                                         "optional": [
+;;                                             "any"
+;;                                         ]
+;;                                     },
+;;                                     "simultaneous": [
+;;                                         {
+;;                                             "key_code": "m"
+;;                                         },
+;;                                         {
+;;                                             "key_code": "slash"
+;;                                         }
+;;                                     ],
+;;                                     "simultaneous_options": {
+;;                                         "detect_key_down_uninterruptedly": false,
+;;                                         "key_down_order": "insensitive",
+;;                                         "key_up_order": "insensitive",
+;;                                         "key_up_when": "any"
+;;                                     }
+;;                                 },
+;;                                 "to": [
+;;                                     {
+;;                                         "key_code": "escape"
+;;                                     }
+;;                                 ],
+;;                                 "type": "basic"
+;;                             },
+;;                             {
+;;                                 "from": {
+;;                                     "modifiers": {
+;;                                         "optional": [
+;;                                             "any"
+;;                                         ]
+;;                                     },
+;;                                     "simultaneous": [
+;;                                         {
+;;                                             "key_code": "comma"
+;;                                         },
+;;                                         {
+;;                                             "key_code": "period"
+;;                                         }
+;;                                     ],
+;;                                     "simultaneous_options": {
+;;                                         "detect_key_down_uninterruptedly": false,
+;;                                         "key_down_order": "insensitive",
+;;                                         "key_up_order": "insensitive",
+;;                                         "key_up_when": "any"
+;;                                     }
+;;                                 },
+;;                                 "to": [
+;;                                     {
+;;                                         "key_code": "return_or_enter"
+;;                                     }
+;;                                 ],
+;;                                 "type": "basic"
+;;                             },
+;;                             {
+;;                                 "from": {
+;;                                     "modifiers": {
+;;                                         "optional": [
+;;                                             "any"
+;;                                         ]
+;;                                     },
+;;                                     "simultaneous": [
+;;                                         {
+;;                                             "key_code": "c"
+;;                                         },
+;;                                         {
+;;                                             "key_code": "v"
+;;                                         }
+;;                                     ],
+;;                                     "simultaneous_options": {
+;;                                         "detect_key_down_uninterruptedly": false,
+;;                                         "key_down_order": "insensitive",
+;;                                         "key_up_order": "insensitive",
+;;                                         "key_up_when": "any"
+;;                                     }
+;;                                 },
+;;                                 "to": [
+;;                                     {
+;;                                         "key_code": "grave_accent_and_tilde"
+;;                                     }
+;;                                 ],
+;;                                 "type": "basic"
+;;                             },
+;;                             {
+;;                                 "from": {
+;;                                     "modifiers": {
+;;                                         "optional": [
+;;                                             "any"
+;;                                         ]
+;;                                     },
+;;                                     "simultaneous": [
+;;                                         {
+;;                                             "key_code": "v"
+;;                                         },
+;;                                         {
+;;                                             "key_code": "m"
+;;                                         }
+;;                                     ],
+;;                                     "simultaneous_options": {
+;;                                         "detect_key_down_uninterruptedly": false,
+;;                                         "key_down_order": "insensitive",
+;;                                         "key_up_order": "insensitive",
+;;                                         "key_up_when": "any"
+;;                                     }
+;;                                 },
+;;                                 "to": [
+;;                                     {
+;;                                         "key_code": "caps_lock"
+;;                                     }
+;;                                 ],
+;;                                 "type": "basic"
+;;                             }
+;;                         ]
+
+;; Also add this to where you find the left shifts, for one shot shift (when in a layer, just the first instance of "key_code" : "left_shift", not the second):
+;; "to" : [ {
+;;             "sticky_modifier" : {
+;;               "left_shift" : "toggle"
+;;             }
+;;           }, {
+;;             "key_code" : "left_shift"
+;;           } ],
+
+;; Also add this in since can't via Goku:
+;; "from" : {
+;;             "key_code" : "s"
+;;           },
+;;           "to" : [ {
+;;             "consumer_key_code" : "scan_previous_track"
+;;           } ],
+;;           "conditions" : [ {
+;;             "name" : "nav-layer",
+;;             "value" : 1,
+;;             "type" : "variable_if"
+;;           } ],
+;;           "type" : "basic"
+;;         }, {
+;;           "type" : "basic",
+;;           "parameters" : {
+;;             "basic.simultaneous_threshold_milliseconds" : 350
+;;           },
+;;           "to" : [ {
+;;             "set_variable" : {
+;;               "name" : "nav-layer",
+;;               "value" : 1
+;;             }
+;;           }, {
+;;             "consumer_key_code" : "scan_previous_track"
+;;           } ],
+;;           "from" : {
+;;             "simultaneous" : [ {
+;;               "key_code" : "q"
+;;             }, {
+;;               "key_code" : "s"
+;;             } ],
+;;             "simultaneous_options" : {
+;;               "detect_key_down_uninterruptedly" : true,
+;;               "key_down_order" : "strict",
+;;               "key_up_order" : "strict_inverse",
+;;               "key_up_when" : "any",
+;;               "to_after_key_up" : [ {
+;;                 "set_variable" : {
+;;                   "name" : "nav-layer",
+;;                   "value" : 0
+;;                 }
+;;               } ]
+;;             }
+;;           }
+;;         }, {
+
+;; "from" : {
+;;             "key_code" : "g"
+;;           },
+;;           "to" : [ {
+;;             "consumer_key_code" : "scan_next_track"
+;;           } ],
+;;           "conditions" : [ {
+;;             "name" : "nav-layer",
+;;             "value" : 1,
+;;             "type" : "variable_if"
+;;           } ],
+;;           "type" : "basic"
+;;         }, {
+;;           "type" : "basic",
+;;           "parameters" : {
+;;             "basic.simultaneous_threshold_milliseconds" : 350
+;;           },
+;;           "to" : [ {
+;;             "set_variable" : {
+;;               "name" : "nav-layer",
+;;               "value" : 1
+;;             }
+;;           }, {
+;;             "consumer_key_code" : "scan_next_track"
+;;           } ],
+;;           "from" : {
+;;             "simultaneous" : [ {
+;;               "key_code" : "q"
+;;             }, {
+;;               "key_code" : "g"
+;;             } ],
+;;             "simultaneous_options" : {
+;;               "detect_key_down_uninterruptedly" : true,
+;;               "key_down_order" : "strict",
+;;               "key_up_order" : "strict_inverse",
+;;               "key_up_when" : "any",
+;;               "to_after_key_up" : [ {
+;;                 "set_variable" : {
+;;                   "name" : "nav-layer",
+;;                   "value" : 0
+;;                 }
+;;               } ]
+;;             }
+;;           }
+;;         }, {

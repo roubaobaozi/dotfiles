@@ -5,9 +5,9 @@ cask 'dropbox'
 
 # Chat applications
 cask 'signal'
-cask 'slack'
-cask 'whatsapp'
-cask 'zoomus'
+#cask 'slack'
+#cask 'whatsapp'
+cask 'zoom'
 
 # Design applications
 cask 'zeplin'
@@ -17,22 +17,22 @@ cask 'charles'
 cask 'cyberduck'
 cask 'docker'
 cask 'firefox --language=en-GB'
-cask 'firefox-developer-edition --language=en-GB'
 cask 'insomnia'
-cask 'virtualbox'
+#cask 'virtualbox'
 #cask 'sublime-text'
 
 # Entertainment applications
-cask 'beardedspice'
-cask 'marshallofsound-google-play-music-player'
-cask 'mplayer-osx-extended'
+# cask 'beardedspice'
+#cask 'marshallofsound-google-play-music-player'
+#cask 'mplayer-osx-extended'
 
-# Mechanical keyboard key remapping
+# Mechanical keyboard style key remapping
 cask 'karabiner-elements'
+brew 'yqrashawn/goku/goku'
 
 # Fonts
-cask 'rocket'
+#cask 'rocket'
 
 # Mac App Store
 mas '1Password', id: 443987910
-mas 'Xcode', id: 497799835
+#mas 'Xcode', id: 497799835

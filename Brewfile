@@ -1,14 +1,14 @@
 cask_args appdir: '/Applications'
 
 tap 'homebrew/bundle'
-tap 'caskroom/fonts'
+tap 'homebrew/cask-fonts'
 
 brew 'ack'
 brew 'coreutils'
 brew 'ctags'
 brew 'doxygen'
 brew 'ffmpeg'
-brew 'grc'
+# brew 'grc'
 brew 'http-server'
 brew 'imagemagick'
 brew 'jp2a'
@@ -23,10 +23,9 @@ brew 'readline'
 brew 'roundup'
 brew 'tmux'
 brew 'trash'
-brew 'unrar'
 brew 'wget'
 brew 'yarn'
-brew 'youtube-dl'
+brew 'yt-dlp'
 brew 'zplug'
 #brew 'go'
 #brew 'postgresql'
@@ -45,11 +44,13 @@ brew 'rbenv'
 brew 'ruby-build'
 
 # Fonts
-cask 'caskroom/fonts/font-hack'
+#cask 'caskroom/fonts/font-hack'
 
 # Core applications
 cask 'google-chrome'
+cask 'brave-browser'
 cask 'quicksilver'
+cask 'stretchly'
 cask 'the-unarchiver'
 #cask 'aerial'
 #cask 'alfred'
@@ -68,7 +69,7 @@ cask 'the-unarchiver'
 #cask 'transmit'
 
 # File storage
-cask 'google-backup-and-sync'
+cask 'google-drive'
 
 # Entertainment applications
 cask 'vlc'

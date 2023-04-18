@@ -2,6 +2,11 @@ alias reload!='. ~/.zshrc'
 
 alias cls='clear' # Good 'ol Clear Screen command
 
+# cbf reaching that far for g all the time lol
+it() {
+    eval "git $@";
+}
+
 # Directory navigation
 alias ..='function navigate() {
     CMD="";
@@ -40,6 +45,9 @@ alias x='function whereami() {
 # Network bounce 
 alias networkbounce='sudo networksetup -setv4off Wi-Fi;sudo  networksetup -setdhcp Wi-Fi'
 
+# macOS Monterey doesn't install python anymore, so .. hax
+alias python='python3'
+
 #
 # My aliases
 #
@@ -63,18 +71,19 @@ brewi() {
     eval $CMD;
 }
 
-alias la='ls -laFGh'
+alias la='ls -lhFa'
 alias ld='echo "ls -flFGhd --color=always test\n" && ls -flFGhd --color=always'
 alias f='echo "grep -IrisHn -C 3 --color=always test ./\n" && grep -IrisHn -C 3 --color=always'
 
 alias get='echo "curl -o \"#1.jpg\" http://www.url.com/images/[001-100].jpg \n" && curl -o'
 
 ytd() {
-    if [[ "$1" == https://www.youtube.com/watch* ]]
+    echo "Download a video file (YouTube, vimeo, others?)\n\nURL: ";
+    read FILE;
+    if [[ "$FILE" == http* ]]
     then
-        echo "Remember to put a \ before the ? when you paste the Youtube URL\n(for Mac, Windows doesn’t need)\n";
         OPTIONS=("Video in original format" "Audio only as mp3" "Recode video to mp4" "Cancel");
-        CMD="youtube-dl ";
+        CMD="yt-dlp ";
         select OPT in "${OPTIONS[@]}"; do
             case "$OPT" in
                 "Video in original format")
@@ -91,11 +100,11 @@ ytd() {
             esac
             break;
         done;
-        CMD+=" ${1/\?/\\?}";
+        CMD+=" ${FILE/\?/\\?}";
         echo "Running: $CMD\n";
         eval $CMD;
     else
-        echo "Please enter a valid YouTube URL.\n\nExiting ...";
+        echo "Please enter a valid URL.\n\nExiting ...";
     fi;
 }
 
@@ -107,11 +116,20 @@ alias showlib='chflags nohidden ~/Library'
 alias maintain='sudo periodic daily weekly monthly'
 
 alias cm='echo "rm -rf node_modules package-lock.json\n" && rm -rf node_modules package-lock.json'
-alias ss='http-server .'
+ss() {
+    PORT=8080;
+    if [ "$1" ]
+    then
+        PORT="$1";
+    fi
+    CMD="http-server . -p $PORT";
+    echo "$CMD";
+    eval "$CMD";
+}
 alias arti='echo "AD Username: " && read AD_LOGIN && echo "AD Password: " && read -s AD_PASSWORD && curl -u "$AD_LOGIN:$AD_PASSWORD" https://artifactory.foxsports.com.au/api/npm/auth | sed -n "1p" | sed -e "s,_auth = ,,g" | read authstr && printf "{\n  \"auths\" : {\n    \"https://artifactory.foxsports.com.au:5003\" : {\n      \"auth\" : \"" >! ~/.docker/config.json && printf "$authstr" >> ~/.docker/config.json && printf "\"\n    },\n    \"artifactory.foxsports.com.au:5001\" : {\n      \"auth\" : \"" >> ~/.docker/config.json && printf "$authstr" >> ~/.docker/config.json && printf "\"\n    },\n    \"https://artifactory.foxsports.com.au:5001\" : {\n      \"auth\" : \"" >> ~/.docker/config.json && printf "$authstr" >> ~/.docker/config.json && printf "\"\n    },\n    \"artifactory.foxsports.com.au:5003\" : {\n      \"auth\" : \"" >> ~/.docker/config.json && printf "$authstr" >> ~/.docker/config.json && printf "\"\n    }\n  }\n}" >> ~/.docker/config.json && unset -v authstr && unset -v AD_LOGIN AD_PASSWORD authstr'
 
 # FUCKING DOCKER
-alias fuckdock='echo "You’ve come to the right place.\n\ndocker login https://artifactory.foxsports.com.au:5001\n" && docker login https://artifactory.foxsports.com.au:5001'
+alias fuckdock='echo "You’ve come to the right place.\n\ndocker login https://artifactory.foxsports.com.au:5001\n    && docker login docker.pkg.github.com\n" && docker login https://artifactory.foxsports.com.au:5001 && docker login docker.pkg.github.com'
 alias dockfuck='echo "You haven’t come to the right place, but fuck it let’s dock fuck anyway.\n" && fuckdock'
 
 alias sydtime='sudo systemsetup -settimezone Australia/Sydney'
@@ -123,35 +141,36 @@ alias porto='echo "sudo lsof -PiTCP -sTCP:LISTEN\n" && sudo lsof -PiTCP -sTCP:LI
 alias porti='echo "sudo lsof -i :8080\n" && sudo lsof -i'
 alias portk='echo "kill PID, kill -2/-1/-9 PID\n" && kill'
 
-alias nrb='echo "npm run build\n" && npm run build'
-alias nrbw='echo "npm run build && npm run watch\n" && npm run build && echo "\n\n\n\n\n\n\n\n\n\n----- RUNNING WATCH NOW ------\n\n\n\n\n\n\n\n\n\n" && npm run watch'
-alias nrw='echo "npm run watch\n" && npm run watch'
-alias niw='echo "npm ci && npm run watch\n" && npm ci && npm run watch'
+alias nrw='echo "deprecated, use nr\n" && nr w'
+alias niw='echo "deprecated, use nr\n" && nr ciw'
 
 nr() {
-    CMD="npm run ";
-    echo "npm run some shit\n";
+    CMD="npm ";
+    echo "npm some shit\n";
     if [ ! $1 ]
     then
         OPTIONS=("watch" "build:viz" "build:font-matrix" "lint");
         select OPT in "${OPTIONS[@]}"; do
-            CMD+="$OPT";
+            CMD+="run $OPT";
             break;
         done;
     elif [ "$1" = "w" ]
     then
-        CMD+="watch";
+        CMD+="run watch";
+    elif [ "$1" = "ciw" ]
+    then
+        CMD+="ci && npm run watch";
     elif [ "$1" = "bv" ]
     then
-        CMD+="build:viz";
+        CMD+="run build:viz";
     elif [ "$1" = "bf" ]
     then
-        CMD+="build:font-matrix";
+        CMD+="run build:font-matrix";
     elif [ "$1" = "l" ]
     then
-        CMD+="lint";
+        CMD+="run lint";
     else
-        CMD+="$1";
+        CMD+="run $@";
     fi;
     echo "Running: $CMD\n";
     eval $CMD;
@@ -163,48 +182,125 @@ y() {
     if [ "$1" = "p" ]
     then
         CMD+="prod";
+    elif [ "$1" = "b" ]
+    then
+        CMD+="build";
+    elif [ "$1" = "d" ]
+    then
+        CMD+="dev";
+    elif [ "$1" = "a" ]
+    then
+        CMD+="add --registry=https://registry.yarnpkg.com ${@:2}";
     elif [ "$1" = "t" ]
     then
-        CMD+="test"
+        CMD+="test";
     elif [ "$1" = "tu" ]
     then
-        CMD+="test -u"
+        CMD+="test -u";
+    elif [ "$1" = "l" ]
+    then
+        CMD+="lint";
     else
-        CMD+="dev";
+        CMD+="$@";
     fi;
     echo "Running: $CMD\n";
     eval $CMD;
 }
 
+purge() {
+    echo "Purge a file (Reminder: did you turn VPN on?)\nUsage: purge [f]";
+    echo "([f]oxsports is hawk only really)\n"
+
+    if [ $1 ]
+    then
+        ACC="foxsports";
+    else
+        ACC="streamotion";
+    fi
+
+    echo "Comma-separated files to purge:"
+    read FILESTRING;
+    if [ ! $FILESTRING ]
+    then
+        echo "You must specify at least one file! Exiting ...";
+    else
+        echo "Purging on account:\n  $ACC \nFiles:";
+        FILEARRAY=(${(s/,/)FILESTRING});
+        FILES="";
+
+        for VAL in "${FILEARRAY[@]}"; do
+            TRIMVAL="${VAL// /}";
+            echo "  ${TRIMVAL}";
+            FILES+="\"${TRIMVAL}\", ";
+        done
+
+        FILES="${FILES%??}";
+
+        curl -k -X POST \
+            https://fsdevfe01.foxsports.com.au/akamai/fast-purge \
+            -H 'Content-Type: application/json' \
+            -H 'access-header: service-developer' \
+            -d "{\"account\":\"$ACC\", \"files\":[$FILES]}" \
+            --silent \
+            | python3 -m json.tool
+    fi
+}
+
 alias addmui='echo "deprecated, use addrepo\n" && addrepo'
-alias addrepo='function addrepo() {
-    echo "Add a bitbucket repo (default is ionic)\nUsage: addrepo (mui) (save|save-dev) (mar)\n\nCommit hash: ";
+addrepo() {
+    echo "Add a bitbucket repo (default is ionic)\nUsage: addrepo (mui) (s|d) (mar)\n\nCommit hash: ";
     read COMMIT;
 
     if [ ! $COMMIT ]
     then
         echo "Please enter a valid commit hash";
     else
-        REPO=${1:-ionic};
+        REPO=${1:-infinity};
         PROJECT=${3:-mar};
         PACKAGE="@kayo/$REPO@git+ssh://git@bitbucket.foxsports.com.au:7999/$PROJECT/$REPO.git#$COMMIT";
 
-        if [ ! $2 ]
+        if [ "$2" == "d" ]
         then
-            SAVE_TYPE="save";
+            SAVE_TYPE="save-dev";
         else
-            SAVE_TYPE="save-dev"
+            SAVE_TYPE="save"
         fi;
 
-        echo "npm i --$SAVE_TYPE \"$PACKAGE\"\n";
-        npm i --$SAVE_TYPE \"$PACKAGE\";
+        CMD="npm i --$SAVE_TYPE \"$PACKAGE\"";
+        echo "$CMD\n";
+        eval $CMD;
     fi;
-}; addrepo'
+}
+
+addpc() {
+    echo "Add a parcel repo (default is infinity)\nUsage: addpc (infinity) (s | d) (@fsa-streamotion)\nPackage URL: ";
+    read URL;
+
+    if [ ! $URL ]
+    then
+        echo "Please enter a valid package URL";
+    else
+        REPO=${1:-infinity};
+        NAMESPACE=${3:-@fsa-streamotion};
+        PACKAGE="$NAMESPACE/streamotion-web-$REPO@$URL";
+
+        if [ "$2" = "d" ]
+        then
+            SAVE_TYPE="save-dev";
+        else
+            SAVE_TYPE="save"
+        fi;
+
+        CMD="npm i --$SAVE_TYPE \"$PACKAGE\"";
+        echo "$CMD\n";
+        eval $CMD;
+    fi;
+}
 
 # delete them goldens
-alias rg='echo "rm -rf test/visual/screenshots/golden/\n" && rm -rf test/visual/screenshots/golden/'
+alias rg='echo "rm -rf test/visual/screenshots/golden\n" && rm -rf test/visual/screenshots/golden'
 
-alias viz='function viz() {
+viz() {
     echo "delete goldens && npm run viz:golden OR npm run viz:specified TEST_NAME\n";
     if [ ! $1 ]
     then
@@ -212,7 +308,7 @@ alias viz='function viz() {
     else
         npm run viz:specified $1
     fi;
-}; viz'
+}
 
 # cli giphy selector!
 giphy() {
@@ -230,6 +326,7 @@ giphy() {
 }
 
 # for versioning repos
+alias ghv='echo "npm version --no-git-tag-version\n" && npm version --no-git-tag-version';
 alias v='function version_foxy_kayo() {
     if [ -f package.json ]; then
         echo "This repo: $(basename $(git rev-parse --show-toplevel)) is currently at $(git describe --tags --abbrev=0)";
@@ -334,6 +431,39 @@ alias getperms='echo "stat -f \"%OLp\"\n" && stat -f "%OLp"'
 
 # kill symantec endpoint protection
 alias killsym='~/bin/sep stop'
+
+# flush routes
+flushroutes() {
+    echo "Flushing routes ...";
+    for i in $(ifconfig | egrep -o "^[a-z].+\d{1}:" | sed 's/://'); do
+        echo $i;
+        sudo ifconfig "$i" down;
+    done
+    sudo route -n flush;
+    for i in $(ifconfig | egrep -o "^[a-z].+\d{1}:" | sed 's/://'); do
+        sudo ifconfig "$i" up;
+    done;
+}
+
+kb() {
+    echo "Start up a kmonad layout\n";
+    CMD="sudo kmonad ~/repos/personal/kmonad/keymap/user/baobaozi/colemak-";
+    if [ $1 ]
+    then
+        OPTIONS=("baobaozi-ansi" "extend-ansi" "dh-extend-ansi");
+            select OPT in "${OPTIONS[@]}"; do
+                CMD+="$OPT.kbd";
+                break;
+            done;
+    else
+        CMD+="baobaozi-ansi.kbd";
+    fi;
+    echo "$CMD\n";
+    eval $CMD;
+}
+
+# CLI typing test
+alias tt='echo "gotta-go-fast --fg-empty=38\n" && gotta-go-fast --fg-empty=38'
 
 # unused
 alias runtests='echo "grunt build-tests && testem ci -f test/testem-ci.json -R tap"; grunt build-tests && testem ci -f test/testem-ci.json -R tap'

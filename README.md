@@ -29,6 +29,20 @@ cd ~/.dotfiles
 script/bootstrap
 ```
 
+I thought I had split Brewfiles working but maybe I didn't. Anyway, you can just do:
+
+```sh
+brew bundle
+```
+
+.. to install the default Brewfile, and
+
+```sh
+brew bundle --file Brewfile-home
+```
+
+.. to install a particular Brewfile.
+
 Then:
 
 1. Restart computer. Open iTerm2 and ignore Terminal forever.
@@ -46,6 +60,13 @@ which sets up a few paths that'll be different on your particular machine.
 defaults, and so on. Tweak this script, and occasionally run `dot` from
 time to time to keep your environment fresh and up-to-date. You can find
 this script in `bin/`.
+
+## M1 mac troubleshooting
+
+1. `touch /opt/homebrew/etc/grc.bashrc`
+1. `/opt/homebrew/opt/zplug/cache/`
+1. `touch command.zsh defer_1_plugin.zsh defer_2_plugin.zsh defer_3_plugin.zsh fpath.zsh lazy_plugin.zsh theme.zsh`
+1. `exec zsh` or restart iTerm
 
 ## topical
 

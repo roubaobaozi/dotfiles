@@ -58,6 +58,21 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 export PATH="$PATH:./node_modules/.bin"
+export PATH="$PATH:/Users/ming.teo/.local/bin"
 
 # Kayo Fox stop friggin’ downloading chromium
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false
+# commit verification
+export GPG_TTY=$(tty)
+# 1Password biometrics
+export OP_BIOMETRIC_UNLOCK_ENABLED=true
+
+# Tizen SHIT
+export PATH="$PATH:$HOME/tizen-studio/tools"
+export PATH="$PATH:$HOME/tizen-studio/tools/ide/bin"
+
+# for QMK
+export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
+export PATH="/usr/local/opt/arm-gcc-bin@8/bin:$PATH"
+
+export PATH="$PATH:/usr/local/bin/gotta-go-fast"

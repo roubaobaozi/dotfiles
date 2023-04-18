@@ -905,6 +905,7 @@
   dt = difftool
   f = fetch
   fd = "!fetch_develop() { for mybranch in $(git branch-name); do echo \"git checkout develop && git fetch && git reset --hard origin/develop && git checkout $mybranch\n\" && git checkout develop && git fetch && git reset --hard origin/develop && git checkout $mybranch; done; }; fetch_develop"
+  fm = "!fetch_main() { for mybranch in $(git branch-name); do echo \"git checkout main && git fetch && git reset --hard origin/main && git checkout $mybranch\n\" && git checkout main && git fetch && git reset --hard origin/main && git checkout $mybranch; done; }; fetch_main"
   fp = "!echo \"git push -u origin $(git branch-name)\n\" && git push -u origin $(git branch-name)"
   fr = "!echo \"git fetch && git reset --hard origin/$(git branch-name)\n\" && git fetch && git reset --hard origin/$(git branch-name)"
   frb = "!echo \"git fetch && git rebase\n\" && git fetch && git rebase"
@@ -912,14 +913,18 @@
   l = log
   mt = mergetool
   p = pull
+  pushforcelease = push --force-with-lease
   qa = "!echo \"git push origin $(git branch-name):qa --force\n\" && git push origin $(git branch-name):qa --force"
+  qmkm = "!reset_qmk_master() { for mybranch in $(git branch-name); do echo \"git checkout master && git fetch upstream && git reset --hard upstream/master && git push && git checkout $mybranch\n\" && git checkout master && git fetch upstream && git reset --hard upstream/master && git push && git checkout $mybranch; done; }; reset_qmk_master"
+  qmk = "!reset_qmk_develop() { for mybranch in $(git branch-name); do echo \"git checkout develop && git fetch upstream && git reset --hard upstream/develop && git push && git checkout $mybranch\n\" && git checkout develop && git fetch upstream && git reset --hard upstream/develop && git push && git checkout $mybranch; done; }; reset_qmk_develop"
   r = reset
   ra = "!echo \"git reset -q && git add . && git status\n\" && git reset -q && git add . && git status"
   rb = rebase
   rba = rebase --abort
   rbc = rebase --continue
   rbs = rebase --skip
-  rmb = "!rmmergedbranches() { git checkout --quiet develop && git branch --merged | grep --invert-match '\\*' | grep --invert-match 'develop' | grep --invert-match 'master' | xargs -n 1 git branch --delete; git checkout --quiet @{-1}; }; rmmergedbranches"
+  rmb = "!rmmergedbranches() { git checkout --quiet main && git fetch && git branch --merged | grep --invert-match '\\*' | grep --invert-match 'main' | xargs -n 1 git branch --delete; git checkout --quiet @{-1}; }; rmmergedbranches"
+  rmbd = "!rmmergedbranchesdev() { git checkout --quiet develop && git fetch && git branch --merged | grep --invert-match '\\*' | grep --invert-match 'develop' | grep --invert-match 'master' | xargs -n 1 git branch --delete; git checkout --quiet @{-1}; }; rmmergedbranchesdev"
   s = status
   st = stash
   uc = !"un_committer() { HEADS=\"HEAD~$1\"; echo \"git reset $HEADS\n\"; git reset $HEADS; }; un_committer"

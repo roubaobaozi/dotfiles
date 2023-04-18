@@ -39,21 +39,26 @@
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
     editor = nvim
+    # editor = code --wait # in the end this pisses me off, stick with nvim
 [apply]
     whitespace = nowarn
-[merge]
-    tool = sublimerge
-[mergetool "sublimerge"]
-    cmd = subl -n --wait \"$REMOTE\" \"$BASE\" \"$LOCAL\" \"$MERGED\" --command \"sublimerge_diff_views\"
-    trustExitCode = false
+# [merge]
+#     tool = sublimerge
+# [mergetool "sublimerge"]
+#     cmd = subl -n --wait \"$REMOTE\" \"$BASE\" \"$LOCAL\" \"$MERGED\" --command \"sublimerge_diff_views\"
+#     trustExitCode = false
 #[diff]
 #    tool = sublimerge
 #[difftool "sublimerge"]
 #    cmd = subl -n --wait \"$REMOTE\" \"$LOCAL\" --command \"sublimerge_diff_views {\\\"left_read_only\\\": true, \\\"right_read_only\\\": true}\"
 [diff]
-    tool = vscode-difftool
-[difftool "vscode-difftool"]
+    tool = default-difftool
+[difftool "default-difftool"]
     cmd = code --wait --diff $LOCAL $REMOTE
+[merge]
+    tool = vscode
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
 [help]
     autocorrect = 1
 [push]
@@ -69,6 +74,17 @@
     path = .dotfiles/git/gitaliases
 [user]
     name = Ming Teo
-    email = ming.teo@foxsports.com.au
+    email = ming.teo@foxtel.com.au
+    signingkey = 7D099410921930DD95ED9E83E04C7A744D0709D1
+[credential]
+    helper = osxkeychain
 #[commit]
 #    template = /Users/ming.teo/.stCommitMsg
+[gpg]
+    program = /opt/homebrew/bin/gpg
+[commit]
+    gpgsign = true
+[includeIf "gitdir/i:~/.dotfiles"]
+    path = .dotfiles/git/mingteo.gitconfig
+[includeIf "gitdir/i:~/repos/personal/"]
+    path = .dotfiles/git/mingteo.gitconfig

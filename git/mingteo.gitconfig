@@ -1,0 +1,5 @@
+[user]
+    name = baobaozi
+    email = work@mingteo.com
+[commit]
+    gpgsign = false

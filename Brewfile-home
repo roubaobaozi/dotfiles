@@ -11,27 +11,27 @@ cask 'transmission'
 cask 'signal'
 cask 'skype'
 cask 'slack'
-cask 'whatsapp'
+#cask 'whatsapp'
 # cask 'viber'
 
 # Developer applications
-cask 'charles'
 cask 'cyberduck'
-cask 'docker'
 cask 'firefox --language=en-GB'
 cask 'firefox-developer-edition --language=en-GB'
-cask 'insomnia'
 cask 'virtualbox'
 #cask 'sublime-text'
 
 # Entertainment applications
-cask 'beardedspice'
-cask 'marshallofsound-google-play-music-player'
-cask 'mplayer-osx-extended'
+cask 'elmedia-player'
+# cask 'beardedspice'
+# cask 'marshallofsound-google-play-music-player'
+# cask 'mplayer-osx-extended'
 
 # Mechanical keyboard key remapping
 cask 'karabiner-elements'
+brew 'qmk'
+cask 'qmk-toolbox'
 
 # Mac App Store
 mas '1Password', id: 443987910
-mas 'Xcode', id: 497799835
+#mas 'Xcode', id: 497799835

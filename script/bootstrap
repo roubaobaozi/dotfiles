@@ -135,6 +135,9 @@ install_dotfiles () {
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
   done
+
+  # install karabiner.edn
+  link_file "$DOTFILES_ROOT/karabiner/karabiner.edn" "$HOME/.config/karabiner.edn"
 }
 
 install_vim () {
