@@ -1637,14 +1637,11 @@
           }
         }, {
           "from" : {
-            "key_code" : "r",
-            "modifiers" : {
-              "optional" : [ "left_shift" ]
-            }
+            "key_code" : "r"
           },
           "to" : [ {
             "key_code" : "l",
-            "modifiers" : [ "left_option" ]
+            "modifiers" : [ "left_option", "left_shift" ]
           } ],
           "conditions" : [ {
             "name" : "sym-layer",
@@ -1664,7 +1661,7 @@
             }
           }, {
             "key_code" : "l",
-            "modifiers" : [ "left_option" ]
+            "modifiers" : [ "left_option", "left_shift" ]
           } ],
           "from" : {
             "simultaneous" : [ {
@@ -1687,14 +1684,11 @@
           }
         }, {
           "from" : {
-            "key_code" : "t",
-            "modifiers" : {
-              "optional" : [ "left_shift" ]
-            }
+            "key_code" : "t"
           },
           "to" : [ {
             "key_code" : "l",
-            "modifiers" : [ "left_option", "left_shift" ]
+            "modifiers" : [ "left_control", "left_option" ]
           } ],
           "conditions" : [ {
             "name" : "sym-layer",
@@ -1714,7 +1708,7 @@
             }
           }, {
             "key_code" : "l",
-            "modifiers" : [ "left_option", "left_shift" ]
+            "modifiers" : [ "left_control", "left_option" ]
           } ],
           "from" : {
             "simultaneous" : [ {
@@ -4946,241 +4940,6 @@
           }
         }, {
           "from" : {
-            "key_code" : "s"
-          },
-          "to" : [ {
-            "key_code" : "f8",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "name" : "fnc-layer",
-            "value" : 1,
-            "type" : "variable_if"
-          } ],
-          "type" : "basic"
-        }, {
-          "type" : "basic",
-          "parameters" : {
-            "basic.simultaneous_threshold_milliseconds" : 350
-          },
-          "to" : [ {
-            "set_variable" : {
-              "name" : "fnc-layer",
-              "value" : 1
-            }
-          }, {
-            "key_code" : "f8",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "from" : {
-            "simultaneous" : [ {
-              "key_code" : "p"
-            }, {
-              "key_code" : "s"
-            } ],
-            "simultaneous_options" : {
-              "detect_key_down_uninterruptedly" : true,
-              "key_down_order" : "strict",
-              "key_up_order" : "strict_inverse",
-              "key_up_when" : "any",
-              "to_after_key_up" : [ {
-                "set_variable" : {
-                  "name" : "fnc-layer",
-                  "value" : 0
-                }
-              } ]
-            }
-          }
-        }, {
-          "from" : {
-            "key_code" : "d"
-          },
-          "to" : [ {
-            "key_code" : "f2",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "name" : "fnc-layer",
-            "value" : 1,
-            "type" : "variable_if"
-          } ],
-          "type" : "basic"
-        }, {
-          "type" : "basic",
-          "parameters" : {
-            "basic.simultaneous_threshold_milliseconds" : 350
-          },
-          "to" : [ {
-            "set_variable" : {
-              "name" : "fnc-layer",
-              "value" : 1
-            }
-          }, {
-            "key_code" : "f2",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "from" : {
-            "simultaneous" : [ {
-              "key_code" : "p"
-            }, {
-              "key_code" : "d"
-            } ],
-            "simultaneous_options" : {
-              "detect_key_down_uninterruptedly" : true,
-              "key_down_order" : "strict",
-              "key_up_order" : "strict_inverse",
-              "key_up_when" : "any",
-              "to_after_key_up" : [ {
-                "set_variable" : {
-                  "name" : "fnc-layer",
-                  "value" : 0
-                }
-              } ]
-            }
-          }
-        }, {
-          "from" : {
-            "key_code" : "f"
-          },
-          "to" : [ {
-            "key_code" : "f3",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "name" : "fnc-layer",
-            "value" : 1,
-            "type" : "variable_if"
-          } ],
-          "type" : "basic"
-        }, {
-          "type" : "basic",
-          "parameters" : {
-            "basic.simultaneous_threshold_milliseconds" : 350
-          },
-          "to" : [ {
-            "set_variable" : {
-              "name" : "fnc-layer",
-              "value" : 1
-            }
-          }, {
-            "key_code" : "f3",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "from" : {
-            "simultaneous" : [ {
-              "key_code" : "p"
-            }, {
-              "key_code" : "f"
-            } ],
-            "simultaneous_options" : {
-              "detect_key_down_uninterruptedly" : true,
-              "key_down_order" : "strict",
-              "key_up_order" : "strict_inverse",
-              "key_up_when" : "any",
-              "to_after_key_up" : [ {
-                "set_variable" : {
-                  "name" : "fnc-layer",
-                  "value" : 0
-                }
-              } ]
-            }
-          }
-        }, {
-          "from" : {
-            "key_code" : "c"
-          },
-          "to" : [ {
-            "key_code" : "f5",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "name" : "fnc-layer",
-            "value" : 1,
-            "type" : "variable_if"
-          } ],
-          "type" : "basic"
-        }, {
-          "type" : "basic",
-          "parameters" : {
-            "basic.simultaneous_threshold_milliseconds" : 350
-          },
-          "to" : [ {
-            "set_variable" : {
-              "name" : "fnc-layer",
-              "value" : 1
-            }
-          }, {
-            "key_code" : "f5",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "from" : {
-            "simultaneous" : [ {
-              "key_code" : "p"
-            }, {
-              "key_code" : "c"
-            } ],
-            "simultaneous_options" : {
-              "detect_key_down_uninterruptedly" : true,
-              "key_down_order" : "strict",
-              "key_up_order" : "strict_inverse",
-              "key_up_when" : "any",
-              "to_after_key_up" : [ {
-                "set_variable" : {
-                  "name" : "fnc-layer",
-                  "value" : 0
-                }
-              } ]
-            }
-          }
-        }, {
-          "from" : {
-            "key_code" : "v"
-          },
-          "to" : [ {
-            "key_code" : "f4",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "conditions" : [ {
-            "name" : "fnc-layer",
-            "value" : 1,
-            "type" : "variable_if"
-          } ],
-          "type" : "basic"
-        }, {
-          "type" : "basic",
-          "parameters" : {
-            "basic.simultaneous_threshold_milliseconds" : 350
-          },
-          "to" : [ {
-            "set_variable" : {
-              "name" : "fnc-layer",
-              "value" : 1
-            }
-          }, {
-            "key_code" : "f4",
-            "modifiers" : [ "left_control" ]
-          } ],
-          "from" : {
-            "simultaneous" : [ {
-              "key_code" : "p"
-            }, {
-              "key_code" : "v"
-            } ],
-            "simultaneous_options" : {
-              "detect_key_down_uninterruptedly" : true,
-              "key_down_order" : "strict",
-              "key_up_order" : "strict_inverse",
-              "key_up_when" : "any",
-              "to_after_key_up" : [ {
-                "set_variable" : {
-                  "name" : "fnc-layer",
-                  "value" : 0
-                }
-              } ]
-            }
-          }
-        }, {
-          "from" : {
             "key_code" : "y"
           },
           "to" : [ {
@@ -5361,6 +5120,147 @@
           }
         }, {
           "from" : {
+            "key_code" : "s"
+          },
+          "to" : [ {
+            "key_code" : "f8",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "conditions" : [ {
+            "name" : "fnc-layer",
+            "value" : 1,
+            "type" : "variable_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "type" : "basic",
+          "parameters" : {
+            "basic.simultaneous_threshold_milliseconds" : 350
+          },
+          "to" : [ {
+            "set_variable" : {
+              "name" : "fnc-layer",
+              "value" : 1
+            }
+          }, {
+            "key_code" : "f8",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "from" : {
+            "simultaneous" : [ {
+              "key_code" : "p"
+            }, {
+              "key_code" : "s"
+            } ],
+            "simultaneous_options" : {
+              "detect_key_down_uninterruptedly" : true,
+              "key_down_order" : "strict",
+              "key_up_order" : "strict_inverse",
+              "key_up_when" : "any",
+              "to_after_key_up" : [ {
+                "set_variable" : {
+                  "name" : "fnc-layer",
+                  "value" : 0
+                }
+              } ]
+            }
+          }
+        }, {
+          "from" : {
+            "key_code" : "d"
+          },
+          "to" : [ {
+            "key_code" : "f2",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "conditions" : [ {
+            "name" : "fnc-layer",
+            "value" : 1,
+            "type" : "variable_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "type" : "basic",
+          "parameters" : {
+            "basic.simultaneous_threshold_milliseconds" : 350
+          },
+          "to" : [ {
+            "set_variable" : {
+              "name" : "fnc-layer",
+              "value" : 1
+            }
+          }, {
+            "key_code" : "f2",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "from" : {
+            "simultaneous" : [ {
+              "key_code" : "p"
+            }, {
+              "key_code" : "d"
+            } ],
+            "simultaneous_options" : {
+              "detect_key_down_uninterruptedly" : true,
+              "key_down_order" : "strict",
+              "key_up_order" : "strict_inverse",
+              "key_up_when" : "any",
+              "to_after_key_up" : [ {
+                "set_variable" : {
+                  "name" : "fnc-layer",
+                  "value" : 0
+                }
+              } ]
+            }
+          }
+        }, {
+          "from" : {
+            "key_code" : "f"
+          },
+          "to" : [ {
+            "key_code" : "f3",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "conditions" : [ {
+            "name" : "fnc-layer",
+            "value" : 1,
+            "type" : "variable_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "type" : "basic",
+          "parameters" : {
+            "basic.simultaneous_threshold_milliseconds" : 350
+          },
+          "to" : [ {
+            "set_variable" : {
+              "name" : "fnc-layer",
+              "value" : 1
+            }
+          }, {
+            "key_code" : "f3",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "from" : {
+            "simultaneous" : [ {
+              "key_code" : "p"
+            }, {
+              "key_code" : "f"
+            } ],
+            "simultaneous_options" : {
+              "detect_key_down_uninterruptedly" : true,
+              "key_down_order" : "strict",
+              "key_up_order" : "strict_inverse",
+              "key_up_when" : "any",
+              "to_after_key_up" : [ {
+                "set_variable" : {
+                  "name" : "fnc-layer",
+                  "value" : 0
+                }
+              } ]
+            }
+          }
+        }, {
+          "from" : {
             "key_code" : "h"
           },
           "to" : [ {
@@ -5525,6 +5425,100 @@
               "key_code" : "p"
             }, {
               "key_code" : "l"
+            } ],
+            "simultaneous_options" : {
+              "detect_key_down_uninterruptedly" : true,
+              "key_down_order" : "strict",
+              "key_up_order" : "strict_inverse",
+              "key_up_when" : "any",
+              "to_after_key_up" : [ {
+                "set_variable" : {
+                  "name" : "fnc-layer",
+                  "value" : 0
+                }
+              } ]
+            }
+          }
+        }, {
+          "from" : {
+            "key_code" : "c"
+          },
+          "to" : [ {
+            "key_code" : "f5",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "conditions" : [ {
+            "name" : "fnc-layer",
+            "value" : 1,
+            "type" : "variable_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "type" : "basic",
+          "parameters" : {
+            "basic.simultaneous_threshold_milliseconds" : 350
+          },
+          "to" : [ {
+            "set_variable" : {
+              "name" : "fnc-layer",
+              "value" : 1
+            }
+          }, {
+            "key_code" : "f5",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "from" : {
+            "simultaneous" : [ {
+              "key_code" : "p"
+            }, {
+              "key_code" : "c"
+            } ],
+            "simultaneous_options" : {
+              "detect_key_down_uninterruptedly" : true,
+              "key_down_order" : "strict",
+              "key_up_order" : "strict_inverse",
+              "key_up_when" : "any",
+              "to_after_key_up" : [ {
+                "set_variable" : {
+                  "name" : "fnc-layer",
+                  "value" : 0
+                }
+              } ]
+            }
+          }
+        }, {
+          "from" : {
+            "key_code" : "v"
+          },
+          "to" : [ {
+            "key_code" : "f4",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "conditions" : [ {
+            "name" : "fnc-layer",
+            "value" : 1,
+            "type" : "variable_if"
+          } ],
+          "type" : "basic"
+        }, {
+          "type" : "basic",
+          "parameters" : {
+            "basic.simultaneous_threshold_milliseconds" : 350
+          },
+          "to" : [ {
+            "set_variable" : {
+              "name" : "fnc-layer",
+              "value" : 1
+            }
+          }, {
+            "key_code" : "f4",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "from" : {
+            "simultaneous" : [ {
+              "key_code" : "p"
+            }, {
+              "key_code" : "v"
             } ],
             "simultaneous_options" : {
               "detect_key_down_uninterruptedly" : true,
@@ -5949,6 +5943,21 @@
           },
           "to" : [ {
             "key_code" : "left_option"
+          } ],
+          "type" : "basic"
+        }, {
+          "from" : {
+            "key_code" : "right_command",
+            "modifiers" : {
+              "optional" : [ "any" ]
+            }
+          },
+          "to" : [ {
+            "sticky_modifier" : {
+              "left_shift" : "toggle"
+            }
+          }, {
+            "key_code" : "left_shift"
           } ],
           "type" : "basic"
         } ]

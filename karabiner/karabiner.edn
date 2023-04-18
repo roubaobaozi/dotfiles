@@ -66,8 +66,8 @@
             :des "sym layer"
             :rules [
                 [:e :left_shift :sym-layer]
-                [:#Sr :!O#Sl :sym-layer]
-                [:#St :!OSl :sym-layer]
+                [:r :!OSl :sym-layer]
+                [:t :!OTl :sym-layer]
                 [:##y :##backslash :sym-layer]
                 [:##u :##quote :sym-layer]
                 [:#COTi :#COTopen_bracket :sym-layer]

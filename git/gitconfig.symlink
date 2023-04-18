@@ -40,6 +40,7 @@
     attributesfile = ~/.gitattributes
     editor = nvim
     # editor = code --wait # in the end this pisses me off, stick with nvim
+    pager = diff-so-fancy | less --tabs=4 -RFX
 [apply]
     whitespace = nowarn
 # [merge]

@@ -3,8 +3,8 @@
   "version": "1.9.0",
   "description": "my .dotfiles",
   "main": "script/bootstrap",
-  "repository": "https://setek@github.com/setek/dotfiles.git",
-  "author": "Ming Teo <work@mingteo.com>",
+  "repository": "https://roubaobaozi@github.com/roubaobaozi/dotfiles.git",
+  "author": "baobaozi <work@mingteo.com>",
   "license": "MIT",
   "private": false,
   "scripts": {

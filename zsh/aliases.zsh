@@ -139,7 +139,13 @@ alias nw='npm-why'
 
 alias porto='echo "sudo lsof -PiTCP -sTCP:LISTEN\n" && sudo lsof -PiTCP -sTCP:LISTEN'
 alias porti='echo "sudo lsof -i :8080\n" && sudo lsof -i'
-alias portk='echo "kill PID, kill -2/-1/-9 PID\n" && kill'
+# alias portk='echo "kill PID, kill -2/-1/-9 PID\n" && kill'
+portk() {
+    PORT=${1:-8080};
+    CMD="lsof -t -i tcp:$PORT | xargs kill";
+    echo "$CMD";
+    eval $CMD;
+}
 
 alias nrw='echo "deprecated, use nr\n" && nr w'
 alias niw='echo "deprecated, use nr\n" && nr ciw'

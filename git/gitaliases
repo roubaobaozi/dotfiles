@@ -50,7 +50,7 @@
 
   ### checkout ###
 
-  # setek: don’t do this because I want a special checkout
+  # baobaozi: don’t do this because I want a special checkout
   # checkout - update the working tree to match a branch or paths. [same as "o" for "out"]
   # co = checkout
 
