@@ -1,0 +1,8 @@
+[user]
+    name = Ming Teo
+    email = ming.teo@foxtel.com.au
+    signingkey = 7D099410921930DD95ED9E83E04C7A744D0709D1
+[gpg]
+    program = /opt/homebrew/bin/gpg
+[commit]
+    gpgsign = true

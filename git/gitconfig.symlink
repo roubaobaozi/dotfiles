@@ -74,18 +74,11 @@
 [include]
     path = .dotfiles/git/gitaliases
 [user]
-    name = Ming Teo
-    email = ming.teo@foxtel.com.au
-    signingkey = 7D099410921930DD95ED9E83E04C7A744D0709D1
+    name = baobaozi
+    email = work@mingteo.com
 [credential]
     helper = osxkeychain
-#[commit]
-#    template = /Users/ming.teo/.stCommitMsg
-[gpg]
-    program = /opt/homebrew/bin/gpg
 [commit]
-    gpgsign = true
-[includeIf "gitdir/i:~/.dotfiles"]
-    path = .dotfiles/git/mingteo.gitconfig
-[includeIf "gitdir/i:~/repos/personal/"]
-    path = .dotfiles/git/mingteo.gitconfig
+    gpgsign = false
+[includeIf "gitdir/i:~/repos/work/"]
+    path = .dotfiles/git/work.gitconfig
