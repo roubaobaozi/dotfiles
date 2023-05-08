@@ -33,6 +33,7 @@ alias ..='function navigate() {
     echo "$CMD";
     eval $CMD;
 }; navigate'
+
 alias x='function whereami() {
     DEEP=$(pwd | grep -o "/" | grep -c "/");
 
@@ -51,6 +52,12 @@ alias python='python3'
 #
 # My aliases
 #
+
+fixstretch() {
+    CMD='sudo xattr -r -d com.apple.quarantine /Applications/Stretchly.app';
+    echo "$CMD\n";
+    eval $CMD;
+}
 
 # Brew aliases
 brewi() {
@@ -129,7 +136,7 @@ ss() {
 alias arti='echo "AD Username: " && read AD_LOGIN && echo "AD Password: " && read -s AD_PASSWORD && curl -u "$AD_LOGIN:$AD_PASSWORD" https://artifactory.foxsports.com.au/api/npm/auth | sed -n "1p" | sed -e "s,_auth = ,,g" | read authstr && printf "{\n  \"auths\" : {\n    \"https://artifactory.foxsports.com.au:5003\" : {\n      \"auth\" : \"" >! ~/.docker/config.json && printf "$authstr" >> ~/.docker/config.json && printf "\"\n    },\n    \"artifactory.foxsports.com.au:5001\" : {\n      \"auth\" : \"" >> ~/.docker/config.json && printf "$authstr" >> ~/.docker/config.json && printf "\"\n    },\n    \"https://artifactory.foxsports.com.au:5001\" : {\n      \"auth\" : \"" >> ~/.docker/config.json && printf "$authstr" >> ~/.docker/config.json && printf "\"\n    },\n    \"artifactory.foxsports.com.au:5003\" : {\n      \"auth\" : \"" >> ~/.docker/config.json && printf "$authstr" >> ~/.docker/config.json && printf "\"\n    }\n  }\n}" >> ~/.docker/config.json && unset -v authstr && unset -v AD_LOGIN AD_PASSWORD authstr'
 
 # FUCKING DOCKER
-alias fuckdock='echo "You’ve come to the right place.\n\ndocker login https://artifactory.foxsports.com.au:5001\n    && docker login docker.pkg.github.com\n" && docker login https://artifactory.foxsports.com.au:5001 && docker login docker.pkg.github.com'
+alias fuckdock='echo "You’ve come to the right place.\n\ndocker login docker.pkg.github.com\n" && docker login docker.pkg.github.com'
 alias dockfuck='echo "You haven’t come to the right place, but fuck it let’s dock fuck anyway.\n" && fuckdock'
 
 alias sydtime='sudo systemsetup -settimezone Australia/Sydney'

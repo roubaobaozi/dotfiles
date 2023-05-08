@@ -5905,6 +5905,20 @@
           "type" : "basic"
         }, {
           "to_if_alone" : [ {
+            "key_code" : "slash"
+          } ],
+          "from" : {
+            "key_code" : "slash",
+            "modifiers" : {
+              "optional" : [ "any" ]
+            }
+          },
+          "to" : [ {
+            "key_code" : "left_control"
+          } ],
+          "type" : "basic"
+        }, {
+          "to_if_alone" : [ {
             "key_code" : "spacebar"
           } ],
           "from" : {

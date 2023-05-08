@@ -198,6 +198,7 @@
                 [:##semicolon :##o]
                 ;; bottom row
                 [:##n :##k]
+                [:##slash :##left_control nil {:alone :slash}]
                 [:##spacebar :##left_command nil {:alone :spacebar}]
                 ;; others
                 [:##left_command :##left_command nil {:alone :quote}]
