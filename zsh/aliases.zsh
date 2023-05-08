@@ -52,6 +52,12 @@ alias python='python3'
 # My aliases
 #
 
+fixstretch() {
+    CMD='sudo xattr -r -d com.apple.quarantine /Applications/Stretchly.app';
+    echo "$CMD\n";
+    eval $CMD;
+}
+
 # Brew aliases
 brewi() {
     OPTIONS=("work" "home" "yezi" "default");

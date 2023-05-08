@@ -1,0 +1,190 @@
+" Plugins
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    " silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall
+endif
+
+silent! if plug#begin()
+" call plug#begin('~/.vim/plugged')
+"Plug 'easymotion/vim-easymotion'
+Plug 'phaazon/hop.nvim', { 'branch': 'v2' }
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
+"Plug 'pangloss/vim-javascript' " can use treesitter for this?
+Plug 'dense-analysis/ale'
+Plug 'mattn/emmet-vim'
+Plug 'mattn/webapi-vim'
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+call plug#end()
+endif
+
+" Settings
+lua require 'hop'.setup {
+    \ keys = 'neiotsramvcluypfwhdx',
+    \ uppercase_labels = true,
+\ }
+lua require 'nvim-treesitter.configs'.setup {
+    \ ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "css", "scss", "html", "javascript", "jsdoc", "json", "markdown", "regex", "tsx", "typescript", "yaml" },
+    \ highlight = {
+    \    enable = true,
+    \    additional_vim_regex_highlighting = false
+    \ }
+\ }
+lua require 'telescope'.setup {
+    \ defaults = {
+    \     file_ignore_patterns = { "^.git/", "node_modules/" }
+    \ },
+    \ pickers = {
+    \     find_files = {
+    \         hidden = true,
+    \     },
+    \     live_grep = {
+    \         hidden = true,
+    \     }
+    \ }
+\ }
+"set guicursor=i:ver25-iCursor
+" Default : "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
+"set guicursor=v-c-sm:ver25,n-i-ci-ve:ver25,r-cr-o:hor20
+syntax on " Syntax highlighting
+"let g:molokai_original = 1
+let g:material_theme_style = 'darker'
+let g:material_terminal_italics = 1
+colorscheme material
+if (has('termguicolors'))
+    set termguicolors
+endif
+" lightline settings
+set noshowmode
+let g:lightline = {
+    \ 'colorscheme': 'material_vim',
+    \ 'active': {
+    \     'left': [ [ 'mode', 'paste' ],
+    \               [ 'readonly', 'filename', 'modified' ],
+    \               [ 'gitbranch' ] ],
+    \     'right': [ [ 'lineinfo' ],
+    \                [ 'percent' ],
+    \                [ 'filetype' ] ]
+    \ },
+    \ 'component_function': {
+    \     'gitbranch': 'gitbranch#name',
+    \     'filename': 'LightlineFilename'
+    \ },
+    \ 'component': {
+    \     'lineinfo': '%3l:%-2v%<'
+    \ }
+\ }
+
+function! LightlineFilename()
+    return expand('%:t') !=# '' ? expand('%:ft') : '[No Name]'
+"    return &filetype ==# 'vimfiler' ? vimfiler#get_status_string() :
+"        \ &filetype ==# 'unite' ? unite#get_status_string() :
+"        \ &filetype ==# 'vimshell' ? vimshell#get_status_string() :
+"        \ expand('%:t') !=# '' ? expand('%:ft') : '[No Name]'
+endfunction
+
+"let g:unite_force_overwrite_statusline = 0
+"let g:vimfiler_force_overwrite_statusline = 0
+"let g:vimshell_force_overwrite_statusline = 0
+
+"let g:javascript_plugin_jsdoc = 1
+let g:ale_completion_enabled = 1
+let g:ale_linter_aliases = {'javascript': ['css', 'javascript']}
+let g:ale_linters = {'javascript': ['stylelint', 'eslint', 'tsserver']}
+set timeoutlen=300
+set whichwrap=b,s,<,>
+set tabstop=4
+set shiftwidth=4
+set expandtab smarttab
+set scrolloff=5
+set encoding=utf-8
+set showmatch " Shows matching brackets
+set ruler " Always shows location in file (line#)
+set number " show line numbers
+set smarttab " Autotabs for certain code
+set backspace=indent,eol,start
+set ignorecase smartcase
+filetype indent on
+filetype plugin indent on
+set autoindent smartindent
+set list listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,space:·,trail:·
+set textwidth=0
+set clipboard=unnamed
+set wildignore+=**/node_modules/**,.git/**,**/*.jpg,**/*.jpeg,**/*.png,**/*.gif
+if exists('&colorcolumn')
+    set colorcolumn=140
+endif
+
+" Emmet settings
+let g:user_emmet_leader_key='<C-s>'
+let g:user_emmet_expandabbr_key = '<A-Tab>'
+"let g:user_emmet_settings = { 'javascript': { 'extends': 'html' } }
+"let g:user_emmet_settings = { 'javascript': { 'extends': 'html', 'filter': 'html,css' } }
+"let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/.snippets_custom.json')), "\n"))
+let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/.dotfiles/vim/emmetsnippets.json')), "\n"))
+
+" Leader key remaps
+let mapleader = ' '
+let maplocalleader = ' '
+nnoremap <Leader>q :q<cr>
+nnoremap <Leader>qn :q!<cr>
+nnoremap <Leader>x :x<cr>
+nnoremap <Leader>w :w<cr>
+nnoremap <Leader>p <cmd>Telescope find_files<cr>
+nnoremap <Leader>f <cmd>Telescope live_grep<cr>
+nnoremap <Leader>r <C-r>
+nnoremap <Leader>s viw
+nnoremap <Leader>v. gv
+"nnoremap <Leader>vp vi(
+"nnoremap <Leader>vc vi{
+"nnoremap <Leader>vb vi[
+"nnoremap <Leader>vt vi<
+"nnoremap <Leader>vq vi'
+nnoremap <Leader>l <cmd>HopWord<cr>
+vnoremap <Leader>l <cmd>HopWord<cr>
+nnoremap <Leader>u <Plug>(ale_previous_wrap)
+nnoremap <Leader>y <Plug>(ale_next_wrap)
+nnoremap <Leader>n <<
+nnoremap <Leader>e ddkP
+nnoremap <Leader>i ddp
+nnoremap <Leader>o >>
+nnoremap <Leader>, yyP
+nnoremap <Leader>. yyp
+nnoremap <Leader>/ :ALEHover<cr>
+"nnoremap <F12> gd
+nnoremap <F12> :ALEGoToDefinition<cr>
+nnoremap <Leader>m :ALERename<cr>
+nnoremap <Leader>d gdcgn
+" make Y behave like other capitals
+nnoremap Y y$
+nnoremap [[ ?{<CR>w99[{
+nnoremap ]] /}<CR>b99]}
+nnoremap ][ j0[[%/{<CR>
+nnoremap [] k$][%?}<CR>
+
+" Code completion
+inoremap {{ {}<Esc>ha
+inoremap {<CR> {<CR>}<Esc>ko
+inoremap (( ()<Esc>ha
+inoremap (<CR> (<CR>)<Esc>ko
+inoremap [[ []<Esc>ha
+inoremap [<CR> [<CR>]<Esc>ko
+inoremap "" ""<Esc>ha
+inoremap '' ''<Esc>ha
+inoremap `` ``<Esc>ha
+inoremap `<CR> `<CR>`<Esc>ko
+inoremap /ar () => <Esc>5ha
+inoremap /arc () => {}<Esc>7ha
+inoremap /arp () => ()<Esc>7ha
+inoremap /fn function () {}<Esc>5ha
+inoremap /st const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li
+inoremap /doc /**<cr> * <cr>*/<Esc>k$a
+inoremap /com /**  */<Esc>3ha
+inoremap <C-d> <Del>

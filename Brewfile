@@ -30,6 +30,9 @@ brew 'zplug'
 #brew 'go'
 #brew 'postgresql'
 #brew 'spaceman-diff'
+brew 'fd' # for vim's Telescope
+brew 'ripgrep' # for vim's Telescope
+brew 'typescript' # for tsserver for vim's ALE
 
 # Java
 #cask 'java'
