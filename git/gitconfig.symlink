@@ -56,10 +56,15 @@
     tool = default-difftool
 [difftool "default-difftool"]
     cmd = code --wait --diff $LOCAL $REMOTE
+#[merge]
+#    tool = vscode
+#[mergetool "vscode"]
+#    cmd = code --wait $MERGED
 [merge]
-    tool = vscode
-[mergetool "vscode"]
-    cmd = code --wait $MERGED
+  tool = settle
+[mergetool "settle"]
+  cmd = "nvim -f $BASE $LOCAL $REMOTE $MERGED -c 'SettleInit'"
+  trustExitCode = true
 [help]
     autocorrect = 1
 [push]

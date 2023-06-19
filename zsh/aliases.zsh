@@ -33,6 +33,7 @@ alias ..='function navigate() {
     echo "$CMD";
     eval $CMD;
 }; navigate'
+
 alias x='function whereami() {
     DEEP=$(pwd | grep -o "/" | grep -c "/");
 

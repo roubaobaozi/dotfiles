@@ -24,6 +24,7 @@ Plug 'mattn/emmet-vim'
 Plug 'mattn/webapi-vim'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'zegervdv/settle.nvim'
 call plug#end()
 endif
 
@@ -50,6 +51,17 @@ lua require 'telescope'.setup {
     \     live_grep = {
     \         hidden = true,
     \     }
+    \ }
+\ }
+lua require 'settle'.setup {
+    \ wrap = true,
+    \ symbol = '!',
+    \ keymaps = {
+    \     next_conflict = '-n',
+    \     prev_conflict = '-N',
+    \     use_ours = '-u1',
+    \     use_theirs = '-u2',
+    \     close = '-q',
     \ }
 \ }
 "set guicursor=i:ver25-iCursor
@@ -125,12 +137,12 @@ if exists('&colorcolumn')
 endif
 
 " Emmet settings
-let g:user_emmet_leader_key='<C-s>'
+let g:user_emmet_leader_key=','
 let g:user_emmet_expandabbr_key = '<A-Tab>'
-"let g:user_emmet_settings = { 'javascript': { 'extends': 'html' } }
+let g:user_emmet_settings = { 'javascript': { 'extends': 'jsx,scss' }, 'javascript.jsx': { 'extends': 'jsx,scss' } }
 "let g:user_emmet_settings = { 'javascript': { 'extends': 'html', 'filter': 'html,css' } }
 "let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/.snippets_custom.json')), "\n"))
-let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/.dotfiles/vim/emmetsnippets.json')), "\n"))
+"let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/.dotfiles/vim/emmetsnippets.json')), "\n"))
 
 " Leader key remaps
 let mapleader = ' '
