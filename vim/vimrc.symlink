@@ -15,7 +15,9 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 Plug 'itchyny/lightline.vim'
-Plug 'itchyny/vim-gitbranch'
+" Plug 'itchyny/vim-gitbranch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 "Plug 'pangloss/vim-javascript' " can use treesitter for this?
 Plug 'dense-analysis/ale'
 Plug 'mattn/emmet-vim'
@@ -39,7 +41,7 @@ lua require 'nvim-treesitter.configs'.setup {
 \ }
 lua require 'telescope'.setup {
     \ defaults = {
-    \     file_ignore_patterns = { "^.git/", "node_modules/" }
+    \     file_ignore_patterns = { "^.git/", "node_modules/", "dist/" }
     \ },
     \ pickers = {
     \     find_files = {
@@ -74,7 +76,7 @@ let g:lightline = {
     \                [ 'filetype' ] ]
     \ },
     \ 'component_function': {
-    \     'gitbranch': 'gitbranch#name',
+    \     'gitbranch': 'FugitiveHead',
     \     'filename': 'LightlineFilename'
     \ },
     \ 'component': {
@@ -117,7 +119,7 @@ set autoindent smartindent
 set list listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,space:·,trail:·
 set textwidth=0
 set clipboard=unnamed
-set wildignore+=**/node_modules/**,.git/**,**/*.jpg,**/*.jpeg,**/*.png,**/*.gif
+set wildignore+=**/node_modules/**,.git/**,dist/**,**/*.jpg,**/*.jpeg,**/*.png,**/*.gif
 if exists('&colorcolumn')
     set colorcolumn=140
 endif
@@ -137,8 +139,10 @@ nnoremap <Leader>q :q<cr>
 nnoremap <Leader>qn :q!<cr>
 nnoremap <Leader>x :x<cr>
 nnoremap <Leader>w :w<cr>
-nnoremap <Leader>p <cmd>Telescope find_files<cr>
 nnoremap <Leader>f <cmd>Telescope live_grep<cr>
+nnoremap <Leader>p <cmd>Telescope find_files<cr>
+nnoremap <Leader>g <Esc>v:'<,'>GBrowse<cr>
+vnoremap <Leader>g :GBrowse<cr>
 nnoremap <Leader>r <C-r>
 nnoremap <Leader>s viw
 nnoremap <Leader>v. gv
@@ -150,7 +154,9 @@ nnoremap <Leader>v. gv
 nnoremap <Leader>l <cmd>HopWord<cr>
 vnoremap <Leader>l <cmd>HopWord<cr>
 nnoremap <Leader>u <Plug>(ale_previous_wrap)
+nnoremap <Leader>uu <C-W><C-K>
 nnoremap <Leader>y <Plug>(ale_next_wrap)
+nnoremap <Leader>yy <C-W><C-J>
 nnoremap <Leader>n <<
 nnoremap <Leader>e ddkP
 nnoremap <Leader>i ddp
