@@ -33,6 +33,7 @@ brew 'zplug'
 brew 'fd' # for vim's Telescope
 brew 'ripgrep' # for vim's Telescope
 brew 'typescript' # for tsserver for vim's ALE
+brew 'jesseduffield/lazygit/lazygit'
 
 # Java
 #cask 'java'

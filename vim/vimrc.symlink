@@ -9,22 +9,25 @@ endif
 silent! if plug#begin()
 " call plug#begin('~/.vim/plugged')
 "Plug 'easymotion/vim-easymotion'
-Plug 'phaazon/hop.nvim', { 'branch': 'v2' }
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
-Plug 'kaicataldo/material.vim', { 'branch': 'main' }
-Plug 'itchyny/lightline.vim'
+Plug 'phaazon/hop.nvim', { 'branch': 'v2' } " jump in vim
+Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } " find in all files, open file in dir
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } " required for telescope
+Plug 'kaicataldo/material.vim', { 'branch': 'main' } " theme
+Plug 'itchyny/lightline.vim' " status line
 " Plug 'itchyny/vim-gitbranch'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-fugitive' " open line in github, lightline branch info
+Plug 'tpope/vim-rhubarb' " for fugitive + github links, check others for other sites
 "Plug 'pangloss/vim-javascript' " can use treesitter for this?
-Plug 'dense-analysis/ale'
-Plug 'mattn/emmet-vim'
-Plug 'mattn/webapi-vim'
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'dense-analysis/ale' " go to def, hover info, intellisense-type stuff
+Plug 'mattn/emmet-vim' " shortcut code
+Plug 'mattn/webapi-vim' " in conjunction with emmet-vim for custom snippets
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' } " better javascript syntax highlighting/completion
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'zegervdv/settle.nvim'
+Plug 'akinsho/git-conflict.nvim', { 'tag': '1.1.2' } " merge conflict resolution
+Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
+"Plug 'zegervdv/settle.nvim' " for merge conflicts, but it doesn't seem to work properly
+Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
 call plug#end()
 endif
 
@@ -53,17 +56,28 @@ lua require 'telescope'.setup {
     \     }
     \ }
 \ }
-lua require 'settle'.setup {
-    \ wrap = true,
-    \ symbol = '!',
-    \ keymaps = {
-    \     next_conflict = '-n',
-    \     prev_conflict = '-N',
-    \     use_ours = '-u1',
-    \     use_theirs = '-u2',
-    \     close = '-q',
-    \ }
+lua require 'git-conflict'.setup {
+    \ default_mappings = {
+    \     ours = 'co',
+    \     theirs = 'ct',
+    \     none = 'c0',
+    \     both = 'cb',
+    \     next = '[x',
+    \     prev = '[b',
+    \ },
 \ }
+lua require 'pqf'.setup { }
+"lua require 'settle'.setup {
+"    \ wrap = true,
+"    \ symbol = '!',
+"    \ keymaps = {
+"    \     next_conflict = '-n',
+"    \     prev_conflict = '-N',
+"    \     use_ours = '-u1',
+"    \     use_theirs = '-u2',
+"    \     close = '-q',
+"    \ }
+"\ }
 "set guicursor=i:ver25-iCursor
 " Default : "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 "set guicursor=v-c-sm:ver25,n-i-ci-ve:ver25,r-cr-o:hor20
@@ -112,6 +126,11 @@ endfunction
 let g:ale_completion_enabled = 1
 let g:ale_linter_aliases = {'javascript': ['css', 'javascript']}
 let g:ale_linters = {'javascript': ['stylelint', 'eslint', 'tsserver']}
+let g:ale_fixers = {
+\   '*': ['trim_whitespace'],
+\   'javascript': ['stylelint', 'eslint'],
+\ }
+" * for 'remove_trailing_lines'
 set timeoutlen=300
 set whichwrap=b,s,<,>
 set tabstop=4
@@ -137,8 +156,9 @@ if exists('&colorcolumn')
 endif
 
 " Emmet settings
-let g:user_emmet_leader_key=','
+let g:user_emmet_leader_key = ','
 let g:user_emmet_expandabbr_key = '<A-Tab>'
+let g:user_emmet_mode = 'a' " a is all, n is normal, inv is insert/normal/visual (same as a)
 let g:user_emmet_settings = { 'javascript': { 'extends': 'jsx,scss' }, 'javascript.jsx': { 'extends': 'jsx,scss' } }
 "let g:user_emmet_settings = { 'javascript': { 'extends': 'html', 'filter': 'html,css' } }
 "let g:user_emmet_settings = webapi#json#decode(join(readfile(expand('~/.snippets_custom.json')), "\n"))
@@ -155,6 +175,7 @@ nnoremap <Leader>f <cmd>Telescope live_grep<cr>
 nnoremap <Leader>p <cmd>Telescope find_files<cr>
 nnoremap <Leader>g <Esc>v:'<,'>GBrowse<cr>
 vnoremap <Leader>g :GBrowse<cr>
+nnoremap <Leader>a <Plug>(ale_fix)
 nnoremap <Leader>r <C-r>
 nnoremap <Leader>s viw
 nnoremap <Leader>v. gv
@@ -172,6 +193,7 @@ nnoremap <Leader>yy <C-W><C-J>
 nnoremap <Leader>n <<
 nnoremap <Leader>e ddkP
 nnoremap <Leader>i ddp
+nnoremap <Leader>it :LazyGit<cr>
 nnoremap <Leader>o >>
 nnoremap <Leader>, yyP
 nnoremap <Leader>. yyp
@@ -180,6 +202,15 @@ nnoremap <Leader>/ :ALEHover<cr>
 nnoremap <F12> :ALEGoToDefinition<cr>
 nnoremap <Leader>m :ALERename<cr>
 nnoremap <Leader>d gdcgn
+" git-conflict mappings
+nnoremap <Leader>1 :GitConflictListQf<cr>
+nnoremap <Leader>2 <Plug>(git-conflict-next-conflict)
+nnoremap <Leader>3 <Plug>(git-conflict-prev-conflict)
+nnoremap <Leader>4 <Plug>(git-conflict-ours)
+nnoremap <Leader>5 <Plug>(git-conflict-both)
+nnoremap <Leader>6 <Plug>(git-conflict-theirs)
+nnoremap <Leader>0 <Plug>(git-conflict-none)
+
 " make Y behave like other capitals
 nnoremap Y y$
 nnoremap [[ ?{<CR>w99[{
