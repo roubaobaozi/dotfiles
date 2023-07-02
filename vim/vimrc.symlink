@@ -24,7 +24,7 @@ Plug 'mattn/emmet-vim' " shortcut code
 Plug 'mattn/webapi-vim' " in conjunction with emmet-vim for custom snippets
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' } " better javascript syntax highlighting/completion
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'akinsho/git-conflict.nvim', { 'tag': '1.1.2' } " merge conflict resolution
+Plug 'akinsho/git-conflict.nvim', { 'tag': '*' } " merge conflict resolution, latest tag (just in case main is broken)
 Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
 "Plug 'zegervdv/settle.nvim' " for merge conflicts, but it doesn't seem to work properly
 Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
@@ -213,27 +213,31 @@ nnoremap <Leader>0 <Plug>(git-conflict-none)
 
 " make Y behave like other capitals
 nnoremap Y y$
+" go to opening bracket
 nnoremap [[ ?{<CR>w99[{
+" go to ending bracket
 nnoremap ]] /}<CR>b99]}
+" not really sure anymore, also seems to go to opening bracket
 nnoremap ][ j0[[%/{<CR>
+" not really sure anymore, top of function?
 nnoremap [] k$][%?}<CR>
 
 " Code completion
-inoremap {{ {}<Esc>ha
-inoremap {<CR> {<CR>}<Esc>ko
-inoremap (( ()<Esc>ha
-inoremap (<CR> (<CR>)<Esc>ko
-inoremap [[ []<Esc>ha
-inoremap [<CR> [<CR>]<Esc>ko
-inoremap "" ""<Esc>ha
-inoremap '' ''<Esc>ha
-inoremap `` ``<Esc>ha
-inoremap `<CR> `<CR>`<Esc>ko
-inoremap /ar () => <Esc>5ha
-inoremap /arc () => {}<Esc>7ha
-inoremap /arp () => ()<Esc>7ha
-inoremap /fn function () {}<Esc>5ha
-inoremap /st const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li
-inoremap /doc /**<cr> * <cr>*/<Esc>k$a
-inoremap /com /**  */<Esc>3ha
+inoremap {{ {}<Left>
+inoremap {<CR> {<CR>}<Esc>O
+inoremap (( ()<Left>
+inoremap (<CR> (<CR>)<Esc>O
+inoremap [[ []<Left>
+inoremap [<CR> [<CR>]<Esc>O
+inoremap "" ""<Left>
+inoremap '' ''<Left>
+inoremap `` ``<Left>
+inoremap `<CR> `<CR>`<Esc>O
+inoremap /arn () => <Esc>4hi
+inoremap /arc () => {}<Esc>6hi
+inoremap /arp () => ()<Esc>6hi
+inoremap /fnc function () {}<Esc>4hi
+inoremap /stc const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li
+inoremap /jsd /**<cr> * <cr>*/<Esc>k$a
+inoremap /cmt /**  */<Esc>2hi
 inoremap <C-d> <Del>
