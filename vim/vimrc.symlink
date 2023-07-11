@@ -9,6 +9,7 @@ endif
 silent! if plug#begin()
 " call plug#begin('~/.vim/plugged')
 "Plug 'easymotion/vim-easymotion'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'phaazon/hop.nvim', { 'branch': 'v2' } " jump in vim
 Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } " find in all files, open file in dir
@@ -32,6 +33,11 @@ call plug#end()
 endif
 
 " Settings
+lua require 'gitsigns'.setup {
+    \ numhl = true,
+    \ word_diff = true,
+    \ current_line_blame = true,
+\ }
 lua require 'hop'.setup {
     \ keys = 'neiotsramvcluypfwhdx',
     \ uppercase_labels = true,
