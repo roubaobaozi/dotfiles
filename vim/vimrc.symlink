@@ -9,7 +9,7 @@ endif
 silent! if plug#begin()
 " call plug#begin('~/.vim/plugged')
 "Plug 'easymotion/vim-easymotion'
-Plug 'lewis6991/gitsigns.nvim'
+Plug 'lewis6991/gitsigns.nvim' " add/change/del line highlighting, git blame!
 Plug 'phaazon/hop.nvim', { 'branch': 'v2' } " jump in vim
 Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' } " find in all files, open file in dir
@@ -29,10 +29,18 @@ Plug 'akinsho/git-conflict.nvim', { 'tag': '*' } " merge conflict resolution, la
 Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
 "Plug 'zegervdv/settle.nvim' " for merge conflicts, but it doesn't seem to work properly
 Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
+Plug 'Pocco81/auto-save.nvim' " auto saving!
 call plug#end()
 endif
 
 " Settings
+" editorConfig is enabled by default in neovim: https://neovim.io/doc/user/editorconfig.html
+lua require 'auto-save'.setup {
+    \ enabled = true,
+    \ execution_message = { cleaning_interval = 2000 },
+    \ trigger_events = {"InsertLeave", "TextChanged", "TextYankPost"},
+    \ debounce_delay = 4000,
+\ }
 lua require 'gitsigns'.setup {
     \ numhl = true,
     \ word_diff = true,
@@ -160,6 +168,7 @@ set wildignore+=**/node_modules/**,.git/**,dist/**,**/*.jpg,**/*.jpeg,**/*.png,*
 if exists('&colorcolumn')
     set colorcolumn=140
 endif
+" set updatetime=5000 " doesn't seem to help at all anyway
 
 " Emmet settings
 let g:user_emmet_leader_key = ','
