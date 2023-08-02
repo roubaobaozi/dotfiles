@@ -30,6 +30,7 @@ Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
 "Plug 'zegervdv/settle.nvim' " for merge conflicts, but it doesn't seem to work properly
 Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
 Plug 'Pocco81/auto-save.nvim' " auto saving!
+Plug 'chrisgrieser/nvim-spider' " camelCase and snake_case motion
 call plug#end()
 endif
 
@@ -81,6 +82,7 @@ lua require 'git-conflict'.setup {
     \ },
 \ }
 lua require 'pqf'.setup { }
+lua require 'spider'.setup { skipInsignificantPunctuation = true }
 "lua require 'settle'.setup {
 "    \ wrap = true,
 "    \ symbol = '!',
@@ -256,3 +258,12 @@ inoremap /stc const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li
 inoremap /jsd /**<cr> * <cr>*/<Esc>k$a
 inoremap /cmt /**  */<Esc>2hi
 inoremap <C-d> <Del>
+
+" Navigation
+nnoremap w <cmd>lua require('spider').motion('w')<CR>
+nnoremap e <cmd>lua require('spider').motion('e')<CR>
+nnoremap b <cmd>lua require('spider').motion('b')<CR>
+nnoremap ge <cmd>lua require('spider').motion('ge')<CR>
+" this has an issue with the part at the end of the line
+" nnoremap c, c/[A-Z_ ]<CR>
+
