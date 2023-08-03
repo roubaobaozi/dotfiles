@@ -31,6 +31,8 @@ Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
 Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
 Plug 'Pocco81/auto-save.nvim' " auto saving!
 Plug 'chrisgrieser/nvim-spider' " camelCase and snake_case motion
+Plug 'kana/vim-textobj-user' " required for the vim-textobj-variable-segment (camelCase and snake_case)
+Plug 'Julian/vim-textobj-variable-segment' " camelCase and snake_case editing civ/cav/div/dav
 call plug#end()
 endif
 
@@ -48,7 +50,7 @@ lua require 'gitsigns'.setup {
     \ current_line_blame = true,
 \ }
 lua require 'hop'.setup {
-    \ keys = 'neiotsramvcluypfwhdx',
+    \ keys = 'ntesiroamvclpufywhdx',
     \ uppercase_labels = true,
 \ }
 lua require 'nvim-treesitter.configs'.setup {
@@ -258,6 +260,12 @@ inoremap /stc const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li
 inoremap /jsd /**<cr> * <cr>*/<Esc>k$a
 inoremap /cmt /**  */<Esc>2hi
 inoremap <C-d> <Del>
+" make opt-right, opt-left work correctly
+nnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
+inoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
+vnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
+vnoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
+inoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
 
 " Navigation
 nnoremap w <cmd>lua require('spider').motion('w')<CR>
