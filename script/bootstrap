@@ -141,7 +141,7 @@ install_dotfiles () {
 }
 
 install_vim () {
-  info 'installing spacevim'
+  info 'installing vim config'
 
   local overwrite_all=false backup_all=false skip_all=false
 

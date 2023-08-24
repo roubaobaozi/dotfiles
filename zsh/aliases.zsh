@@ -7,6 +7,9 @@ it() {
     eval "git $@";
 }
 
+# vim
+alias vim='nvim'
+
 # Directory navigation
 alias ..='function navigate() {
     CMD="";
