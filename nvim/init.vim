@@ -123,6 +123,7 @@ augroup set_ft_syntax
   autocmd BufNewFile,BufRead *.js          set filetype=javascriptreact
   autocmd BufNewFile,BufRead *.js          set syntax=javascriptreact
   autocmd BufNewFile,BufRead *.scss        set syntax=scss
+  autocmd BufNewFile,BufRead *.html        set syntax=html
 augroup END
 let g:material_theme_style = 'darker'
 let g:material_terminal_italics = 1
@@ -137,6 +138,15 @@ else
     set noshowmode " lightline handles this
     set spell " spell check. :setlocal spell spelllang=en
     set spelllang=en " spell language, go for regular en so it covers en_us and en_uk
+    " Spellcheck ignore camelCase/MixedCase .. but it doesn't work, why not?
+    " @TODO: get this to work
+    fun! IgnoreCamelCaseSpell()
+        syn match myExCapitalWords "\w*[_0-9A-Z-]\w*" contains=@NoSpell
+        syn cluster Spell add=myExCapitalWords
+        "syn match CamelCase /\<[a-ZA-Z]\+[a-z]\+[A-Z].\{-}\>/ contains=@NoSpell transparent
+        "syn cluster Spell add=CamelCase
+    endfun
+    autocmd BufRead,BufNewFile * :call IgnoreCamelCaseSpell()
 endif
 " lightline settings
 let g:lightline = {
@@ -190,7 +200,7 @@ augroup numbertoggle
   autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
   autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
-set smarttab " Autotabs for certain code
+set smarttab " Auto-tabs for certain code
 set backspace=indent,eol,start
 set ignorecase smartcase
 filetype plugin indent on
