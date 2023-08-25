@@ -87,3 +87,6 @@ getMeta
 dispatchEvent
 el
 api
+preact
+classnames
+dom

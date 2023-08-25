@@ -140,13 +140,13 @@ else
     set spelllang=en " spell language, go for regular en so it covers en_us and en_uk
     " Spellcheck ignore camelCase/MixedCase .. but it doesn't work, why not?
     " @TODO: get this to work
-    fun! IgnoreCamelCaseSpell()
-        syn match myExCapitalWords "\w*[_0-9A-Z-]\w*" contains=@NoSpell
-        syn cluster Spell add=myExCapitalWords
-        "syn match CamelCase /\<[a-ZA-Z]\+[a-z]\+[A-Z].\{-}\>/ contains=@NoSpell transparent
-        "syn cluster Spell add=CamelCase
-    endfun
-    autocmd BufRead,BufNewFile * :call IgnoreCamelCaseSpell()
+    "fun! IgnoreCamelCaseSpell()
+    "    syn match myExCapitalWords "\w*[_0-9A-Z-]\w*" contains=@NoSpell
+    "    syn cluster Spell add=myExCapitalWords
+    "    "syn match CamelCase /\<[a-ZA-Z]\+[a-z]\+[A-Z].\{-}\>/ contains=@NoSpell transparent
+    "    "syn cluster Spell add=CamelCase
+    "endfun
+    "autocmd BufRead,BufNewFile * :call IgnoreCamelCaseSpell()
 endif
 " lightline settings
 let g:lightline = {
