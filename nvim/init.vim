@@ -30,6 +30,7 @@ Plug 'pocco81/auto-save.nvim' " auto saving!
 Plug 'chrisgrieser/nvim-spider' " camelCase and snake_case motion
 Plug 'chrisgrieser/nvim-various-textobjs' " camelCase, kebab-case and snake_case selection
 Plug 'machakann/vim-sandwich' " sandwich text in brackets/quotes/tags/etc, sadly not lua
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 call plug#end()
 endif
 
@@ -52,7 +53,7 @@ lua require 'hop'.setup {
     \ uppercase_labels = true
 \ }
 lua require 'nvim-treesitter.configs'.setup {
-    \ ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "css", "scss", "html", "javascript", "jsdoc", "json", "markdown", "regex", "tsx", "typescript", "yaml" },
+    \ ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "css", "scss", "html", "javascript", "jsdoc", "json", "markdown", "regex", "tsx", "typescript", "yaml", "astro" },
     \ highlight = {
     \    enable = true,
     \    additional_vim_regex_highlighting = false
@@ -124,6 +125,7 @@ augroup set_ft_syntax
   autocmd BufNewFile,BufRead *.js          set syntax=javascriptreact
   autocmd BufNewFile,BufRead *.scss        set syntax=scss
   autocmd BufNewFile,BufRead *.html        set syntax=html
+  autocmd BufNewFile,BufRead *.astro       set syntax=html
 augroup END
 let g:material_theme_style = 'darker'
 let g:material_terminal_italics = 1
@@ -182,7 +184,7 @@ else
     let g:ale_linters = {'javascript': ['stylelint', 'eslint', 'tsserver']}
     let g:ale_fixers = {
     \   '*': ['trim_whitespace'],
-    \   'javascript': ['stylelint', 'eslint'],
+    \   'javascript': ['stylelint', 'eslint']
     \ }
 endif
 set timeoutlen=300
@@ -268,6 +270,8 @@ nnoremap <Leader>. yyp
 nnoremap <Leader>/ :ALEHover<CR>
 nnoremap <F12> :ALEGoToDefinition<CR>
 nnoremap <Leader>m :ALERename<CR>
+nnoremap <Leader>md <Plug>MarkdownPreview
+nnoremap <Leader>mds <Plug>MarkdownPreviewStop
 nnoremap <Leader>d gdcgn
 " git-conflict mappings
 nnoremap <Leader>1 :GitConflictListQf<CR>
