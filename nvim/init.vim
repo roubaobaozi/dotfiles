@@ -17,7 +17,7 @@ Plug 'itchyny/lightline.vim' " status line
 Plug 'tpope/vim-fugitive' " open line in github, lightline branch info
 Plug 'tpope/vim-rhubarb' " for fugitive + github links, check others for other sites
 Plug 'shumphrey/fugitive-gitlab.vim' " for fugitive + gitlab links
-Plug 'dense-analysis/ale' " go to def, hover info, intellisense-type stuff
+"Plug 'dense-analysis/ale' " go to def, hover info, intellisense-type stuff
 Plug 'mattn/emmet-vim' " shortcut code
 Plug 'mattn/webapi-vim' " in conjunction with emmet-vim for custom snippets
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' } " better javascript syntax highlighting/completion
@@ -128,15 +128,18 @@ require('lspconfig').tsserver.setup{
                 insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces = false,
                 trimTrailingWhitespace = true -- prob don't need this if editorConfig
             }
+        },
+        implicitProjectConfiguration = {
+            checkJs = true
         }
     }
 }
 -- grammarly in html is a WIP so eh just turn it off atm
--- require('lspconfig').grammarly.setup {
---     config = {
---         suggestionCategories = { oxfordComma = "on" } },
---         filetypes = { 'markdown', 'javascriptreact' }
--- }
+require('lspconfig').grammarly.setup {
+    config = {
+        suggestionCategories = { oxfordComma = "on" } },
+--        filetypes = { 'markdown', 'javascriptreact' }
+}
 EOF
 " end of LSP stuff
 lua require 'nvim-treesitter.configs'.setup {
@@ -261,20 +264,20 @@ function! LightlineFilename()
     return expand('%:t') !=# '' ? expand('%:ft') : '[No Name]'
 endfunction
 
-if exists('g:vscode')
-    let g:ale_completion_enabled = 0
-    let b:ale_linters = {}
-    let g:ale_linters_explicit = 1
-else
+"if exists('g:vscode')
+"    let g:ale_completion_enabled = 0
+"    let b:ale_linters = {}
+"    let g:ale_linters_explicit = 1
+"else
     " gonna use LSPs
-    let g:ale_completion_enabled = 0
+"    let g:ale_completion_enabled = 0
 "    let g:ale_linter_aliases = {'javascript': ['css', 'javascript']}
 "    let g:ale_linters = {'javascript': ['stylelint', 'eslint', 'tsserver']}
 "    let g:ale_fixers = {
 "    \   '*': ['trim_whitespace'],
 "    \   'javascript': ['stylelint', 'eslint']
 "    \ }
-endif
+"endif
 set timeoutlen=300
 set whichwrap=b,s,<,>
 set tabstop=4
@@ -321,7 +324,8 @@ nnoremap <Leader>f <cmd>Telescope live_grep<CR>
 nnoremap <Leader>p <cmd>Telescope find_files<CR>
 nnoremap <Leader>g <Esc>v:'<,'>GBrowse<CR>
 vnoremap <Leader>g :GBrowse<CR>
-nnoremap <Leader>a <Plug>(ale_fix)
+"nnoremap <Leader>a <Plug>(ale_fix)
+lua vim.keymap.set('n', '<Leader>a', vim.lsp.buf.format) -- format the code
 nnoremap <Leader>r <C-r>
 nnoremap <Leader>s <cmd>lua require('spectre').toggle()<CR>
 nnoremap <Leader>sw <cmd>lua require('spectre').open_visual({select_word=true})<CR>
@@ -339,15 +343,17 @@ nnoremap 6t 6gt
 nnoremap 7t 7gt
 nnoremap 8t 8gt
 nnoremap 9t 9gt
-lua vim.keymap.set('n', '<Leader>c', vim.lsp.buf.hover) -- open the intellisense thing
+"lua vim.keymap.set('n', '<Leader>c', vim.lsp.buf.hover) -- open the intellisense thing
 nnoremap <Leader>v. gv
 nnoremap <Leader>lw <cmd>HopWord<CR>
 vnoremap <Leader>lw <cmd>HopWord<CR>
 nnoremap <Leader>l <cmd>HopCamelCase<CR>
 vnoremap <Leader>l <cmd>HopCamelCase<CR>
-nnoremap <Leader>u <Plug>(ale_previous_wrap)
+"nnoremap <Leader>u <Plug>(ale_previous_wrap)
+lua vim.keymap.set('n', '<Leader>u', vim.diagnostic.goto_prev) -- go to prev issue
 nnoremap <Leader>uu <C-W><C-K>
-nnoremap <Leader>y <Plug>(ale_next_wrap)
+"nnoremap <Leader>y <Plug>(ale_next_wrap)
+lua vim.keymap.set('n', '<Leader>y', vim.diagnostic.goto_next) -- go to next issue
 nnoremap <Leader>yy <C-W><C-J>
 nnoremap <Leader>n <<
 nnoremap <Leader>e ddkP
@@ -356,9 +362,12 @@ nnoremap <Leader>it :LazyGit<CR>
 nnoremap <Leader>o >>
 nnoremap <Leader>, yyP
 nnoremap <Leader>. yyp
-nnoremap <Leader>/ :ALEHover<CR>
-nnoremap <F12> :ALEGoToDefinition<CR>
-nnoremap <Leader>m :ALERename<CR>
+"nnoremap <Leader>/ :ALEHover<CR>
+"nnoremap <F12> :ALEGoToDefinition<CR>
+lua vim.keymap.set({'n', 'i'}, '<F12>', vim.lsp.buf.definition) -- go to definition
+lua vim.keymap.set('n', '<Leader>/', vim.lsp.buf.hover) -- open the intellisense thing
+lua vim.keymap.set('n', '<Leader>m', vim.lsp.buf.code_action) -- open the code actions thing
+"nnoremap <Leader>m :ALERename<CR> " covered by f2, my own layer
 nnoremap <Leader>md <Plug>MarkdownPreview
 nnoremap <Leader>mds <Plug>MarkdownPreviewStop
 nnoremap <Leader>d gdcgn
