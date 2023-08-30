@@ -86,6 +86,19 @@ local cmp = require('cmp')
 cmp.setup({
     mapping = {
         ['<CR>'] = cmp.mapping.confirm({select = false}),
+        ['<Tab>'] = cmp.mapping(function(fallback)
+                -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
+                if cmp.visible() then
+                    local entry = cmp.get_selected_entry()
+                        if not entry then
+                            cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+                        else
+                            cmp.confirm()
+                        end
+                else
+                    fallback()
+                end
+            end, {"i","s","c",}),
     }
 })
 cmp.event:on(
@@ -94,6 +107,30 @@ cmp.event:on(
 )
 
 require('guess-indent').setup {}
+
+require('lspconfig').tsserver.setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+    settings = {
+        completions = {
+            completeFunctionCalls = true
+        },
+        javascript = {
+            format = {
+                convertTabsToSpaces = true, -- prob don't need this if editorConfig
+                tabSize = 4, -- prob don't need this if editorConfig
+                semicolons = 'insert', -- prob don't need this if editorConfig
+                insertSpaceAfterOpeningAndBeforeClosingEmptyBraces = false,
+                insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces = false,
+                insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = false,
+                insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = false,
+                insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis = false,
+                insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces = false,
+                trimTrailingWhitespace = true -- prob don't need this if editorConfig
+            }
+        }
+    }
+}
 -- grammarly in html is a WIP so eh just turn it off atm
 -- require('lspconfig').grammarly.setup {
 --     config = {
@@ -229,6 +266,7 @@ if exists('g:vscode')
     let b:ale_linters = {}
     let g:ale_linters_explicit = 1
 else
+    " gonna use LSPs
     let g:ale_completion_enabled = 0
 "    let g:ale_linter_aliases = {'javascript': ['css', 'javascript']}
 "    let g:ale_linters = {'javascript': ['stylelint', 'eslint', 'tsserver']}
@@ -362,6 +400,9 @@ inoremap /fnc function () {}<Esc>4hi
 inoremap /stc const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li
 inoremap /jsd /**<cr> * <cr>*/<Esc>k$a
 inoremap /cmt /**  */<Esc>2hi
+inoremap /cow console.warn();<Esc>hi
+inoremap /coi console.info();<Esc>hi
+inoremap /col console.log();<Esc>hi
 inoremap <C-d> <Del>
 " make opt-right, opt-left work correctly
 nnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
