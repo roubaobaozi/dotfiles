@@ -21,7 +21,16 @@ Plug 'dense-analysis/ale' " go to def, hover info, intellisense-type stuff
 Plug 'mattn/emmet-vim' " shortcut code
 Plug 'mattn/webapi-vim' " in conjunction with emmet-vim for custom snippets
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' } " better javascript syntax highlighting/completion
-Plug 'neoclide/vim-jsx-improve' " javascriptreact syntax, better react/jsx
+" LSP stuff
+Plug 'neovim/nvim-lspconfig' " supposedly language syntax/autocomplete/intellisense stuff?
+Plug 'williamboman/mason.nvim'           " Optional
+Plug 'williamboman/mason-lspconfig.nvim' " Optional
+Plug 'hrsh7th/nvim-cmp'         " Required
+Plug 'hrsh7th/cmp-nvim-lsp'     " Required
+Plug 'L3MON4D3/LuaSnip'         " Required
+Plug 'VonHeikemen/lsp-zero.nvim', { 'branch': 'v2.x' }
+" end of LSP stuff
+" Plug 'neoclide/vim-jsx-improve' " javascriptreact syntax, better react/jsx
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'akinsho/git-conflict.nvim', { 'tag': '*' } " merge conflict resolution, latest tag (just in case main is broken)
 Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
@@ -31,6 +40,8 @@ Plug 'chrisgrieser/nvim-spider' " camelCase and snake_case motion
 Plug 'chrisgrieser/nvim-various-textobjs' " camelCase, kebab-case and snake_case selection
 Plug 'machakann/vim-sandwich' " sandwich text in brackets/quotes/tags/etc, sadly not lua
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+Plug 'windwp/nvim-autopairs' " auto ) for (
+Plug 'NMAC427/guess-indent.nvim' " guess the indent since autopairs etc seem to fuck it up
 call plug#end()
 endif
 
@@ -52,11 +63,50 @@ lua require 'hop'.setup {
     \ keys = 'ntesiroamvclpufywhdx',
     \ uppercase_labels = true
 \ }
+" LSP stuff
+lua <<EOF
+local lsp = require('lsp-zero').preset({})
+
+lsp.on_attach(function(client, bufnr)
+  -- see :help lsp-zero-keybindings
+  -- to learn the available actions
+  lsp.default_keymaps({buffer = bufnr})
+end)
+
+-- " (Optional) Configure lua language server for neovim
+require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+
+lsp.setup()
+EOF
+lua <<EOF
+require('nvim-autopairs').setup {}
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+local cmp = require('cmp')
+
+cmp.setup({
+    mapping = {
+        ['<CR>'] = cmp.mapping.confirm({select = false}),
+    }
+})
+cmp.event:on(
+    'confirm_done',
+    cmp_autopairs.on_confirm_done()
+)
+
+require('guess-indent').setup {}
+-- grammarly in html is a WIP so eh just turn it off atm
+-- require('lspconfig').grammarly.setup {
+--     config = {
+--         suggestionCategories = { oxfordComma = "on" } },
+--         filetypes = { 'markdown', 'javascriptreact' }
+-- }
+EOF
+" end of LSP stuff
 lua require 'nvim-treesitter.configs'.setup {
-    \ ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "css", "scss", "html", "javascript", "jsdoc", "json", "markdown", "regex", "tsx", "typescript", "yaml", "astro" },
+    \ ensure_installed = { "astro", "c", "lua", "vim", "vimdoc", "query", "css", "scss", "html", "javascript", "jsdoc", "json", "markdown", "regex", "svelte", "tsx", "typescript", "yaml" },
     \ highlight = {
     \    enable = true,
-    \    additional_vim_regex_highlighting = false
+    \    additional_vim_regex_highlighting = true
     \ }
 \ }
 lua require 'telescope'.setup {
@@ -138,8 +188,8 @@ if exists('g:vscode')
     set showmode
 else
     set noshowmode " lightline handles this
-    set spell " spell check. :setlocal spell spelllang=en
-    set spelllang=en " spell language, go for regular en so it covers en_us and en_uk
+    " set spell " spell check. :setlocal spell spelllang=en
+    " set spelllang=en " spell language, go for regular en so it covers en_us and en_uk
     " Spellcheck ignore camelCase/MixedCase .. but it doesn't work, why not?
     " @TODO: get this to work
     "fun! IgnoreCamelCaseSpell()
@@ -179,13 +229,13 @@ if exists('g:vscode')
     let b:ale_linters = {}
     let g:ale_linters_explicit = 1
 else
-    let g:ale_completion_enabled = 1
-    let g:ale_linter_aliases = {'javascript': ['css', 'javascript']}
-    let g:ale_linters = {'javascript': ['stylelint', 'eslint', 'tsserver']}
-    let g:ale_fixers = {
-    \   '*': ['trim_whitespace'],
-    \   'javascript': ['stylelint', 'eslint']
-    \ }
+    let g:ale_completion_enabled = 0
+"    let g:ale_linter_aliases = {'javascript': ['css', 'javascript']}
+"    let g:ale_linters = {'javascript': ['stylelint', 'eslint', 'tsserver']}
+"    let g:ale_fixers = {
+"    \   '*': ['trim_whitespace'],
+"    \   'javascript': ['stylelint', 'eslint']
+"    \ }
 endif
 set timeoutlen=300
 set whichwrap=b,s,<,>
@@ -251,6 +301,7 @@ nnoremap 6t 6gt
 nnoremap 7t 7gt
 nnoremap 8t 8gt
 nnoremap 9t 9gt
+lua vim.keymap.set('n', '<Leader>c', vim.lsp.buf.hover) -- open the intellisense thing
 nnoremap <Leader>v. gv
 nnoremap <Leader>lw <cmd>HopWord<CR>
 vnoremap <Leader>lw <cmd>HopWord<CR>
@@ -294,16 +345,16 @@ nnoremap ][ j0[[%/{<CR>
 nnoremap [] k$][%?}<CR>
 
 " Code completion
-inoremap {{ {}<Left>
-inoremap {<CR> {<CR>}<Esc>O
-inoremap (( ()<Left>
-inoremap (<CR> (<CR>)<Esc>O
-inoremap [[ []<Left>
-inoremap [<CR> [<CR>]<Esc>O
-inoremap "" ""<Left>
-inoremap '' ''<Left>
-inoremap `` ``<Left>
-inoremap `<CR> `<CR>`<Esc>O
+"inoremap {{ {}<Left>
+"inoremap {<CR> {<CR>}<Esc>O
+"inoremap (( ()<Left>
+"inoremap (<CR> (<CR>)<Esc>O
+"inoremap [[ []<Left>
+"inoremap [<CR> [<CR>]<Esc>O
+"inoremap "" ""<Left>
+"inoremap '' ''<Left>
+"inoremap `` ``<Left>
+"inoremap `<CR> `<CR>`<Esc>O
 inoremap /arn () => <Esc>4hi
 inoremap /arc () => {}<Esc>6hi
 inoremap /arp () => ()<Esc>6hi
