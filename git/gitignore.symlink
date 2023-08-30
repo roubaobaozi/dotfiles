@@ -80,6 +80,10 @@ jspm_packages
 # Optional npm cache directory
 .npm
 
+# jsconfig to turn off ts linting
+jsconfig.json
+tsconfig.json
+
 # Optional eslint cache
 .eslintcache
 

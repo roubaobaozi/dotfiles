@@ -115,6 +115,16 @@ require('lspconfig').tsserver.setup{
         completions = {
             completeFunctionCalls = true
         },
+        diagnostics = {
+            ignoredCodes = {
+                -- https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
+                7044, -- Parameter 'x' implicitly has an 'any' type, but a better type may be inferred from usage.
+            }
+        },
+        quotePreference = 'single',
+        includeCompletionsForImportStatements = true,
+        includeInlayPropertyDeclarationTypeHints = false,
+        includeInlayVariableTypeHints = false,
         javascript = {
             format = {
                 convertTabsToSpaces = true, -- prob don't need this if editorConfig
@@ -343,7 +353,7 @@ nnoremap 6t 6gt
 nnoremap 7t 7gt
 nnoremap 8t 8gt
 nnoremap 9t 9gt
-"lua vim.keymap.set('n', '<Leader>c', vim.lsp.buf.hover) -- open the intellisense thing
+" lua vim.keymap.set('n', '<Leader>c', vim.lsp.util.show_line_diagnostics) -- open the intellisense thing
 nnoremap <Leader>v. gv
 nnoremap <Leader>lw <cmd>HopWord<CR>
 vnoremap <Leader>lw <cmd>HopWord<CR>
