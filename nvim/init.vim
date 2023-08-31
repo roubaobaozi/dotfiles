@@ -118,6 +118,7 @@ require('lspconfig').tsserver.setup{
         diagnostics = {
             ignoredCodes = {
                 -- https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
+                7016, -- Could not find a declaration file for module 'baconjs'. '~/project/node_modules/baconjs/dist/Bacon.js' implicitly has an 'any' type.
                 7044, -- Parameter 'x' implicitly has an 'any' type, but a better type may be inferred from usage.
             }
         },
@@ -353,7 +354,7 @@ nnoremap 6t 6gt
 nnoremap 7t 7gt
 nnoremap 8t 8gt
 nnoremap 9t 9gt
-" lua vim.keymap.set('n', '<Leader>c', vim.lsp.util.show_line_diagnostics) -- open the intellisense thing
+lua vim.keymap.set('n', '<Leader>c', vim.diagnostic.open_float) -- open the diagnostic window thing
 nnoremap <Leader>v. gv
 nnoremap <Leader>lw <cmd>HopWord<CR>
 vnoremap <Leader>lw <cmd>HopWord<CR>
@@ -389,6 +390,14 @@ nnoremap <Leader>4 <Plug>(git-conflict-ours)
 nnoremap <Leader>5 <Plug>(git-conflict-both)
 nnoremap <Leader>6 <Plug>(git-conflict-theirs)
 nnoremap <Leader>0 <Plug>(git-conflict-none)
+
+" see if I can get vscode shortcuts for prev/next change, prev/next issue
+" seems that only opt-sft-f5/f8 work, the without shift doesn't
+" :h META, D = cmd, M = opt, S = shift, C = ctrl
+nnoremap <M-S-F5> g;
+nnoremap <M-F5> g,
+lua vim.keymap.set('n', '<M-S-F8>', vim.diagnostic.goto_prev) -- go to prev issue
+lua vim.keymap.set('n', '<M-F8>', vim.diagnostic.goto_next) -- go to next issue
 
 " make Y behave like other capitals
 nnoremap Y y$
