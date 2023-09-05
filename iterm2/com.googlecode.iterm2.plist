@@ -2079,13 +2079,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.4838409423828125</real>
+				<real>0.335296630859375</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.46595955092945474</real>
+				<real>0.32703555141987212</real>
 				<key>Red Component</key>
-				<real>0.43916745693422854</real>
+				<real>0.31465779710561037</real>
 			</dict>
 			<key>Cursor Type</key>
 			<integer>2</integer>
@@ -2818,7 +2818,7 @@
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>kCPKSelectionViewPreferredModeKey</key>
-	<integer>1</integer>
+	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
 	<false/>
 </dict>
