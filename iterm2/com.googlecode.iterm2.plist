@@ -1979,12 +1979,16 @@
 			</dict>
 			<key>Ansi 8 Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.33333333333333331</real>
+				<real>0.4364166259765625</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.33333333333333331</real>
+				<real>0.4364166259765625</real>
 				<key>Red Component</key>
-				<real>0.33333333333333331</real>
+				<real>0.4364166259765625</real>
 			</dict>
 			<key>Ansi 9 Color</key>
 			<dict>
@@ -2042,36 +2046,46 @@
 			<integer>80</integer>
 			<key>Command</key>
 			<string></string>
+			<key>Cursor Boost</key>
+			<real>0.0</real>
 			<key>Cursor Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.73333334922790527</real>
+				<real>0.92816162109375</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.73333334922790527</real>
+				<real>0.92816162109375</real>
 				<key>Red Component</key>
-				<real>0.73333334922790527</real>
+				<real>0.92816162109375</real>
 			</dict>
 			<key>Cursor Guide Color</key>
 			<dict>
 				<key>Alpha Component</key>
-				<real>0.25</real>
+				<real>0.039215686274509803</real>
 				<key>Blue Component</key>
-				<real>1</real>
+				<real>0.77679443359375</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.92681378126144409</real>
+				<real>0.63058370351791393</real>
 				<key>Red Component</key>
-				<real>0.70214027166366577</real>
+				<real>0.47038403153419495</real>
 			</dict>
 			<key>Cursor Text Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>1</real>
+				<real>0.4838409423828125</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>1</real>
+				<real>0.46595955092945474</real>
 				<key>Red Component</key>
-				<real>1</real>
+				<real>0.43916745693422854</real>
 			</dict>
 			<key>Cursor Type</key>
 			<integer>2</integer>
@@ -2562,6 +2576,8 @@
 				<key>Red Component</key>
 				<real>0.0</real>
 			</dict>
+			<key>Minimum Contrast</key>
+			<real>0.0</real>
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
@@ -2611,6 +2627,8 @@
 			<key>Show Timestamps</key>
 			<integer>2</integer>
 			<key>Silence Bell</key>
+			<false/>
+			<key>Smart Cursor Color</key>
 			<false/>
 			<key>Status Bar Layout</key>
 			<dict>
@@ -2734,6 +2752,8 @@
 			<true/>
 			<key>Use Bright Bold</key>
 			<true/>
+			<key>Use Cursor Guide</key>
+			<true/>
 			<key>Use Italic Font</key>
 			<true/>
 			<key>Use Non-ASCII Font</key>
@@ -2796,6 +2816,10 @@
 	<key>SwitchPaneModifier</key>
 	<integer>5</integer>
 	<key>VisualIndicatorForEsc</key>
+	<false/>
+	<key>kCPKSelectionViewPreferredModeKey</key>
+	<integer>1</integer>
+	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
 	<false/>
 </dict>
 </plist>

@@ -234,6 +234,7 @@ colorscheme material
 if (has('termguicolors'))
     set termguicolors
 endif
+" highlight Visual cterm=none ctermbg=Blue ctermfg=cyan
 if exists('g:vscode')
     " no lightline on vscode, so turn noshowmode off
     set showmode
