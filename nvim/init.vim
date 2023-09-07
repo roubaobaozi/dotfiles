@@ -76,9 +76,6 @@ end)
 -- " (Optional) Configure lua language server for neovim
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 
-lsp.setup()
-EOF
-lua <<EOF
 require('nvim-autopairs').setup {}
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
@@ -105,8 +102,6 @@ cmp.event:on(
     'confirm_done',
     cmp_autopairs.on_confirm_done()
 )
-
-require('guess-indent').setup {}
 
 require('lspconfig').tsserver.setup{
     on_attach = on_attach,
@@ -145,16 +140,21 @@ require('lspconfig').tsserver.setup{
         }
     }
 }
+require('lspconfig').ember.setup {} -- not sure if this actually does anything, but anyway, for handlebars
 -- grammarly in html is a WIP so eh just turn it off atm
 require('lspconfig').grammarly.setup {
     config = {
         suggestionCategories = { oxfordComma = "on" } },
 --        filetypes = { 'markdown', 'javascriptreact' }
 }
+
+lsp.setup()
+
+require('guess-indent').setup {}
 EOF
 " end of LSP stuff
 lua require 'nvim-treesitter.configs'.setup {
-    \ ensure_installed = { "astro", "c", "lua", "vim", "vimdoc", "query", "css", "scss", "html", "javascript", "jsdoc", "json", "markdown", "regex", "svelte", "tsx", "typescript", "yaml" },
+    \ ensure_installed = { "astro", "c", "css", "glimmer", "html", "javascript", "jsdoc", "json", "lua", "markdown", "query", "regex", "scss", "svelte", "tsx", "typescript", "vim", "vimdoc", "yaml" },
     \ highlight = {
     \    enable = true,
     \    additional_vim_regex_highlighting = true
