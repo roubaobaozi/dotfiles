@@ -42,29 +42,32 @@ Plug 'machakann/vim-sandwich' " sandwich text in brackets/quotes/tags/etc, sadly
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'windwp/nvim-autopairs' " auto ) for (
 Plug 'NMAC427/guess-indent.nvim' " guess the indent since autopairs etc seem to fuck it up
+"Plug 'kana/vim-textobj-indent' " supposedly required for CSS concentric sorting? Seems to work without it though?
+Plug 'bzf/vim-concentric-sort-motion' " CSS concentric sorting, gscii
 call plug#end()
 endif
 
 " Settings
 " editorConfig is enabled by default in neovim: https://neovim.io/doc/user/editorconfig.html
-lua require 'auto-save'.setup {
-    \ enabled = true,
-    \ execution_message = { cleaning_interval = 2000 },
-    \ trigger_events = {"InsertLeave", "TextChanged", "TextYankPost"},
-    \ debounce_delay = 2000
-\ }
-" debounce_delay technically doesn't do anything, waiting on https://github.com/pocco81/auto-save.nvim/issues/61
-lua require 'gitsigns'.setup {
-    \ numhl = true,
-    \ word_diff = true,
-    \ current_line_blame = true
-\ }
-lua require 'hop'.setup {
-    \ keys = 'ntesiroamvclpufywhdx',
-    \ uppercase_labels = true
-\ }
-" LSP stuff
 lua <<EOF
+require 'auto-save'.setup {
+    enabled = true,
+    execution_message = { cleaning_interval = 2000 },
+    trigger_events = {"InsertLeave", "TextChanged", "TextYankPost"},
+    debounce_delay = 2000
+}
+-- debounce_delay technically doesn't do anything, waiting on https://github.com/pocco81/auto-save.nvim/issues/61
+require 'gitsigns'.setup {
+    numhl = true,
+    word_diff = true,
+    current_line_blame = true
+}
+require 'hop'.setup {
+    keys = 'ntesiroamvclpufywhdx',
+    uppercase_labels = true
+}
+
+-- LSP stuff
 local lsp = require('lsp-zero').preset({})
 
 lsp.on_attach(function(client, bufnr)
@@ -151,71 +154,73 @@ require('lspconfig').grammarly.setup {
 lsp.setup()
 
 require('guess-indent').setup {}
+
+require 'nvim-treesitter.configs'.setup {
+    ensure_installed = { "astro", "c", "css", "glimmer", "html", "javascript", "jsdoc", "json", "lua", "markdown", "query", "regex", "scss", "svelte", "tsx", "typescript", "vim", "vimdoc", "yaml" },
+    highlight = {
+       enable = true,
+       additional_vim_regex_highlighting = true
+    }
+}
+require 'telescope'.setup {
+    defaults = {
+        file_ignore_patterns = { "^.git/", "node_modules/", "dist/" },
+        vimgrep_arguments = {
+            'rg',
+            '--color=never',
+            '--hidden',
+            '--no-heading',
+            '--with-filename',
+            '--line-number',
+            '--column',
+            '--ignore-case',
+            '--smart-case'
+        }
+    },
+    pickers = {
+        find_files = {
+            hidden = true
+        }
+    }
+}
+require 'spectre'.setup {
+    open_cmd = 'tabnew',
+    is_insert_mode = true,
+    mapping = {
+       ['send_to_qf'] = {
+           map = "<leader>sq"
+       },
+       ['replace_cmd'] = {
+           map = "<leader>sc"
+       },
+       ['change_view_mode'] = {
+           map = "<leader>sv"
+       },
+       ['resume_last_search'] = {
+         map = "<leader>sl"
+       }
+    }
+}
+require 'git-conflict'.setup {
+    default_mappings = {
+        ours = 'co',
+        theirs = 'ct',
+        none = 'c0',
+        both = 'cb',
+        next = '[x',
+        prev = '[b'
+    },
+}
+require 'pqf'.setup {}
+require 'spider'.setup { skipInsignificantPunctuation = true }
+require 'various-textobjs'.setup { useDefaultKeymaps = true }
+-- various-textobjs sets camelCase/snake_case parts to S which I find annoying,
+-- choosing e as it doesn't exist
+vim.keymap.set({ 'o', 'x' }, 'ae', '<cmd>lua require("various-textobjs").subword(false)<CR>')
+vim.keymap.set({ 'o', 'x' }, 'ie', '<cmd>lua require("various-textobjs").subword(true)<CR>')
 EOF
-" end of LSP stuff
-lua require 'nvim-treesitter.configs'.setup {
-    \ ensure_installed = { "astro", "c", "css", "glimmer", "html", "javascript", "jsdoc", "json", "lua", "markdown", "query", "regex", "scss", "svelte", "tsx", "typescript", "vim", "vimdoc", "yaml" },
-    \ highlight = {
-    \    enable = true,
-    \    additional_vim_regex_highlighting = true
-    \ }
-\ }
-lua require 'telescope'.setup {
-    \ defaults = {
-    \     file_ignore_patterns = { "^.git/", "node_modules/", "dist/" },
-    \     vimgrep_arguments = {
-    \         'rg',
-    \         '--color=never',
-    \         '--hidden',
-    \         '--no-heading',
-    \         '--with-filename',
-    \         '--line-number',
-    \         '--column',
-    \         '--ignore-case',
-    \         '--smart-case'
-    \     }
-    \ },
-    \ pickers = {
-    \     find_files = {
-    \         hidden = true
-    \     }
-    \ }
-\ }
-lua require 'spectre'.setup {
-    \ open_cmd = 'tabnew',
-    \ is_insert_mode = true,
-    \ mapping = {
-    \    ['send_to_qf'] = {
-    \        map = "<leader>sq"
-    \    },
-    \    ['replace_cmd'] = {
-    \        map = "<leader>sc"
-    \    },
-    \    ['change_view_mode'] = {
-    \        map = "<leader>sv"
-    \    },
-    \    ['resume_last_search'] = {
-    \      map = "<leader>sl"
-    \    }
-    \ }
-\ }
-lua require 'git-conflict'.setup {
-    \ default_mappings = {
-    \     ours = 'co',
-    \     theirs = 'ct',
-    \     none = 'c0',
-    \     both = 'cb',
-    \     next = '[x',
-    \     prev = '[b'
-    \ },
-\ }
-lua require 'pqf'.setup {}
-lua require 'spider'.setup { skipInsignificantPunctuation = true }
-lua require 'various-textobjs'.setup { useDefaultKeymaps = true }
-" various-textobjs sets camelCase/snake_case parts to S which I find annoying,
-" choosing e as it doesn't exist
-lua vim.keymap.set({ 'o', 'x' }, 'ae', '<cmd>lua require("various-textobjs").subword(false)<CR>')
-lua vim.keymap.set({ 'o', 'x' }, 'ie', '<cmd>lua require("various-textobjs").subword(true)<CR>')
+" end of lua specific stuff
+
 syntax on " Syntax highlighting
 " syntax doesn't automatically apply correctly for any of these
 augroup set_ft_syntax
@@ -356,7 +361,6 @@ nnoremap 7t 7gt
 nnoremap 8t 8gt
 nnoremap 9t 9gt
 lua vim.keymap.set('n', '<Leader>c', vim.diagnostic.open_float) -- open the diagnostic window thing
-nnoremap <Leader>v. gv
 nnoremap <Leader>lw <cmd>HopWord<CR>
 vnoremap <Leader>lw <cmd>HopWord<CR>
 nnoremap <Leader>l <cmd>HopCamelCase<CR>
