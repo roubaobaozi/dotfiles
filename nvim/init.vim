@@ -44,6 +44,7 @@ Plug 'windwp/nvim-autopairs' " auto ) for (
 Plug 'NMAC427/guess-indent.nvim' " guess the indent since autopairs etc seem to fuck it up
 "Plug 'kana/vim-textobj-indent' " supposedly required for CSS concentric sorting? Seems to work without it though?
 Plug 'bzf/vim-concentric-sort-motion' " CSS concentric sorting, gscii
+Plug 'sQVe/sort.nvim' " for sorting selections with :Sort
 call plug#end()
 endif
 
@@ -218,6 +219,8 @@ require 'various-textobjs'.setup { useDefaultKeymaps = true }
 -- choosing e as it doesn't exist
 vim.keymap.set({ 'o', 'x' }, 'ae', '<cmd>lua require("various-textobjs").subword(false)<CR>')
 vim.keymap.set({ 'o', 'x' }, 'ie', '<cmd>lua require("various-textobjs").subword(true)<CR>')
+
+require 'sort'.setup {}
 EOF
 " end of lua specific stuff
 
@@ -361,6 +364,10 @@ nnoremap 7t 7gt
 nnoremap 8t 8gt
 nnoremap 9t 9gt
 lua vim.keymap.set('n', '<Leader>c', vim.diagnostic.open_float) -- open the diagnostic window thing
+" add ii for 'in this indentation' or ip for 'in this paragraph' (surrounded
+" by empty lines), j/<Down> for 'current line and the one below it', can add numbers like 5<Down>
+nnoremap <Leader>v :set opfunc=ConcentricSort<CR>g@
+
 nnoremap <Leader>lw <cmd>HopWord<CR>
 vnoremap <Leader>lw <cmd>HopWord<CR>
 nnoremap <Leader>l <cmd>HopCamelCase<CR>
