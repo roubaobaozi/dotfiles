@@ -54,6 +54,7 @@ brew 'ruby-build'
 # Core applications
 cask 'google-chrome'
 cask 'brave-browser'
+cask 'obsidian'
 cask 'quicksilver'
 cask 'shortcat'
 cask 'stretchly'
