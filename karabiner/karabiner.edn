@@ -106,9 +106,9 @@
                 [:##p :##keypad_plus :num-layer]
                 ;; middle row
                 [:##d :##equal_sign :num-layer]
-                [:##f :##slash :num-layer]
+                [:##f :##up_arrow :num-layer]
                 [:##g :##comma :num-layer]
-                [:#COTh :#COTdelete_or_backspace :num-layer]
+                [:##h :##slash :num-layer]
                 [:!S#COTh :#COTdelete_forward :num-layer]
                 [:##j :##4 :num-layer]
                 [:##k :##5 :num-layer]
@@ -116,8 +116,8 @@
                 [:##semicolon :##0 :num-layer]
                 ;; bottom row
                 [:##c :##left_shift :num-layer]
-                [:##v :!S#COTcomma :num-layer]
-                [:##b :!S#COTperiod :num-layer]
+                [:##v :##down_arrow :num-layer]
+                [:##b :##t :num-layer]
                 [:##n :!S8 :num-layer]
                 [:##m :##1 :num-layer]
                 [:##comma :##2 :num-layer]
