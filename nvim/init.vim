@@ -339,7 +339,7 @@ let maplocalleader = ' '
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>qn :q!<CR>
 nnoremap <Leader>x :x<CR>
-nnoremap <Leader>w :w<CR>
+nnoremap <Leader>w yiw$%o<CR>console.warn('arst ', );<Esc>5hp3lp==
 nnoremap <Leader>f <cmd>Telescope live_grep<CR>
 nnoremap <Leader>p <cmd>Telescope find_files<CR>
 nnoremap <Leader>g <Esc>v:'<,'>GBrowse<CR>
@@ -387,7 +387,8 @@ nnoremap <Leader>, yyP
 nnoremap <Leader>. yyp
 "nnoremap <Leader>/ :ALEHover<CR>
 "nnoremap <F12> :ALEGoToDefinition<CR>
-lua vim.keymap.set({'n', 'i'}, '<F12>', vim.lsp.buf.definition) -- go to definition
+" lua vim.keymap.set({'n', 'i'}, '<F12>', vim.lsp.buf.definition) -- go to definition
+lua vim.keymap.set({'n', 'i'}, '<F12>', '<cmd>tab split | lua vim.lsp.buf.definition()<CR>') -- go to definition in a new tab
 lua vim.keymap.set('n', '<Leader>/', vim.lsp.buf.hover) -- open the intellisense thing
 lua vim.keymap.set('n', '<Leader>m', vim.lsp.buf.code_action) -- open the code actions thing
 "nnoremap <Leader>m :ALERename<CR> " covered by f2, my own layer
@@ -440,9 +441,9 @@ inoremap /fnc function () {}<Esc>4hi
 inoremap /stc const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li
 inoremap /jsd /**<cr> * <cr>*/<Esc>k$a
 inoremap /cmt /**  */<Esc>2hi
-inoremap /cow console.warn();<Esc>hi
-inoremap /coi console.info();<Esc>hi
-inoremap /col console.log();<Esc>hi
+inoremap /cow console.warn('arst ', );<Esc>5hp3lp==
+inoremap /coi console.info('arst ', );<Esc>5hp3lp==
+inoremap /col console.log('arst ', );<Esc>5hp3lp==
 inoremap <C-d> <Del>
 " make opt-right, opt-left work correctly
 nnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
