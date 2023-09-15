@@ -1,3 +1,6 @@
+" disable netrw at the very start of your init.lua
+lua vim.g.loaded_netrw = 1
+lua vim.g.loaded_netrwPlugin = 1
 " Plugins
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
@@ -12,6 +15,8 @@ Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files, and
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } " find in all files, open file in dir
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } " required for telescope
 Plug 'nvim-pack/nvim-spectre' " find and replace in all files
+Plug 'nvim-tree/nvim-web-devicons' " optional fonticons for tree explorer
+Plug 'nvim-tree/nvim-tree.lua' " tree explorer like GUI IDEs
 Plug 'kaicataldo/material.vim', { 'branch': 'main' } " theme
 Plug 'itchyny/lightline.vim' " status line
 Plug 'tpope/vim-fugitive' " open line in github, lightline branch info
@@ -51,6 +56,7 @@ endif
 " Settings
 " editorConfig is enabled by default in neovim: https://neovim.io/doc/user/editorconfig.html
 lua <<EOF
+require 'nvim-tree'.setup {}
 require 'auto-save'.setup {
     enabled = true,
     execution_message = { cleaning_interval = 2000 },
