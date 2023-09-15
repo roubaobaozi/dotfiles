@@ -338,8 +338,21 @@ let mapleader = ' '
 let maplocalleader = ' '
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>qn :q!<CR>
-nnoremap <Leader>x :x<CR>
-nnoremap <Leader>w yiw$%o<CR>console.warn('arst ', );<Esc>5hp3lp==
+function! WarnMultiOrSingle(char)
+    let command = "yiw$%o\<CR>console.warn('arst ', );\<Esc>5hp3lp=="
+
+    " if the end of the line ends in ;, then it's a single-line function, don't need % to get me to the end of the function
+    " if getline('.')[col('$')-2] == a:char " guessing the -2 is because of \r ?
+    if matchstr(getline('.'), '\%' . (col('$')-1) . 'c.') == a:char
+        let command = "yiW$o\<CR>console.warn('arst ', );\<Esc>5hp3lp=="
+    endif
+
+    return command
+endfunction
+nnoremap <expr> <Leader>w WarnMultiOrSingle(';')
+" still, keep the inline command anyway just in case
+nnoremap <Leader>wi yiw$o<CR>console.warn('arst ', );<Esc>5hp3lp==
+nnoremap <Leader>x <cmd>x<CR>
 nnoremap <Leader>f <cmd>Telescope live_grep<CR>
 nnoremap <Leader>p <cmd>Telescope find_files<CR>
 nnoremap <Leader>g <Esc>v:'<,'>GBrowse<CR>
@@ -351,9 +364,9 @@ nnoremap <Leader>s <cmd>lua require('spectre').toggle()<CR>
 nnoremap <Leader>sw <cmd>lua require('spectre').open_visual({select_word=true})<CR>
 vnoremap <Leader>sw <Esc><cmd>lua require('spectre').open_visual()<CR>
 nnoremap <Leader>sp <cmd>lua require('spectre').open_file_search({select_word=true})<CR>
-nnoremap <Leader>t :tabnew<CR>
-nnoremap <Leader>tn :tabp<CR>
-nnoremap <Leader>to :tabn<CR>
+nnoremap <Leader>t <cmd>tabnew<CR>
+nnoremap <Leader>tn <cmd>tabp<CR>
+nnoremap <Leader>to <cmd>tabn<CR>
 nnoremap 1t 1gt
 nnoremap 2t 2gt
 nnoremap 3t 3gt
@@ -366,7 +379,7 @@ nnoremap 9t 9gt
 lua vim.keymap.set('n', '<Leader>c', vim.diagnostic.open_float) -- open the diagnostic window thing
 " add ii for 'in this indentation' or ip for 'in this paragraph' (surrounded
 " by empty lines), j/<Down> for 'current line and the one below it', can add numbers like 5<Down>
-nnoremap <Leader>v :set opfunc=ConcentricSort<CR>g@
+nnoremap <Leader>v <cmd>set opfunc=ConcentricSort<CR>g@
 
 nnoremap <Leader>lw <cmd>HopWord<CR>
 vnoremap <Leader>lw <cmd>HopWord<CR>
@@ -381,13 +394,13 @@ nnoremap <Leader>yy <C-W><C-J>
 nnoremap <Leader>n <<
 nnoremap <Leader>e ddkP
 nnoremap <Leader>i ddp
-nnoremap <Leader>it :LazyGit<CR>
+nnoremap <Leader>it <cmd>LazyGit<CR>
 nnoremap <Leader>o >>
 nnoremap <Leader>, yyP
 nnoremap <Leader>. yyp
 "nnoremap <Leader>/ :ALEHover<CR>
 "nnoremap <F12> :ALEGoToDefinition<CR>
-" lua vim.keymap.set({'n', 'i'}, '<F12>', vim.lsp.buf.definition) -- go to definition
+lua vim.keymap.set({'n', 'i'}, '<F12><F12>', vim.lsp.buf.definition) -- go to definition
 lua vim.keymap.set({'n', 'i'}, '<F12>', '<cmd>tab split | lua vim.lsp.buf.definition()<CR>') -- go to definition in a new tab
 lua vim.keymap.set('n', '<Leader>/', vim.lsp.buf.hover) -- open the intellisense thing
 lua vim.keymap.set('n', '<Leader>m', vim.lsp.buf.code_action) -- open the code actions thing
@@ -396,7 +409,7 @@ nnoremap <Leader>md <Plug>MarkdownPreview
 nnoremap <Leader>mds <Plug>MarkdownPreviewStop
 nnoremap <Leader>d gdcgn
 " git-conflict mappings
-nnoremap <Leader>1 :GitConflictListQf<CR>
+nnoremap <Leader>1 <cmd>GitConflictListQf<CR>
 nnoremap <Leader>2 <Plug>(git-conflict-next-conflict)
 nnoremap <Leader>3 <Plug>(git-conflict-prev-conflict)
 nnoremap <Leader>4 <Plug>(git-conflict-ours)
@@ -441,9 +454,10 @@ inoremap /fnc function () {}<Esc>4hi
 inoremap /stc const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li
 inoremap /jsd /**<cr> * <cr>*/<Esc>k$a
 inoremap /cmt /**  */<Esc>2hi
-inoremap /cow console.warn('arst ', );<Esc>5hp3lp==
-inoremap /coi console.info('arst ', );<Esc>5hp3lp==
-inoremap /col console.log('arst ', );<Esc>5hp3lp==
+inoremap /cow console.warn();<Esc>hi
+inoremap /coi console.info();<Esc>hi
+inoremap /col console.log();<Esc>hi
+inoremap /cop 'arst<Space>',<Space><Esc>3hp3lp==
 inoremap <C-d> <Del>
 " make opt-right, opt-left work correctly
 nnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
