@@ -1,6 +1,6 @@
 " disable netrw at the very start of your init.lua
-lua vim.g.loaded_netrw = 1
-lua vim.g.loaded_netrwPlugin = 1
+"lua vim.g.loaded_netrw = 1
+"lua vim.g.loaded_netrwPlugin = 1
 " Plugins
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
@@ -344,8 +344,8 @@ let g:user_emmet_settings = { 'javascript': { 'extends': 'jsx,scss' }, 'javascri
 " Leader key remaps
 let mapleader = ' '
 let maplocalleader = ' '
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>qn :q!<CR>
+nnoremap <Leader>q <cmd>q<CR>
+nnoremap <Leader>qn <cmd>q!<CR>
 function! WarnMultiOrSingle(char)
     let command = "yiw$%o\<CR>console.warn('arst ', );\<Esc>5hp3lp=="
 
