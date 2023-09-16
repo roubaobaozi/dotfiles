@@ -56,6 +56,8 @@ endif
 " Settings
 " editorConfig is enabled by default in neovim: https://neovim.io/doc/user/editorconfig.html
 lua <<EOF
+-- To install all the nerd fonts:
+-- brew tap homebrew/cask-fonts && brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true
 require 'nvim-tree'.setup {}
 require 'auto-save'.setup {
     enabled = true,
@@ -373,6 +375,7 @@ nnoremap <Leader>sp <cmd>lua require('spectre').open_file_search({select_word=tr
 nnoremap <Leader>t <cmd>tabnew<CR>
 nnoremap <Leader>tn <cmd>tabp<CR>
 nnoremap <Leader>to <cmd>tabn<CR>
+lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>NvimTreeToggle<CR>') -- toggle the nvim-tree
 nnoremap 1t 1gt
 nnoremap 2t 2gt
 nnoremap 3t 3gt
