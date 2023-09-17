@@ -1,6 +1,5 @@
-" disable netrw at the very start of your init.lua
-"lua vim.g.loaded_netrw = 1
-"lua vim.g.loaded_netrwPlugin = 1
+" disable netrw plugin at the very start of your init.lua
+lua vim.g.loaded_netrwPlugin = 1
 " Plugins
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
@@ -17,8 +16,11 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCM
 Plug 'nvim-pack/nvim-spectre' " find and replace in all files
 Plug 'nvim-tree/nvim-web-devicons' " optional fonticons for tree explorer
 Plug 'nvim-tree/nvim-tree.lua' " tree explorer like GUI IDEs
-Plug 'kaicataldo/material.vim', { 'branch': 'main' } " theme
-Plug 'itchyny/lightline.vim' " status line
+"Plug 'kaicataldo/material.vim', { 'branch': 'main' } " theme
+"Plug 'itchyny/lightline.vim' " status line
+Plug 'nvim-lualine/lualine.nvim' " status line
+Plug 'marko-cerovac/material.nvim' " material theme
+Plug 'nvim-tree/nvim-web-devicons' " icons in status line
 Plug 'tpope/vim-fugitive' " open line in github, lightline branch info
 Plug 'tpope/vim-rhubarb' " for fugitive + github links, check others for other sites
 Plug 'shumphrey/fugitive-gitlab.vim' " for fugitive + gitlab links
@@ -66,6 +68,22 @@ require 'auto-save'.setup {
     debounce_delay = 2000
 }
 -- debounce_delay technically doesn't do anything, waiting on https://github.com/pocco81/auto-save.nvim/issues/61
+require 'lualine'.setup {
+    options = {
+        theme = 'modus-vivendi', -- 'material' doesn't work, I don't know why
+    },
+    sections = {
+        lualine_c = {
+            {
+                'filename',
+                path = 1,
+            }
+        }
+    }
+}
+require 'material'.setup {
+    lualine_style = 'default',
+}
 require 'gitsigns'.setup {
     numhl = true,
     word_diff = true,
@@ -244,7 +262,8 @@ augroup set_ft_syntax
   autocmd BufNewFile,BufRead *.html        set syntax=html
   autocmd BufNewFile,BufRead *.astro       set syntax=html
 augroup END
-let g:material_theme_style = 'darker'
+"let g:material_theme_style = 'darker'
+let g:material_style = 'darker'
 let g:material_terminal_italics = 1
 colorscheme material
 if (has('termguicolors'))
