@@ -21,6 +21,7 @@ Plug 'nvim-tree/nvim-tree.lua' " tree explorer like GUI IDEs
 Plug 'nvim-lualine/lualine.nvim' " status line
 Plug 'marko-cerovac/material.nvim' " material theme
 Plug 'Mofiqul/dracula.nvim' " dracula theme
+"Plug 'EdenEast/nightfox.nvim' " nightfox nordfox theme
 "Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' } " nightfly theme
 "Plug 'folke/tokyonight.nvim' " tokyonight-moon theme
 Plug 'nvim-tree/nvim-web-devicons' " icons in status line
@@ -73,7 +74,7 @@ require 'auto-save'.setup {
 -- debounce_delay technically doesn't do anything, waiting on https://github.com/pocco81/auto-save.nvim/issues/61
 require 'lualine'.setup {
     options = {
-        theme = 'dracula-nvim', -- 'material' doesn't work, I don't know why
+        theme = 'dracula-nvim',
     },
     sections = {
         lualine_c = {
@@ -266,9 +267,9 @@ augroup set_ft_syntax
   autocmd BufNewFile,BufRead *.astro       set syntax=html
 augroup END
 "let g:material_theme_style = 'darker'
-let g:material_style = 'deep ocean'
+let g:material_style = 'darker'
 let g:material_terminal_italics = 1
-colorscheme material
+lua vim.cmd("colorscheme material")
 if (has('termguicolors'))
     set termguicolors
 endif
