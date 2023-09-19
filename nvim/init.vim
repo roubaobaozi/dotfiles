@@ -1,5 +1,3 @@
-" disable netrw plugin at the very start of your init.lua
-lua vim.g.loaded_netrwPlugin = 1
 " Plugins
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
@@ -15,16 +13,16 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } " find in all files, open f
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } " required for telescope
 Plug 'nvim-pack/nvim-spectre' " find and replace in all files
 Plug 'nvim-tree/nvim-web-devicons' " optional fonticons for tree explorer
-Plug 'nvim-tree/nvim-tree.lua' " tree explorer like GUI IDEs
+"Plug 'nvim-tree/nvim-tree.lua' " tree explorer like GUI IDEs. I don't really like it. Search doesn't work properly, disabling netrw screws with other plugins
 "Plug 'kaicataldo/material.vim', { 'branch': 'main' } " theme
 "Plug 'itchyny/lightline.vim' " status line
 Plug 'nvim-lualine/lualine.nvim' " status line
 Plug 'marko-cerovac/material.nvim' " material theme
-Plug 'Mofiqul/dracula.nvim' " dracula theme
+"Plug 'Mofiqul/dracula.nvim' " dracula theme
 "Plug 'EdenEast/nightfox.nvim' " nightfox nordfox theme
 "Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' } " nightfly theme
 "Plug 'folke/tokyonight.nvim' " tokyonight-moon theme
-Plug 'nvim-tree/nvim-web-devicons' " icons in status line
+Plug 'stevearc/oil.nvim' " apparently this is really cool instead of tree file explorers
 Plug 'tpope/vim-fugitive' " open line in github, lightline branch info
 Plug 'tpope/vim-rhubarb' " for fugitive + github links, check others for other sites
 Plug 'shumphrey/fugitive-gitlab.vim' " for fugitive + gitlab links
@@ -64,7 +62,10 @@ endif
 lua <<EOF
 -- To install all the nerd fonts:
 -- brew tap homebrew/cask-fonts && brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true
-require 'nvim-tree'.setup {}
+require 'oil'.setup {
+    default_file_explorer = false, -- fuuuuck I still need netrw for :GBrowse, don't just disable it!!!
+}
+--require 'nvim-tree'.setup {}
 require 'auto-save'.setup {
     enabled = true,
     execution_message = { cleaning_interval = 2000 },
@@ -74,7 +75,7 @@ require 'auto-save'.setup {
 -- debounce_delay technically doesn't do anything, waiting on https://github.com/pocco81/auto-save.nvim/issues/61
 require 'lualine'.setup {
     options = {
-        theme = 'dracula-nvim',
+        theme = 'material',
     },
     sections = {
         lualine_c = {
@@ -267,7 +268,7 @@ augroup set_ft_syntax
   autocmd BufNewFile,BufRead *.astro       set syntax=html
 augroup END
 "let g:material_theme_style = 'darker'
-let g:material_style = 'darker'
+let g:material_style = 'deep ocean'
 let g:material_terminal_italics = 1
 lua vim.cmd("colorscheme material")
 if (has('termguicolors'))
@@ -278,7 +279,7 @@ if exists('g:vscode')
     " no lightline on vscode, so turn noshowmode off
     set showmode
 else
-    set noshowmode " lightline handles this
+    set noshowmode " lualine handles this
     " set spell " spell check. :setlocal spell spelllang=en
     " set spelllang=en " spell language, go for regular en so it covers en_us and en_uk
     " Spellcheck ignore camelCase/MixedCase .. but it doesn't work, why not?
@@ -292,28 +293,28 @@ else
     "autocmd BufRead,BufNewFile * :call IgnoreCamelCaseSpell()
 endif
 " lightline settings
-let g:lightline = {
-    \ 'colorscheme': 'material_vim',
-    \ 'active': {
-    \     'left': [ [ 'mode', 'paste' ],
-    \               [ 'readonly', 'filename', 'modified' ],
-    \               [ 'gitbranch' ] ],
-    \     'right': [ [ 'lineinfo' ],
-    \                [ 'percent' ],
-    \                [ 'filetype' ] ]
-    \ },
-    \ 'component_function': {
-    \     'gitbranch': 'FugitiveHead',
-    \     'filename': 'LightlineFilename'
-    \ },
-    \ 'component': {
-    \     'lineinfo': '%3l:%-2v%<'
-    \ }
-\ }
+"let g:lightline = {
+"    \ 'colorscheme': 'material_vim',
+"    \ 'active': {
+"    \     'left': [ [ 'mode', 'paste' ],
+"    \               [ 'readonly', 'filename', 'modified' ],
+"    \               [ 'gitbranch' ] ],
+"    \     'right': [ [ 'lineinfo' ],
+"    \                [ 'percent' ],
+"    \                [ 'filetype' ] ]
+"    \ },
+"    \ 'component_function': {
+"    \     'gitbranch': 'FugitiveHead',
+"    \     'filename': 'LightlineFilename'
+"    \ },
+"    \ 'component': {
+"    \     'lineinfo': '%3l:%-2v%<'
+"    \ }
+"\ }
 
-function! LightlineFilename()
-    return expand('%:t') !=# '' ? expand('%:ft') : '[No Name]'
-endfunction
+"function! LightlineFilename()
+"    return expand('%:t') !=# '' ? expand('%:ft') : '[No Name]'
+"endfunction
 
 "if exists('g:vscode')
 "    let g:ale_completion_enabled = 0
@@ -398,7 +399,7 @@ nnoremap <Leader>sp <cmd>lua require('spectre').open_file_search({select_word=tr
 nnoremap <Leader>t <cmd>tabnew<CR>
 nnoremap <Leader>tn <cmd>tabp<CR>
 nnoremap <Leader>to <cmd>tabn<CR>
-lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>NvimTreeToggle<CR>') -- toggle the nvim-tree
+lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>vs | Oil .<CR>') -- open the Oil tree
 nnoremap 1t 1gt
 nnoremap 2t 2gt
 nnoremap 3t 3gt
@@ -456,6 +457,8 @@ nnoremap <M-S-F5> g;
 nnoremap <M-F5> g,
 lua vim.keymap.set('n', '<M-S-F8>', vim.diagnostic.goto_prev) -- go to prev issue
 lua vim.keymap.set('n', '<M-F8>', vim.diagnostic.goto_next) -- go to next issue
+nnoremap gl $
+nnoremap gh ^
 
 " make Y behave like other capitals
 nnoremap Y y$
@@ -490,13 +493,16 @@ inoremap /cow console.warn();<Esc>hi
 inoremap /coi console.info();<Esc>hi
 inoremap /col console.log();<Esc>hi
 inoremap /cop 'arst<Space>',<Space><Esc>3hp3lp==
-inoremap <C-d> <Del>
+"inoremap <C-d> <Del>
 " make opt-right, opt-left work correctly
-nnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
-inoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
-vnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
-vnoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
-inoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
+"nnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
+"inoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
+"vnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
+" camelCase snake_case
+"vnoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
+"inoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
+lua vim.keymap.set({'n', 'i', 'v'}, '<M-f>', '<cmd>lua require("spider").motion("w")<CR>')
+lua vim.keymap.set({'i', 'v'}, '<M-b>', '<cmd>lua require("spider").motion("b")<CR>')
 
 " Navigation
 nnoremap w <cmd>lua require('spider').motion('w')<CR>
