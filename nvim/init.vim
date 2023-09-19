@@ -443,7 +443,8 @@ nnoremap <Leader>sp <cmd>lua require('spectre').open_file_search({select_word=tr
 nnoremap <Leader>t <cmd>tabnew<CR>
 nnoremap <Leader>tn <cmd>tabp<CR>
 nnoremap <Leader>to <cmd>tabn<CR>
-lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>vs | Oil .<CR>') -- open the Oil tree
+lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>vs | Oil<CR>') -- open the Oil tree
+lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr.', '<cmd>vs | Oil .<CR>') -- open the Oil tree
 nnoremap 1t 1gt
 nnoremap 2t 2gt
 nnoremap 3t 3gt
@@ -469,12 +470,16 @@ nnoremap <Leader>uu <C-W><C-K>
 lua vim.keymap.set('n', '<Leader>y', vim.diagnostic.goto_next) -- go to next issue
 nnoremap <Leader>yy <C-W><C-J>
 nnoremap <Leader>n <<
+vnoremap <Leader>n <
 nnoremap <Leader>e ddkP
 nnoremap <Leader>i ddp
 nnoremap <Leader>it <cmd>LazyGit<CR>
 nnoremap <Leader>o >>
+vnoremap <Leader>o >
 nnoremap <Leader>, yyP
+vnoremap <Leader>, yP
 nnoremap <Leader>. yyp
+vnoremap <Leader>. y`>p
 "nnoremap <Leader>/ :ALEHover<CR>
 "nnoremap <F12> :ALEGoToDefinition<CR>
 lua vim.keymap.set({'n', 'i'}, '<F12><F12>', vim.lsp.buf.definition) -- go to definition
