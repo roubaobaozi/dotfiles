@@ -132,6 +132,16 @@ require 'lualine'.setup {
 }
 require 'material'.setup {
     lualine_style = 'default',
+    plugins = {
+        'gitsigns',
+        'nvim-cmp',
+        'nvim-web-devicons',
+        'telescope',
+    },
+    styles = {
+        comments = { italic = true },
+        functions = { bold = true },
+    },
 }
 require 'gitsigns'.setup {
     numhl = true,
@@ -296,6 +306,8 @@ vim.keymap.set({ 'o', 'x' }, 'ae', '<cmd>lua require("various-textobjs").subword
 vim.keymap.set({ 'o', 'x' }, 'ie', '<cmd>lua require("various-textobjs").subword(true)<CR>')
 
 require 'sort'.setup {}
+
+vim.keymap.set('n', '<Leader>b', '<cmd>botright vs new | 1put | windo diffthis<CR>')
 EOF
 " end of lua specific stuff
 
@@ -443,8 +455,8 @@ nnoremap <Leader>sp <cmd>lua require('spectre').open_file_search({select_word=tr
 nnoremap <Leader>t <cmd>tabnew<CR>
 nnoremap <Leader>tn <cmd>tabp<CR>
 nnoremap <Leader>to <cmd>tabn<CR>
-lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>vs | Oil<CR>') -- open the Oil tree
-lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr.', '<cmd>vs | Oil .<CR>') -- open the Oil tree
+lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>35vs | Oil<CR>') -- open the Oil tree
+lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr.', '<cmd>35vs | Oil .<CR>') -- open the Oil tree
 nnoremap 1t 1gt
 nnoremap 2t 2gt
 nnoremap 3t 3gt
