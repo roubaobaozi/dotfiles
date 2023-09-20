@@ -472,8 +472,10 @@ nnoremap <Leader>yy <C-W><C-J>
 nnoremap <Leader>n <<
 vnoremap <Leader>n <
 nnoremap <Leader>e ddkP
+vnoremap <Leader>e dkP
 nnoremap <Leader>i ddp
 nnoremap <Leader>it <cmd>LazyGit<CR>
+vnoremap <Leader>i dp
 nnoremap <Leader>o >>
 vnoremap <Leader>o >
 nnoremap <Leader>, yyP
