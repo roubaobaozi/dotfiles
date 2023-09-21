@@ -55,6 +55,7 @@ Plug 'NMAC427/guess-indent.nvim' " guess the indent since autopairs etc seem to 
 "Plug 'kana/vim-textobj-indent' " supposedly required for CSS concentric sorting? Seems to work without it though?
 Plug 'bzf/vim-concentric-sort-motion' " CSS concentric sorting, gscii
 Plug 'sQVe/sort.nvim' " for sorting selections with :Sort
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " show buffers like tabs
 call plug#end()
 endif
 
@@ -330,6 +331,27 @@ lua vim.cmd("colorscheme material")
 if (has('termguicolors'))
     set termguicolors
 endif
+lua <<EOF
+require 'bufferline'.setup {
+    options = {
+        diagnostics = "nvim_lsp",
+        max_name_length = 23,
+        max_prefix_length = 20,
+        middle_mouse_command = "%bd|e#", -- doesn't work with iTerm
+        numbers = "buffer_id",
+        right_mouse_command = "%bd|e#", -- doesn't work with iTerm
+        tab_size = 23,
+        offsets = {
+            {
+                filetype = "oil",
+                text = "Oil",
+                text_align = "center",
+                separator = true,
+            }
+        },
+    }
+}
+EOF
 " highlight Visual cterm=none ctermbg=Blue ctermfg=cyan
 if exists('g:vscode')
     " no lightline on vscode, so turn noshowmode off
@@ -426,6 +448,7 @@ let mapleader = ' '
 let maplocalleader = ' '
 nnoremap <Leader>q <cmd>q<CR>
 nnoremap <Leader>qn <cmd>q!<CR>
+nnoremap <Leader>qo <cmd>BufferLineCloseOthers<CR>
 function! WarnMultiOrSingle(char)
     let command = "yiw$%o\<CR>console.warn('arst ', );\<Esc>5hp3lp=="
 
@@ -457,15 +480,15 @@ nnoremap <Leader>tn <cmd>tabp<CR>
 nnoremap <Leader>to <cmd>tabn<CR>
 lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>35vs | Oil<CR>') -- open the Oil tree
 lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr.', '<cmd>35vs | Oil .<CR>') -- open the Oil tree
-nnoremap 1t 1gt
-nnoremap 2t 2gt
-nnoremap 3t 3gt
-nnoremap 4t 4gt
-nnoremap 5t 5gt
-nnoremap 6t 6gt
-nnoremap 7t 7gt
-nnoremap 8t 8gt
-nnoremap 9t 9gt
+"nnoremap 1t 1gt
+"nnoremap 2t 2gt
+"nnoremap 3t 3gt
+"nnoremap 4t 4gt
+"nnoremap 5t 5gt
+"nnoremap 6t 6gt
+"nnoremap 7t 7gt
+"nnoremap 8t 8gt
+"nnoremap 9t 9gt
 lua vim.keymap.set('n', '<Leader>c', vim.diagnostic.open_float) -- open the diagnostic window thing
 " add ii for 'in this indentation' or ip for 'in this paragraph' (surrounded
 " by empty lines), j/<Down> for 'current line and the one below it', can add numbers like 5<Down>
@@ -491,13 +514,13 @@ vnoremap <Leader>i dp
 nnoremap <Leader>o >>
 vnoremap <Leader>o >
 nnoremap <Leader>, yyP
-vnoremap <Leader>, yP
+vnoremap <Leader>, y0P
 nnoremap <Leader>. yyp
 vnoremap <Leader>. y`>p
 "nnoremap <Leader>/ :ALEHover<CR>
 "nnoremap <F12> :ALEGoToDefinition<CR>
-lua vim.keymap.set({'n', 'i'}, '<F12><F12>', vim.lsp.buf.definition) -- go to definition
-lua vim.keymap.set({'n', 'i'}, '<F12>', '<cmd>tab split | lua vim.lsp.buf.definition()<CR>') -- go to definition in a new tab
+lua vim.keymap.set({'n', 'i'}, '<F12>', vim.lsp.buf.definition) -- go to definition
+lua vim.keymap.set({'n', 'i'}, '<F12><F12>', '<cmd>tab split | lua vim.lsp.buf.definition()<CR>') -- go to definition in a new tab
 lua vim.keymap.set('n', '<Leader>/', vim.lsp.buf.hover) -- open the intellisense thing
 lua vim.keymap.set('n', '<Leader>m', vim.lsp.buf.code_action) -- open the code actions thing
 "nnoremap <Leader>m :ALERename<CR> " covered by f2, my own layer
@@ -573,3 +596,5 @@ nnoremap e <cmd>lua require('spider').motion('e')<CR>
 nnoremap b <cmd>lua require('spider').motion('b')<CR>
 nnoremap ge <cmd>lua require('spider').motion('ge')<CR>
 
+" commands
+"command Bothers :BufferLineCloseOthers
