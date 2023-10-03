@@ -11,7 +11,6 @@ Plug 'roubaobaozi/hop.nvim', { 'branch': 'feature/camel-case' } " jump in vim, u
 Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } " find in all files, open file in dir
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " for fuzzy searching/sorting
-"Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } " required for telescope
 Plug 'kkharji/sqlite.lua' " dependency of telescope-frecency.nvim
 Plug 'nvim-telescope/telescope-frecency.nvim' " frecency (frequency & recency) for telescope
 Plug 'nvim-pack/nvim-spectre' " find and replace in all files
