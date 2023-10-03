@@ -10,7 +10,10 @@ Plug 'lewis6991/gitsigns.nvim' " add/change/del line highlighting, git blame!
 Plug 'roubaobaozi/hop.nvim', { 'branch': 'feature/camel-case' } " jump in vim, use my own fork for the camelCase hopping on <Leader>l
 Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } " find in all files, open file in dir
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } " required for telescope
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " for fuzzy searching/sorting
+"Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } " required for telescope
+Plug 'kkharji/sqlite.lua' " dependency of telescope-frecency.nvim
+Plug 'nvim-telescope/telescope-frecency.nvim' " frecency (frequency & recency) for telescope
 Plug 'nvim-pack/nvim-spectre' " find and replace in all files
 Plug 'nvim-tree/nvim-web-devicons' " optional fonticons for tree explorer
 "Plug 'nvim-tree/nvim-tree.lua' " tree explorer like GUI IDEs. I don't really like it. Search doesn't work properly, disabling netrw screws with other plugins
@@ -247,7 +250,14 @@ require 'nvim-treesitter.configs'.setup {
     highlight = {
        enable = true,
        additional_vim_regex_highlighting = true
-    }
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            node_incremental = "v",
+            node_decremental = "V",
+        },
+    },
 }
 require 'telescope'.setup {
     defaults = {
@@ -268,8 +278,24 @@ require 'telescope'.setup {
         find_files = {
             hidden = true
         }
-    }
+    },
+    extensions = {
+        fzf = {
+            fuzzy = true,                    -- false will only do exact matching
+            override_generic_sorter = true,  -- override the generic sorter
+            override_file_sorter = true,     -- override the file sorter
+            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                             -- the default case_mode is "smart_case"
+        },
+        frecency = {
+            show_scores = true,
+            show_unindexed = true,
+            ignore_patterns = {"*.git/*", "*/tmp/*", "*/node_modules/*", "*/.DS_Store"},
+        },
+    },
 }
+require 'telescope'.load_extension('fzf')
+require 'telescope'.load_extension('frecency')
 require 'spectre'.setup {
     open_cmd = 'tabnew',
     is_insert_mode = true,
@@ -465,7 +491,9 @@ nnoremap <expr> <Leader>w WarnMultiOrSingle(';')
 nnoremap <Leader>wi yiw$o<CR>console.warn('arst ', );<Esc>5hp3lp==
 nnoremap <Leader>x <cmd>x<CR>
 nnoremap <Leader>f <cmd>Telescope live_grep<CR>
-nnoremap <Leader>p <cmd>Telescope find_files<CR>
+" use :FrecencyValidate to clear the frecency DB
+nnoremap <Leader>pf <cmd>Telescope find_files<CR>
+nnoremap <Leader>p <cmd>Telescope frecency workspace=CWD<CR>
 nnoremap <Leader>g <Esc>v:'<,'>GBrowse<CR>
 vnoremap <Leader>g :GBrowse<CR>
 "nnoremap <Leader>a <Plug>(ale_fix)
