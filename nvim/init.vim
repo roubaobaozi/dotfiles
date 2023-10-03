@@ -45,6 +45,7 @@ Plug 'VonHeikemen/lsp-zero.nvim', { 'branch': 'v2.x' }
 " end of LSP stuff
 " Plug 'neoclide/vim-jsx-improve' " javascriptreact syntax, better react/jsx
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'leafOfTree/vim-svelte-plugin' " for Svelte + emmet
 Plug 'akinsho/git-conflict.nvim', { 'tag': '*' } " merge conflict resolution, latest tag (just in case main is broken)
 Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
 Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
@@ -357,6 +358,10 @@ lua vim.cmd("colorscheme material")
 if (has('termguicolors'))
     set termguicolors
 endif
+" svelte plugin
+let g:vim_svelte_plugin_use_typescript = 1
+let g:vim_svelte_plugin_use_sass = 1
+
 lua <<EOF
 require 'bufferline'.setup {
     options = {
