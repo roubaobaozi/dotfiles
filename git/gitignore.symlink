@@ -186,3 +186,5 @@ vendor/
 
 .vscode
 
+# tsserver for nvim
+# jsconfig.json

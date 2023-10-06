@@ -927,6 +927,8 @@
   rmbd = "!rmmergedbranchesdev() { git checkout --quiet develop && git fetch && git branch --merged | grep --invert-match '\\*' | grep --invert-match 'develop' | grep --invert-match 'master' | xargs -n 1 git branch --delete; git checkout --quiet @{-1}; }; rmmergedbranchesdev"
   s = status
   st = stash
+  tl = "!echo \"git log $(git describe --tags --abbrev=0)..HEAD --oneline\" && git log $(git describe --tags --abbrev=0)..HEAD --oneline"
+  tlv = "!echo \"git log $(git describe --tags --abbrev=0)..HEAD\" && git log $(git describe --tags --abbrev=0)..HEAD"
   uc = !"un_committer() { HEADS=\"HEAD~$1\"; echo \"git reset $HEADS\n\"; git reset $HEADS; }; un_committer"
   upstream = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD` `git symbolic-ref --short HEAD`
   ver = "!echo \"git describe --tags --abbrev=0\n\" && git describe --tags --abbrev=0"

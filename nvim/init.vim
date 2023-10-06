@@ -208,6 +208,12 @@ require('lspconfig').tsserver.setup{
                 -- https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
                 7016, -- Could not find a declaration file for module 'baconjs'. '~/project/node_modules/baconjs/dist/Bacon.js' implicitly has an 'any' type.
                 7044, -- Parameter 'x' implicitly has an 'any' type, but a better type may be inferred from usage.
+                2556, -- A spread argument must either have a tuple type or be passed to a rest parameter
+                2345, -- Argument of type is missing in type
+                2416, -- property of type is not assignable to the same property in base type
+                -- 2322, -- property 'children' does not exist on type
+                -- 2769, -- no overload matches this call
+                -- 2305, -- module 'blah' has no exported member 'blah'
             }
         },
         quotePreference = 'single',
@@ -229,7 +235,7 @@ require('lspconfig').tsserver.setup{
             }
         },
         implicitProjectConfiguration = {
-            checkJs = true
+            checkJs = false
         }
     }
 }
@@ -322,6 +328,10 @@ require 'git-conflict'.setup {
         both = 'cb',
         next = '[x',
         prev = '[b'
+    },
+    highlights = { -- They must have background color, otherwise the default color will be used
+        current = 'DiffChange',
+        incoming = 'DiffAdd',
     },
 }
 require 'pqf'.setup {}
@@ -476,7 +486,8 @@ let g:user_emmet_settings = { 'javascript': { 'extends': 'jsx,scss' }, 'javascri
 " Leader key remaps
 let mapleader = ' '
 let maplocalleader = ' '
-nnoremap <Leader>q <cmd>q<CR>
+nnoremap <Leader>qu <cmd>q<CR>
+nnoremap <Leader>q <cmd>bd<CR>
 nnoremap <Leader>qn <cmd>q!<CR>
 nnoremap <Leader>qo <cmd>BufferLineCloseOthers<CR>
 function! WarnMultiOrSingle(char)
@@ -498,6 +509,7 @@ nnoremap <Leader>f <cmd>Telescope live_grep<CR>
 " use :FrecencyValidate to clear the frecency DB
 nnoremap <Leader>pf <cmd>Telescope find_files<CR>
 nnoremap <Leader>p <cmd>Telescope frecency workspace=CWD<CR>
+nnoremap <Leader>po <cmd>Telescope buffers<CR>
 nnoremap <Leader>g <Esc>v:'<,'>GBrowse<CR>
 vnoremap <Leader>g :GBrowse<CR>
 "nnoremap <Leader>a <Plug>(ale_fix)
@@ -611,7 +623,8 @@ inoremap /cow console.warn();<Esc>hi
 inoremap /coi console.info();<Esc>hi
 inoremap /col console.log();<Esc>hi
 inoremap /cop 'arst<Space>',<Space><Esc>3hp3lp==
-"inoremap <C-d> <Del>
+" make C-d in insert mode delete forward
+inoremap <C-d> <Del>
 " make opt-right, opt-left work correctly
 "nnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
 "inoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
