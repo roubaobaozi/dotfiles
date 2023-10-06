@@ -48,7 +48,7 @@ Plug 'leafOfTree/vim-svelte-plugin' " for Svelte + emmet
 Plug 'akinsho/git-conflict.nvim', { 'tag': '*' } " merge conflict resolution, latest tag (just in case main is broken)
 Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
 Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
-Plug 'pocco81/auto-save.nvim' " auto saving!
+"Plug 'pocco81/auto-save.nvim' " auto saving! can just use an autocmd with updatetime, works a bit better actually
 Plug 'chrisgrieser/nvim-spider' " camelCase and snake_case motion
 Plug 'chrisgrieser/nvim-various-textobjs' " camelCase, kebab-case and snake_case selection
 Plug 'machakann/vim-sandwich' " sandwich text in brackets/quotes/tags/etc, sadly not lua
@@ -114,12 +114,12 @@ require 'oil'.setup {
 --    }
 --}
 --require 'nvim-tree'.setup {}
-require 'auto-save'.setup {
-    enabled = true,
-    execution_message = { cleaning_interval = 2000 },
-    trigger_events = {"InsertLeave", "TextChanged", "TextYankPost"},
-    debounce_delay = 2000
-}
+-- require 'auto-save'.setup {
+--     enabled = true,
+--     execution_message = { cleaning_interval = 2000 },
+--     trigger_events = {"InsertLeave", "TextChanged", "TextYankPost"},
+--     debounce_delay = 2000
+-- }
 -- debounce_delay technically doesn't do anything, waiting on https://github.com/pocco81/auto-save.nvim/issues/61
 require 'lualine'.setup {
     options = {
@@ -348,6 +348,9 @@ vim.keymap.set('n', '<Leader>b', '<cmd>botright vs new | 1put | windo diffthis<C
 EOF
 " end of lua specific stuff
 
+" Auto-save modified buffer during idle after 'updatetime' has elapsed (default 4 sec)
+autocmd CursorHoldI,CursorHold * silent! update
+set updatetime=2000 " for how long to wait until writing to swapfile
 syntax on " Syntax highlighting
 " syntax doesn't automatically apply correctly for any of these
 augroup set_ft_syntax
@@ -475,7 +478,6 @@ set wildignore+=**/node_modules/**,.git/**,dist/**,**/*.jpg,**/*.jpeg,**/*.png,*
 if exists('&colorcolumn')
     set colorcolumn=140
 endif
-set updatetime=1000 " for how long to wait until writing to swapfile
 
 " Emmet settings
 let g:user_emmet_leader_key = ','
