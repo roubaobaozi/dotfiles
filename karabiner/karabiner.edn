@@ -3,9 +3,9 @@
     :devices {:applekeyboard [{:vendor_id 1452 :product_id 835}]}
     :profiles {:default {:default true
         :alone   1000 ; hold for .. ms to register single tap
-        :held    160 ; to_if_held_down, a -> b if held down (like hold-tap) I don't use it anyway
+        :held    50 ; to_if_held_down, a -> b if held down (like hold-tap) I don't use it anyway
         :delay   0 ; time after which the key press is delayed
-        :sim     160}} ; keys need to be pressed within this threshold to be considered simultaneous (this not only affects combos, but also layer taps, so make it higher than you would for QMK combos)
+        :sim     50}} ; keys need to be pressed within this threshold to be considered simultaneous (this not only affects combos, but also layer taps, so make it higher than you would for QMK combos)
     :simlayers {
         :nav-layer {:key :q}
         :sym-layer {:key :w}
@@ -44,7 +44,7 @@
                 [:d :volume_decrement :nav-layer]
                 [:f :play_or_pause :nav-layer]
                 ;; [:g :scan_next_track :nav-layer] ;; breaks goku?
-                [:j :S6 :nav-layer]
+                [:j :!S6 :nav-layer]
                 [:##k :##left_arrow :nav-layer]
                 [:##l :##up_arrow :nav-layer]
                 [:##semicolon :##down_arrow :nav-layer]
@@ -54,7 +54,7 @@
                 [:##c :!CTq :nav-layer]
                 [:##v :s :nav-layer]
                 [:##b :!CSm :nav-layer]
-                [:m :S4 :nav-layer]
+                [:m :!S4 :nav-layer]
                 [:#Scomma :!C#Sleft_arrow :nav-layer]
                 [:#Speriod :!C#Sup_arrow :nav-layer]
                 [:#Sslash :!C#Sdown_arrow :nav-layer]
@@ -98,7 +98,7 @@
             :rules [
                 [:##r :##open_bracket :num-layer]
                 [:##t :##close_bracket :num-layer]
-                [:##u :##backslash :num-layer]
+                [:##u :##hyphen :num-layer]
                 [:##i :##7 :num-layer]
                 [:##o :##8 :num-layer]
                 [:##p :##9 :num-layer]
@@ -110,7 +110,7 @@
                 [:##j :##slash :num-layer]
                 [:!S#COTj :#COTdelete_forward :num-layer]
                 [:##k :##4 :num-layer]
-                [:##l :num-layer]
+                [:##l :##5 :num-layer]
                 [:##semicolon :##6 :num-layer]
                 [:##quote :##0 :num-layer]
                 ;; bottom row
@@ -191,6 +191,7 @@
                 [:##d :##s]
                 [:##f :##t]
                 [:##g :##d]
+                [:##j :##h]
                 [:##k :##n]
                 [:##l :##e]
                 [:##semicolon :##i]
@@ -200,16 +201,16 @@
                 [:##comma :##m]
                 [:##period :##comma]
                 [:##slash :##period]
-                [:##right_shift :##left_shift nil {:held :left_control}]
+                [:##right_shift :##left_control nil {:held :##left_control :alone :##slash}]
                 ;; others
-                [:##left_command :##left_command nil {:held :left_command :alone :spacebar}]
-                [:##left_option :##left_option nil {:held :left_option :alone :hyphen}]
-                [:##spacebar :##left_command]
+                [:##left_command :##left_option nil {:held :##left_option :alone :##hyphen}]
+                ;;[:##left_option :##left_option nil {:held :##left_option :alone :##hyphen}]
+                [:##spacebar :##left_command nil {:held :##left_command :alone :##quote}]
                 [:##right_command :##spacebar]
                 [:##right_option :##left_shift]
                 ;; when there's a sticky option in goku, do something like this
                 ;; [:##left_shift :##left_shift :sticky]
-                ;; [:##right_shift :##right_shift :sticky]
+                ;; [:##right_option :##left_shift :sticky]
             ]
         }
     ]
@@ -230,10 +231,10 @@
 ;;                                     },
 ;;                                     "simultaneous": [
 ;;                                         {
-;;                                             "key_code": "i"
+;;                                             "key_code": "o"
 ;;                                         },
 ;;                                         {
-;;                                             "key_code": "o"
+;;                                             "key_code": "p"
 ;;                                         }
 ;;                                     ],
 ;;                                     "simultaneous_options": {
@@ -264,10 +265,10 @@
 ;;                                     },
 ;;                                     "simultaneous": [
 ;;                                         {
-;;                                             "key_code": "i"
+;;                                             "key_code": "o"
 ;;                                         },
 ;;                                         {
-;;                                             "key_code": "o"
+;;                                             "key_code": "p"
 ;;                                         }
 ;;                                     ],
 ;;                                     "simultaneous_options": {
@@ -293,10 +294,10 @@
 ;;                                     },
 ;;                                     "simultaneous": [
 ;;                                         {
-;;                                             "key_code": "m"
+;;                                             "key_code": "comma"
 ;;                                         },
 ;;                                         {
-;;                                             "key_code": "comma"
+;;                                             "key_code": "period"
 ;;                                         }
 ;;                                     ],
 ;;                                     "simultaneous_options": {
@@ -322,10 +323,10 @@
 ;;                                     },
 ;;                                     "simultaneous": [
 ;;                                         {
-;;                                             "key_code": "m"
+;;                                             "key_code": "comma"
 ;;                                         },
 ;;                                         {
-;;                                             "key_code": "slash"
+;;                                             "key_code": "right_shift"
 ;;                                         }
 ;;                                     ],
 ;;                                     "simultaneous_options": {
@@ -351,10 +352,10 @@
 ;;                                     },
 ;;                                     "simultaneous": [
 ;;                                         {
-;;                                             "key_code": "comma"
+;;                                             "key_code": "period"
 ;;                                         },
 ;;                                         {
-;;                                             "key_code": "period"
+;;                                             "key_code": "slash"
 ;;                                         }
 ;;                                     ],
 ;;                                     "simultaneous_options": {
@@ -412,7 +413,7 @@
 ;;                                             "key_code": "v"
 ;;                                         },
 ;;                                         {
-;;                                             "key_code": "m"
+;;                                             "key_code": "comma"
 ;;                                         }
 ;;                                     ],
 ;;                                     "simultaneous_options": {
