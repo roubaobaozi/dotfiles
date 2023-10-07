@@ -108,7 +108,6 @@
                 [:##f :##up_arrow :num-layer]
                 [:##g :##comma :num-layer]
                 [:##j :##slash :num-layer]
-                [:!S#COTj :#COTdelete_forward :num-layer]
                 [:##k :##4 :num-layer]
                 [:##l :##5 :num-layer]
                 [:##semicolon :##6 :num-layer]
@@ -116,7 +115,7 @@
                 ;; bottom row
                 [:##c :##left_shift :num-layer]
                 [:##v :##down_arrow :num-layer]
-                [:##b :##t :num-layer]
+                [:##b [:escape :!Ssemicolon :b] :num-layer]
                 [:##m :!S8 :num-layer]
                 [:##comma :##1 :num-layer]
                 [:##period :##2 :num-layer]
