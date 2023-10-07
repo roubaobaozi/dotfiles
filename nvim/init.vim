@@ -350,7 +350,7 @@ EOF
 
 " Auto-save modified buffer during idle after 'updatetime' has elapsed (default 4 sec)
 autocmd CursorHoldI,CursorHold * silent! update
-set updatetime=2000 " for how long to wait until writing to swapfile
+set updatetime=1000 " for how long to wait until writing to swapfile
 syntax on " Syntax highlighting
 " syntax doesn't automatically apply correctly for any of these
 augroup set_ft_syntax
