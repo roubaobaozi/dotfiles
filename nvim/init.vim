@@ -59,6 +59,7 @@ Plug 'NMAC427/guess-indent.nvim' " guess the indent since autopairs etc seem to 
 Plug 'bzf/vim-concentric-sort-motion' " CSS concentric sorting, gscii
 Plug 'sQVe/sort.nvim' " for sorting selections with :Sort
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " show buffers like tabs
+Plug 'uga-rosa/ccc.nvim' " colour picker and shower!
 call plug#end()
 endif
 
@@ -345,6 +346,14 @@ vim.keymap.set({ 'o', 'x' }, 'ie', '<cmd>lua require("various-textobjs").subword
 require 'sort'.setup {}
 
 vim.keymap.set('n', '<Leader>b', '<cmd>botright vs new | 1put | windo diffthis<CR>')
+
+-- h/l for left/right on sliders, a toggles the alpha channel
+require 'ccc'.setup({
+    highlighter = {
+        auto_enable = true,
+        lsp = true,
+    },
+})
 EOF
 " end of lua specific stuff
 
@@ -473,7 +482,7 @@ filetype plugin indent on
 set autoindent smartindent
 set list listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,space:·,trail:·
 set textwidth=0
-set clipboard=unnamed
+set clipboard=unnamedplus
 set wildignore+=**/node_modules/**,.git/**,dist/**,**/*.jpg,**/*.jpeg,**/*.png,**/*.gif
 if exists('&colorcolumn')
     set colorcolumn=140
@@ -524,8 +533,8 @@ nnoremap <Leader>sp <cmd>lua require('spectre').open_file_search({select_word=tr
 nnoremap <Leader>t <cmd>tabnew<CR>
 nnoremap <Leader>tn <cmd>tabp<CR>
 nnoremap <Leader>to <cmd>tabn<CR>
-lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>35vs | Oil<CR>') -- open the Oil tree
-lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr.', '<cmd>35vs | Oil .<CR>') -- open the Oil tree
+lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>Oil --float<CR>') -- open the Oil tree
+lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr.', '<cmd>Oil . --float<CR>') -- open the Oil tree
 "nnoremap 1t 1gt
 "nnoremap 2t 2gt
 "nnoremap 3t 3gt
@@ -536,6 +545,7 @@ lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr.', '<cmd>35vs | Oil .<CR>') -- o
 "nnoremap 8t 8gt
 "nnoremap 9t 9gt
 lua vim.keymap.set('n', '<Leader>c', vim.diagnostic.open_float) -- open the diagnostic window thing
+lua vim.keymap.set('n', '<Leader>co', '<cmd>CccPick<CR>') -- open the colour picker
 " add ii for 'in this indentation' or ip for 'in this paragraph' (surrounded
 " by empty lines), j/<Down> for 'current line and the one below it', can add numbers like 5<Down>
 nnoremap <Leader>v <cmd>set opfunc=ConcentricSort<CR>g@
