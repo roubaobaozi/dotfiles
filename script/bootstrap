@@ -140,6 +140,16 @@ install_dotfiles () {
   link_file "$DOTFILES_ROOT/karabiner/karabiner.edn" "$HOME/.config/karabiner.edn"
 }
 
+install_teamocil () {
+  info 'installing teamocil (for tmux) config'
+
+  local overwrite_all=false backup_all=false skip_all=false
+
+  mkdir -p "$HOME/.teamocil"
+
+  link_file "$DOTFILES_ROOT/teamocil" "$HOME/.teamocil"
+}
+
 install_vim () {
   info 'installing vim config'
 
@@ -152,6 +162,7 @@ install_vim () {
 
 setup_gitconfig
 install_dotfiles
+install_teamocil
 install_vim
 
 # If we're on a Mac, let's install and setup homebrew.

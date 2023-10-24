@@ -1,0 +1,13 @@
+windows:
+  - name: dotfiles
+    root: ~/.dotfiles
+    layout: even-horizontal
+    panes:
+      - git status
+      - nvim
+  - name: qmk
+    root: ~/repos/personal/qmk_firmware
+    layout: even-horizontal
+    panes:
+      - git status
+      - nvim
