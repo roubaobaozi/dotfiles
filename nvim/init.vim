@@ -70,6 +70,18 @@ lua <<EOF
 -- brew tap homebrew/cask-fonts && brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true
 require 'oil'.setup {
     default_file_explorer = false, -- fuuuuck I still need netrw for :GBrowse, don't just disable it!!!
+    delete_to_trash = true,
+    trash_command = 'trash',
+    win_options = {
+        number = true,
+        rnu = true,
+    },
+    view_options = {
+        show_hidden = true,
+    },
+    float = {
+        padding = 3,
+    },
 }
 --require 'nvim-treesitter.configs'.setup {
 --    textobjects = {
