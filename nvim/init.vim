@@ -11,7 +11,7 @@ Plug 'roubaobaozi/hop.nvim', { 'branch': 'feature/camel-case' } " jump in vim, u
 Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } " find in all files, open file in dir
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " for fuzzy searching/sorting
-Plug 'kkharji/sqlite.lua' " dependency of telescope-frecency.nvim
+" Plug 'kkharji/sqlite.lua' " dependency of telescope-frecency.nvim -- after update, no longer a dependency
 Plug 'nvim-telescope/telescope-frecency.nvim' " frecency (frequency & recency) for telescope
 Plug 'nvim-pack/nvim-spectre' " find and replace in all files
 Plug 'nvim-tree/nvim-web-devicons' " optional fonticons for tree explorer
@@ -19,7 +19,8 @@ Plug 'nvim-tree/nvim-web-devicons' " optional fonticons for tree explorer
 "Plug 'kaicataldo/material.vim', { 'branch': 'main' } " theme
 "Plug 'itchyny/lightline.vim' " status line
 Plug 'nvim-lualine/lualine.nvim' " status line
-Plug 'marko-cerovac/material.nvim' " material theme
+"Plug 'marko-cerovac/material.nvim' " material theme
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 "Plug 'Mofiqul/dracula.nvim' " dracula theme
 "Plug 'EdenEast/nightfox.nvim' " nightfox nordfox theme
 "Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' } " nightfly theme
@@ -136,7 +137,8 @@ require 'oil'.setup {
 -- debounce_delay technically doesn't do anything, waiting on https://github.com/pocco81/auto-save.nvim/issues/61
 require 'lualine'.setup {
     options = {
-        theme = 'material',
+        -- theme = 'material',
+        theme = 'catppuccin-mocha',
     },
     sections = {
         lualine_c = {
@@ -147,19 +149,22 @@ require 'lualine'.setup {
         }
     }
 }
-require 'material'.setup {
-    lualine_style = 'default',
-    plugins = {
-        'gitsigns',
-        'nvim-cmp',
-        'nvim-web-devicons',
-        'telescope',
-    },
-    styles = {
-        comments = { italic = true },
-        functions = { bold = true },
-    },
-}
+-- require 'material'.setup {
+--     lualine_style = 'default',
+--     plugins = {
+--         'gitsigns',
+--         'nvim-cmp',
+--         'nvim-web-devicons',
+--         'telescope',
+--     },
+--     styles = {
+--         comments = { italic = true },
+--         functions = { bold = true },
+--     },
+--     custom_colors = function(colors)
+--         colors.editor.cursor = "#F4DBD6"
+--     end
+-- }
 require 'gitsigns'.setup {
     numhl = true,
     word_diff = true,
@@ -384,10 +389,11 @@ augroup set_ft_syntax
   autocmd BufNewFile,BufRead *.html        set syntax=html
   autocmd BufNewFile,BufRead *.astro       set syntax=html
 augroup END
-"let g:material_theme_style = 'darker'
-let g:material_style = 'deep ocean'
-let g:material_terminal_italics = 1
-lua vim.cmd("colorscheme material")
+"let g:material_theme_style = 'default'
+"let g:material_style = 'deep ocean'
+"let g:material_terminal_italics = 1
+"lua vim.cmd("colorscheme material")
+lua vim.cmd.colorscheme "catppuccin-mocha"
 if (has('termguicolors'))
     set termguicolors
 endif

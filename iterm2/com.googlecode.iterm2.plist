@@ -1738,7 +1738,7 @@
 		</dict>
 	</dict>
 	<key>Default Bookmark Guid</key>
-	<string>932A15E2-C2BA-466F-9322-4E0EF0216D2C</string>
+	<string>FDCD10A9-77EE-4E91-96CE-137900F72580</string>
 	<key>GlobalKeyMap</key>
 	<dict>
 		<key>0x19-0x60000</key>
@@ -2038,6 +2038,8 @@
 				<key>Red Component</key>
 				<real>1</real>
 			</dict>
+			<key>Bound Hosts</key>
+			<array/>
 			<key>Character Encoding</key>
 			<integer>4</integer>
 			<key>Close Sessions On End</key>
@@ -2053,13 +2055,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.92816162109375</real>
+				<real>0.83921568627450982</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.92816162109375</real>
+				<real>0.85882352941176465</real>
 				<key>Red Component</key>
-				<real>0.92816162109375</real>
+				<real>0.95686274509803926</real>
 			</dict>
 			<key>Cursor Guide Color</key>
 			<dict>
@@ -2079,13 +2081,13 @@
 				<key>Alpha Component</key>
 				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.335296630859375</real>
+				<real>0.14901960784313725</real>
 				<key>Color Space</key>
 				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.32703555141987212</real>
+				<real>0.098039215686274508</real>
 				<key>Red Component</key>
-				<real>0.31465779710561037</real>
+				<real>0.094117647058823528</real>
 			</dict>
 			<key>Cursor Type</key>
 			<integer>2</integer>
@@ -2099,6 +2101,8 @@
 			<string>Default</string>
 			<key>Disable Window Resizing</key>
 			<true/>
+			<key>Draw Powerline Glyphs</key>
+			<false/>
 			<key>Flashing Bell</key>
 			<false/>
 			<key>Foreground Color</key>
@@ -2111,9 +2115,11 @@
 				<real>0.73333334922790527</real>
 			</dict>
 			<key>Guid</key>
-			<string>932A15E2-C2BA-466F-9322-4E0EF0216D2C</string>
+			<string>FDCD10A9-77EE-4E91-96CE-137900F72580</string>
+			<key>Has Hotkey</key>
+			<false/>
 			<key>Horizontal Spacing</key>
-			<real>1</real>
+			<real>1.01</real>
 			<key>Icon</key>
 			<integer>1</integer>
 			<key>Idle Code</key>
@@ -2577,17 +2583,17 @@
 				<real>0.0</real>
 			</dict>
 			<key>Minimum Contrast</key>
-			<real>0.28000000000000003</real>
+			<real>0.27836588541666663</real>
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
-			<string>Default</string>
+			<string>Default with Catppuccin theme cursor</string>
 			<key>Non Ascii Font</key>
 			<string>Monaco 12</string>
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>JetBrainsMonoNFM-Medium 24</string>
+			<string>FantasqueSansMNFM-Regular 27</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -2746,6 +2752,8 @@
 			<integer>6</integer>
 			<key>Transparency</key>
 			<real>0.0</real>
+			<key>Unicode Normalization</key>
+			<integer>0</integer>
 			<key>Unlimited Scrollback</key>
 			<false/>
 			<key>Use Bold Font</key>
@@ -2769,7 +2777,7 @@
 		</dict>
 	</array>
 	<key>OnlyWhenMoreTabs</key>
-	<true/>
+	<false/>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -2810,22 +2818,26 @@
 	<key>SeparateStatusBarsPerPane</key>
 	<true/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>SoundForEsc</key>
 	<false/>
+	<key>SplitPaneDimmingAmount</key>
+	<real>0.29941045964805824</real>
 	<key>StatusBarPosition</key>
 	<integer>1</integer>
 	<key>StretchTabsToFillBar</key>
 	<false/>
 	<key>SwitchPaneModifier</key>
 	<integer>5</integer>
+	<key>UseBorder</key>
+	<false/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewPreferredModeKey</key>
-	<integer>0</integer>
+	<integer>2</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>
-	<false/>
+	<true/>
 </dict>
 </plist>
