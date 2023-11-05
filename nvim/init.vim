@@ -7,7 +7,7 @@ endif
 
 silent! if plug#begin()
 Plug 'lewis6991/gitsigns.nvim' " add/change/del line highlighting, git blame!
-Plug 'roubaobaozi/hop.nvim', { 'branch': 'feature/camel-case' } " jump in vim, use my own fork for the camelCase hopping on <Leader>l
+Plug 'smoka7/hop.nvim', { 'version': '*' } " jump in vim, use smoka7's fork for the camelCase hopping on <Leader>l
 Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } " find in all files, open file in dir
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " for fuzzy searching/sorting
@@ -61,6 +61,7 @@ Plug 'bzf/vim-concentric-sort-motion' " CSS concentric sorting, gscii
 Plug 'sQVe/sort.nvim' " for sorting selections with :Sort
 Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " show buffers like tabs
 Plug 'uga-rosa/ccc.nvim' " colour picker and shower!
+Plug 'stevearc/conform.nvim' " for prettierd (from Mason)
 call plug#end()
 endif
 
@@ -73,10 +74,6 @@ require 'oil'.setup {
     default_file_explorer = false, -- fuuuuck I still need netrw for :GBrowse, don't just disable it!!!
     delete_to_trash = true,
     trash_command = 'trash',
-    win_options = {
-        number = true,
-        rnu = true,
-    },
     view_options = {
         show_hidden = true,
     },
@@ -84,6 +81,27 @@ require 'oil'.setup {
         padding = 3,
     },
 }
+require 'conform'.setup {
+    formatters_by_ft = {
+        -- lua = { "stylua" },
+        -- Conform will run multiple formatters sequentially
+        -- python = { "isort", "black" },
+        -- Use a sub-list to run only the first available formatter
+        javascript = { { "prettierd", "prettier" } },
+        -- run with conform.format()
+    },
+}
+vim.api.nvim_create_user_command("Format", function(args)
+  local range = nil
+  if args.count ~= -1 then
+    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+    range = {
+      start = { args.line1, 0 },
+      ["end"] = { args.line2, end_line:len() },
+    }
+  end
+  require("conform").format({ async = true, lsp_fallback = true, range = range })
+end, { range = true })
 --require 'nvim-treesitter.configs'.setup {
 --    textobjects = {
 --        select = {
@@ -543,6 +561,7 @@ nnoremap <Leader>g <Esc>v:'<,'>GBrowse<CR>
 vnoremap <Leader>g :GBrowse<CR>
 "nnoremap <Leader>a <Plug>(ale_fix)
 lua vim.keymap.set('n', '<Leader>a', vim.lsp.buf.format) -- format the code
+nnoremap <Leader>; <cmd>Format<CR>
 nnoremap <Leader>r <C-r>
 nnoremap <Leader>s <cmd>lua require('spectre').toggle()<CR>
 nnoremap <Leader>sw <cmd>lua require('spectre').open_visual({select_word=true})<CR>
