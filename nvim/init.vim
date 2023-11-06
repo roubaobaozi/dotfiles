@@ -557,6 +557,7 @@ nnoremap <Leader>f <cmd>Telescope live_grep<CR>
 nnoremap <Leader>pf <cmd>Telescope find_files<CR>
 nnoremap <Leader>p <cmd>Telescope frecency workspace=CWD<CR>
 nnoremap <Leader>po <cmd>Telescope buffers<CR>
+nnoremap <Leader>pr <cmd>Telescope resume<CR>
 nnoremap <Leader>g <Esc>v:'<,'>GBrowse<CR>
 vnoremap <Leader>g :GBrowse<CR>
 "nnoremap <Leader>a <Plug>(ale_fix)
@@ -682,7 +683,9 @@ inoremap <C-d> <Del>
 "vnoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
 "inoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
 lua vim.keymap.set({'n', 'i', 'v'}, '<M-f>', '<cmd>lua require("spider").motion("w")<CR>')
+lua vim.keymap.set({'n', 'i', 'v'}, '<M-Right>', '<cmd>lua require("spider").motion("w")<CR>')
 lua vim.keymap.set({'i', 'v'}, '<M-b>', '<cmd>lua require("spider").motion("b")<CR>')
+lua vim.keymap.set({'n', 'i', 'v'}, '<M-Left>', '<cmd>lua require("spider").motion("b")<CR>')
 
 " Navigation
 nnoremap w <cmd>lua require('spider').motion('w')<CR>
