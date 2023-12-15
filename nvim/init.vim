@@ -303,7 +303,7 @@ require 'nvim-treesitter.configs'.setup {
 }
 require 'telescope'.setup {
     defaults = {
-        file_ignore_patterns = { "^.git/", "node_modules/", "dist/" },
+        file_ignore_patterns = {".git/", "tmp/", "node_modules/", "dist/", ".DS_Store"},
         vimgrep_arguments = {
             'rg',
             '--color=never',
@@ -319,6 +319,9 @@ require 'telescope'.setup {
     pickers = {
         find_files = {
             hidden = true
+        },
+        live_grep = {
+            hidden = true
         }
     },
     extensions = {
@@ -332,7 +335,7 @@ require 'telescope'.setup {
         frecency = {
             show_scores = true,
             show_unindexed = true,
-            ignore_patterns = {"*.git/*", "*/tmp/*", "*/node_modules/*", "*/.DS_Store"},
+            ignore_patterns = {".git/", "tmp/", "node_modules/", "dist/", ".DS_Store"},
         },
     },
 }

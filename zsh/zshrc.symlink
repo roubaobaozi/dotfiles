@@ -58,8 +58,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 export PATH="$PATH:./node_modules/.bin"
-export PATH="$PATH:$HOME/.local/bin"
-
+export PATH="$HOME/.local/bin:$PATH"
 # Kayo Fox stop friggin’ downloading chromium
 export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false
 # commit verification
@@ -76,3 +75,7 @@ export PATH="/usr/local/opt/avr-gcc@8/bin:$PATH"
 export PATH="/usr/local/opt/arm-gcc-bin@8/bin:$PATH"
 
 export PATH="$PATH:/usr/local/bin/gotta-go-fast"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
