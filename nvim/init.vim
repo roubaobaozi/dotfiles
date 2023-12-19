@@ -537,8 +537,9 @@ let g:user_emmet_settings = { 'javascript': { 'extends': 'jsx,scss' }, 'javascri
 let mapleader = ' '
 let maplocalleader = ' '
 nnoremap <Leader>qu <cmd>q<CR>
+nnoremap <Leader>qun <cmd>q!<CR>
 nnoremap <Leader>q <cmd>bd<CR>
-nnoremap <Leader>qn <cmd>q!<CR>
+nnoremap <Leader>qn <cmd>bd!<CR>
 nnoremap <Leader>qo <cmd>BufferLineCloseOthers<CR>
 function! WarnMultiOrSingle(char)
     let command = "yiw$%o\<CR>console.warn('arst ', );\<Esc>5hp3lp=="
@@ -562,6 +563,8 @@ nnoremap <Leader>p <cmd>Telescope frecency workspace=CWD<CR>
 nnoremap <Leader>po <cmd>Telescope buffers<CR>
 nnoremap <Leader>pr <cmd>Telescope resume<CR>
 nnoremap <Leader>g <Esc>v:'<,'>GBrowse<CR>
+" for GBrowse, if use <cmd> instead of : , it doesn't add line number to link
+" (leveraging the auto '<,'> from typing :)
 vnoremap <Leader>g :GBrowse<CR>
 "nnoremap <Leader>a <Plug>(ale_fix)
 lua vim.keymap.set('n', '<Leader>a', vim.lsp.buf.format) -- format the code
@@ -571,9 +574,10 @@ nnoremap <Leader>s <cmd>lua require('spectre').toggle()<CR>
 nnoremap <Leader>sw <cmd>lua require('spectre').open_visual({select_word=true})<CR>
 vnoremap <Leader>sw <Esc><cmd>lua require('spectre').open_visual()<CR>
 nnoremap <Leader>sp <cmd>lua require('spectre').open_file_search({select_word=true})<CR>
-nnoremap <Leader>t <cmd>tabnew<CR>
-nnoremap <Leader>tn <cmd>tabp<CR>
-nnoremap <Leader>to <cmd>tabn<CR>
+" buffers instead of tabs
+nnoremap <Leader>t <cmd>enew<CR>
+nnoremap <Leader>tn <cmd>bp<CR>
+nnoremap <Leader>to <cmd>bn<CR>
 lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>Oil --float<CR>') -- open the Oil tree
 lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr.', '<cmd>Oil . --float<CR>') -- open the Oil tree
 "nnoremap 1t 1gt
@@ -603,6 +607,7 @@ lua vim.keymap.set('n', '<Leader>y', vim.diagnostic.goto_next) -- go to next iss
 nnoremap <Leader>yy <C-W><C-J>
 nnoremap <Leader>n <<
 vnoremap <Leader>n <
+"lua vim.keymap.set('n', '<Leader>ne', '<cmd>enew<CR>') -- new untitled buffer
 nnoremap <Leader>e ddkP
 vnoremap <Leader>e dkP
 nnoremap <Leader>i ddp
