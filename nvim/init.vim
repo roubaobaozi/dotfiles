@@ -392,6 +392,27 @@ require 'ccc'.setup({
         lsp = true,
     },
 })
+
+local function compare_to_clipboard()
+    local ftype = vim.api.nvim_eval("&filetype")
+    vim.cmd(string.format([[
+        execute "normal! \"xy"
+        vsplit
+        enew
+        normal! P
+        setlocal buftype=nowrite
+        set filetype=%s
+        diffthis
+        execute "normal! \<C-w>\<C-w>"
+        enew
+        set filetype=%s
+        normal! "xP
+        diffthis
+    ]], ftype, ftype))
+end
+
+-- x is visual mode only. v is visual & select mode. s is select mode only
+vim.keymap.set('x', '<Space>d', compare_to_clipboard)
 EOF
 " end of lua specific stuff
 
@@ -628,7 +649,7 @@ lua vim.keymap.set('n', '<Leader>m', vim.lsp.buf.code_action) -- open the code a
 "nnoremap <Leader>m :ALERename<CR> " covered by f2, my own layer
 nnoremap <Leader>md <Plug>MarkdownPreview
 nnoremap <Leader>mds <Plug>MarkdownPreviewStop
-nnoremap <Leader>d gdcgn
+"nnoremap <Leader>d gdcgn
 " git-conflict mappings
 nnoremap <Leader>1 <cmd>GitConflictListQf<CR>
 nnoremap <Leader>2 <Plug>(git-conflict-next-conflict)
