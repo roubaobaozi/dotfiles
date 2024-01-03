@@ -165,7 +165,7 @@ require 'lualine'.setup {
                 path = 1,
             }
         }
-    }
+    },
 }
 -- require 'material'.setup {
 --     lualine_style = 'default',
@@ -599,8 +599,8 @@ nnoremap <Leader>sp <cmd>lua require('spectre').open_file_search({select_word=tr
 nnoremap <Leader>t <cmd>enew<CR>
 nnoremap <Leader>tn <cmd>bp<CR>
 nnoremap <Leader>to <cmd>bn<CR>
-lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr', '<cmd>Oil --float<CR>') -- open the Oil tree
-lua vim.keymap.set({'n', 'x', 'v'}, '<Leader>tr.', '<cmd>Oil . --float<CR>') -- open the Oil tree
+lua vim.keymap.set({'n', 'v'}, '<Leader>tr', '<cmd>Oil --float<CR>') -- open the Oil tree
+lua vim.keymap.set({'n', 'v'}, '<Leader>tr.', '<cmd>Oil . --float<CR>') -- open the Oil tree
 "nnoremap 1t 1gt
 "nnoremap 2t 2gt
 "nnoremap 3t 3gt
