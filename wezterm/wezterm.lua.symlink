@@ -24,7 +24,6 @@ config.inactive_pane_hsb = {
   brightness = 0.7,
 }
 
-
 -- Fonts --
 local font = 'FantasqueSansM Nerd Font Mono'
 config.font = wezterm.font(font)
@@ -42,7 +41,6 @@ local function get_current_working_dir(tab)
 
   return current_dir == HOME_DIR and "." or string.gsub(current_dir, "(.*[/\\])(.*)", "%2")
 end
-
 
 wezterm.on("format-tab-title", function(tab) -- , tabs, panes, config, hover, max_width
   local title = string.format(" %s  %s ~ %s  ", "❯", get_current_working_dir(tab))
