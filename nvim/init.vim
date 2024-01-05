@@ -386,12 +386,12 @@ require 'sort'.setup {}
 vim.keymap.set('n', '<Leader>b', '<cmd>botright vs new | 1put | windo diffthis<CR>')
 
 -- h/l for left/right on sliders, a toggles the alpha channel
-require 'ccc'.setup({
+require 'ccc'.setup {
     highlighter = {
         auto_enable = true,
         lsp = true,
     },
-})
+}
 
 local function compare_to_clipboard()
     local ftype = vim.api.nvim_eval("&filetype")
@@ -413,6 +413,14 @@ end
 
 -- x is visual mode only. v is visual & select mode. s is select mode only
 vim.keymap.set('x', '<Space>d', compare_to_clipboard)
+
+require 'catppuccin'.setup {
+    color_overrides = {
+        mocha = {
+            base = '#13131e',
+        },
+    },
+}
 EOF
 " end of lua specific stuff
 
