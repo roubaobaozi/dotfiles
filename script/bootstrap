@@ -138,6 +138,8 @@ install_dotfiles () {
 
   # install karabiner.edn
   link_file "$DOTFILES_ROOT/karabiner/karabiner.edn" "$HOME/.config/karabiner.edn"
+
+  link_file "$DOTFILES_ROOT/wezterm/wezterm.lua.symlink" "$HOME/.wezterm.lua"
 }
 
 install_teamocil () {
