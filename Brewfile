@@ -83,6 +83,7 @@ cask 'vlc'
 
 # Developer Applications
 cask 'iterm2'
+cask 'wezterm'
 cask 'visual-studio-code'
 
 # Mac App Store
