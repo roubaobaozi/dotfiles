@@ -68,6 +68,8 @@ lua <<EOF
 vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct, except not using lazy because it breaks emmet
 vim.g.maplocalleader = ' '
 
+-- require('lazy').setup(plugins) -- not using Lazy because emmet-vim doesn't work properly with it
+
 -- Emmet settings
 vim.g.user_emmet_leader_key = ','
 vim.g.user_emmet_expandabbr_key = '<A-Tab>'
