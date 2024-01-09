@@ -150,14 +150,6 @@ end, { range = true })
 --        }
 --    }
 --}
---require 'nvim-tree'.setup {}
--- require 'auto-save'.setup {
---     enabled = true,
---     execution_message = { cleaning_interval = 2000 },
---     trigger_events = {"InsertLeave", "TextChanged", "TextYankPost"},
---     debounce_delay = 2000
--- }
--- debounce_delay technically doesn't do anything, waiting on https://github.com/pocco81/auto-save.nvim/issues/61
 require 'lualine'.setup {
     options = {
         -- theme = 'material',
@@ -601,6 +593,7 @@ vim.keymap.set('n', '<Leader>co', '<cmd>CccPick<CR>') -- open the colour picker
 vim.keymap.set('n', '<Leader>v', '<cmd>set opfunc=ConcentricSort<CR>g@')
 vim.keymap.set({'n', 'v'}, '<Leader>lw', '<cmd>HopWord<CR>')
 vim.keymap.set({'n', 'v'}, '<Leader>l', '<cmd>HopCamelCase<CR>')
+vim.keymap.set('n', '<Leader>u', vim.diagnostic.goto_prev) -- go to prev issue
 vim.keymap.set('n', '<Leader>y', vim.diagnostic.goto_next) -- go to next issue
 vim.keymap.set('n', '<Leader>yy', '<C-W><C-J>')
 vim.keymap.set('n', '<Leader>n', '<<')
