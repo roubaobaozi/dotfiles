@@ -65,13 +65,14 @@ lua <<EOF
 -- To install all the nerd fonts:
 -- brew tap homebrew/cask-fonts && brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true
 
-vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct, except not using lazy because it breaks emmet
 vim.g.maplocalleader = ' '
 
 -- Emmet settings
 vim.g.user_emmet_leader_key = ','
 vim.g.user_emmet_expandabbr_key = '<A-Tab>'
 vim.g.user_emmet_mode = 'a' -- a is all, n is normal, inv is insert/normal/visual (same as a)
+-- with lazy.nvim, emmet no longer works on styled-components sadly
 vim.g.user_emmet_settings = "{ 'javascript': { 'extends': 'jsx,scss' }, 'javascript.jsx': { 'extends': 'jsx,scss' } }"
 
 require 'oil'.setup {
