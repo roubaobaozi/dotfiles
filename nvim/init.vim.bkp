@@ -11,12 +11,16 @@ Plug 'smoka7/hop.nvim', { 'version': '*' } " jump in vim, use smoka7's fork for 
 Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } " find in all files, open file in dir
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " for fuzzy searching/sorting
+" Plug 'kkharji/sqlite.lua' " dependency of telescope-frecency.nvim -- after update, no longer a dependency
 Plug 'nvim-telescope/telescope-frecency.nvim' " frecency (frequency & recency) for telescope
 Plug 'nvim-pack/nvim-spectre' " find and replace in all files
 Plug 'nvim-tree/nvim-web-devicons' " optional fonticons for tree explorer
+"Plug 'nvim-tree/nvim-tree.lua' " tree explorer like GUI IDEs. I don't really like it. Search doesn't work properly, disabling netrw screws with other plugins
+"Plug 'kaicataldo/material.vim', { 'branch': 'main' } " theme
+"Plug 'itchyny/lightline.vim' " status line
 Plug 'nvim-lualine/lualine.nvim' " status line
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 "Plug 'marko-cerovac/material.nvim' " material theme
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 "Plug 'Mofiqul/dracula.nvim' " dracula theme
 "Plug 'EdenEast/nightfox.nvim' " nightfox nordfox theme
 "Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' } " nightfly theme
@@ -39,11 +43,13 @@ Plug 'hrsh7th/cmp-nvim-lsp'     " Required
 Plug 'L3MON4D3/LuaSnip'         " Required
 Plug 'VonHeikemen/lsp-zero.nvim', { 'branch': 'v2.x' }
 " end of LSP stuff
+" Plug 'neoclide/vim-jsx-improve' " javascriptreact syntax, better react/jsx
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'leafOfTree/vim-svelte-plugin' " for Svelte + emmet
 Plug 'akinsho/git-conflict.nvim', { 'tag': '*' } " merge conflict resolution, latest tag (just in case main is broken)
 Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
 Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
+"Plug 'pocco81/auto-save.nvim' " auto saving! can just use an autocmd with updatetime, works a bit better actually
 Plug 'chrisgrieser/nvim-spider' " camelCase and snake_case motion
 Plug 'chrisgrieser/nvim-various-textobjs' " camelCase, kebab-case and snake_case selection
 Plug 'machakann/vim-sandwich' " sandwich text in brackets/quotes/tags/etc, sadly not lua
@@ -59,21 +65,11 @@ Plug 'stevearc/conform.nvim' " for prettierd (from Mason)
 call plug#end()
 endif
 
+" Settings
+" editorConfig is enabled by default in neovim: https://neovim.io/doc/user/editorconfig.html
 lua <<EOF
--- Settings: rest of my settings in lua
--- editorConfig is enabled by default in neovim: https://neovim.io/doc/user/editorconfig.html
 -- To install all the nerd fonts:
 -- brew tap homebrew/cask-fonts && brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true
-
-vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct
-vim.g.maplocalleader = ' '
-
--- Emmet settings
-vim.g.user_emmet_leader_key = ','
-vim.g.user_emmet_expandabbr_key = '<A-Tab>'
-vim.g.user_emmet_mode = 'a' -- a is all, n is normal, inv is insert/normal/visual (same as a)
-vim.g.user_emmet_settings = "{ 'javascript': { 'extends': 'jsx,scss' }, 'javascript.jsx': { 'extends': 'jsx,scss' } }"
-
 require 'oil'.setup {
     default_file_explorer = false, -- fuuuuck I still need netrw for :GBrowse, don't just disable it!!!
     delete_to_trash = true,
@@ -425,7 +421,37 @@ require 'catppuccin'.setup {
         },
     },
 }
+EOF
+" end of lua specific stuff
 
+" Auto-save modified buffer during idle after 'updatetime' has elapsed (default 4 sec)
+autocmd CursorHoldI,CursorHold * silent! update
+set updatetime=1000 " for how long to wait until writing to swapfile
+syntax on " Syntax highlighting
+" syntax doesn't automatically apply correctly for any of these
+augroup set_ft_syntax
+  au!
+  autocmd BufNewFile,BufRead *.html.twig   set filetype=html
+  autocmd BufNewFile,BufRead *.html.twig   set syntax=html
+  autocmd BufNewFile,BufRead *.js          set filetype=javascriptreact
+  autocmd BufNewFile,BufRead *.js          set syntax=javascriptreact
+  autocmd BufNewFile,BufRead *.scss        set syntax=scss
+  autocmd BufNewFile,BufRead *.html        set syntax=html
+  autocmd BufNewFile,BufRead *.astro       set syntax=html
+augroup END
+"let g:material_theme_style = 'default'
+"let g:material_style = 'deep ocean'
+"let g:material_terminal_italics = 1
+"lua vim.cmd("colorscheme material")
+lua vim.cmd.colorscheme "catppuccin-mocha"
+if (has('termguicolors'))
+    set termguicolors
+endif
+" svelte plugin
+let g:vim_svelte_plugin_use_typescript = 1
+let g:vim_svelte_plugin_use_sass = 1
+
+lua <<EOF
 require 'bufferline'.setup {
     options = {
         diagnostics = "nvim_lsp",
@@ -445,227 +471,267 @@ require 'bufferline'.setup {
         },
     }
 }
+EOF
+" highlight Visual cterm=none ctermbg=Blue ctermfg=cyan
+if exists('g:vscode')
+    " no lightline on vscode, so turn noshowmode off
+    set showmode
+else
+    set noshowmode " lualine handles this
+    " set spell " spell check. :setlocal spell spelllang=en
+    " set spelllang=en " spell language, go for regular en so it covers en_us and en_uk
+    " Spellcheck ignore camelCase/MixedCase .. but it doesn't work, why not?
+    " @TODO: get this to work
+    "fun! IgnoreCamelCaseSpell()
+    "    syn match myExCapitalWords "\w*[_0-9A-Z-]\w*" contains=@NoSpell
+    "    syn cluster Spell add=myExCapitalWords
+    "    "syn match CamelCase /\<[a-ZA-Z]\+[a-z]\+[A-Z].\{-}\>/ contains=@NoSpell transparent
+    "    "syn cluster Spell add=CamelCase
+    "endfun
+    "autocmd BufRead,BufNewFile * :call IgnoreCamelCaseSpell()
+endif
+" lightline settings
+"let g:lightline = {
+"    \ 'colorscheme': 'material_vim',
+"    \ 'active': {
+"    \     'left': [ [ 'mode', 'paste' ],
+"    \               [ 'readonly', 'filename', 'modified' ],
+"    \               [ 'gitbranch' ] ],
+"    \     'right': [ [ 'lineinfo' ],
+"    \                [ 'percent' ],
+"    \                [ 'filetype' ] ]
+"    \ },
+"    \ 'component_function': {
+"    \     'gitbranch': 'FugitiveHead',
+"    \     'filename': 'LightlineFilename'
+"    \ },
+"    \ 'component': {
+"    \     'lineinfo': '%3l:%-2v%<'
+"    \ }
+"\ }
 
--- Auto-save modified buffer during idle after 'updatetime' has elapsed (default 4 sec)
-vim.api.nvim_create_autocmd({'CursorHoldI', 'CursorHold'}, {
-  pattern = {"*"},
-  command = 'silent! update'
-})
+"function! LightlineFilename()
+"    return expand('%:t') !=# '' ? expand('%:ft') : '[No Name]'
+"endfunction
 
-local o = vim.opt
+"if exists('g:vscode')
+"    let g:ale_completion_enabled = 0
+"    let b:ale_linters = {}
+"    let g:ale_linters_explicit = 1
+"else
+    " gonna use LSPs
+"    let g:ale_completion_enabled = 0
+"    let g:ale_linter_aliases = {'javascript': ['css', 'javascript']}
+"    let g:ale_linters = {'javascript': ['stylelint', 'eslint', 'tsserver']}
+"    let g:ale_fixers = {
+"    \   '*': ['trim_whitespace'],
+"    \   'javascript': ['stylelint', 'eslint']
+"    \ }
+"endif
+set timeoutlen=300
+set whichwrap=b,s,<,>
+set tabstop=4
+set shiftwidth=4
+set expandtab smarttab
+set scrolloff=5
+set encoding=utf-8
+set showmatch " Shows matching brackets
+set ruler " Always shows location in file (line# and column, this is in status bar)
+set number " show line numbers in insert mode, and below autocmd to also show relative line numbers otherwise
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
+set smarttab " Auto-tabs for certain code
+set backspace=indent,eol,start
+set ignorecase smartcase
+filetype plugin indent on
+set autoindent smartindent
+" Previous: tab:»\ 
+set list listchars=tab:│┈,extends:›,precedes:‹,nbsp:·,space:·,trail:·
+set textwidth=0
+set clipboard=unnamedplus
+set wildignore+=**/node_modules/**,.git/**,dist/**,**/*.jpg,**/*.jpeg,**/*.png,**/*.gif
+if exists('&colorcolumn')
+    set colorcolumn=140
+endif
 
---.syntax = true
-o.updatetime = 1000 -- for how long to wait until writing to swapfile
-o.showmode = false
-o.timeoutlen = 300
-o.whichwrap = 'b,s,<,>'
-o.tabstop = 4
-o.shiftwidth = 4
-o.expandtab = true
-o.smarttab = true
-o.scrolloff = 5
-o.encoding = 'utf-8'
-o.showmatch = true -- Shows matching brackets
-o.ruler = true -- Always shows location in file (line# and column, this is in status bar)
-o.number = true -- show line numbers in insert mode, and below autocmd to also show relative line numbers otherwise
+" Emmet settings
+let g:user_emmet_leader_key = ','
+let g:user_emmet_expandabbr_key = '<A-Tab>'
+let g:user_emmet_mode = 'a' " a is all, n is normal, inv is insert/normal/visual (same as a)
+let g:user_emmet_settings = { 'javascript': { 'extends': 'jsx,scss' }, 'javascript.jsx': { 'extends': 'jsx,scss' } }
 
-o.smarttab = true -- Auto-tabs for certain code
-o.backspace = 'indent,eol,start'
-o.ignorecase = true
-o.smartcase = true
--- o.filetype = true
--- o.plugin = true
--- o.indent = true
-o.autoindent = true
-o.smartindent = true
-o.list = true
-o.listchars = {
-    tab = '│┈', -- »
-    nbsp = '·',
-    space = '·',
-    trail = '·',
-    extends = '›',
-    precedes = '‹',
-}
-o.textwidth = 0
-o.clipboard = 'unnamedplus'
-o.wildignore.extends = '**/node_modules/**,.git/**,dist/**,**/*.jpg,**/*.jpeg,**/*.png,**/*.gif'
+" Leader key remaps
+let mapleader = ' '
+let maplocalleader = ' '
+nnoremap <Leader>qu <cmd>q<CR>
+nnoremap <Leader>qun <cmd>q!<CR>
+nnoremap <Leader>q <cmd>bd<CR>
+nnoremap <Leader>qn <cmd>bd!<CR>
+nnoremap <Leader>qo <cmd>BufferLineCloseOthers<CR>
+function! WarnMultiOrSingle(char)
+    let command = "yiw$%o\<CR>console.warn('arst ', );\<Esc>5hp3lp=="
 
-local numberToggle = vim.api.nvim_create_augroup('number_toggle', { clear = false })
-vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'WinEnter' }, {
-    pattern = '*',
-    group = numberToggle,
-    command = 'if &nu && mode() != "i" | set rnu | endif'
-})
-vim.api.nvim_create_autocmd({ 'BufLeave', 'FocusLost', 'InsertEnter', 'WinLeave' }, {
-    pattern = '*',
-    group = numberToggle,
-    command = 'if &nu | set nornu | endif'
-})
-
-local setFtSyntax = vim.api.nvim_create_augroup('set_ft_syntax', { clear = false })
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = '*.html.twig',
-    group = setFtSyntax,
-    command = 'set filetype=html',
-})
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = '*.html.twig',
-    group = setFtSyntax,
-    command = 'set syntax=html',
-})
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = '*.js',
-    group = setFtSyntax,
-    command = 'set filetype=javascriptreact',
-})
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = '*.js',
-    group = setFtSyntax,
-    command = 'set syntax=javascriptreact',
-})
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = '*.scss',
-    group = setFtSyntax,
-    command = 'set syntax=scss',
-})
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = '*.html',
-    group = setFtSyntax,
-    command = 'set syntax=html',
-})
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-    pattern = '*.astro',
-    group = setFtSyntax,
-    command = 'set syntax=html',
-})
-
--- svelte plugin
-vim.g.vim_svelte_plugin_use_typescript = 1
-vim.g.vim_svelte_plugin_use_sass = 1
-
-vim.cmd.colorscheme "catppuccin-mocha"
-
-
-local function warnMultiOrSingle()
-    local command = "yiw$%o\\<CR>console.warn('arst ', );\\<Esc>5hp3lp=="
-
-    -- if the end of the line ends in ;, then it's a single-line function, don't need % to get me to the end of the function
-    -- if getline('.')[col('$')-2] == a:char " guessing the -2 is because of \r ?
-    if vim.cmd.matchstr(vim.cmd.getline('.'), '\\%' .. (vim.cmd.col('$')-1) .. 'c.') == ';' then
-        command = "yiW$o\\<CR>console.warn('arst ', );\\<Esc>5hp3lp=="
-    end
+    " if the end of the line ends in ;, then it's a single-line function, don't need % to get me to the end of the function
+    " if getline('.')[col('$')-2] == a:char " guessing the -2 is because of \r ?
+    if matchstr(getline('.'), '\%' . (col('$')-1) . 'c.') == a:char
+        let command = "yiW$o\<CR>console.warn('arst ', );\<Esc>5hp3lp=="
+    endif
 
     return command
-end
+endfunction
+nnoremap <expr> <Leader>w WarnMultiOrSingle(';')
+" still, keep the inline command anyway just in case
+nnoremap <Leader>wi yiw$o<CR>console.warn('arst ', );<Esc>5hp3lp==
+nnoremap <Leader>x <cmd>x<CR>
+nnoremap <Leader>f <cmd>Telescope live_grep<CR>
+" use :FrecencyValidate to clear the frecency DB
+nnoremap <Leader>pf <cmd>Telescope find_files<CR>
+nnoremap <Leader>p <cmd>Telescope frecency workspace=CWD<CR>
+nnoremap <Leader>po <cmd>Telescope buffers<CR>
+nnoremap <Leader>pr <cmd>Telescope resume<CR>
+nnoremap <Leader>g <Esc>v:'<,'>GBrowse<CR>
+" for GBrowse, if use <cmd> instead of : , it doesn't add line number to link
+" (leveraging the auto '<,'> from typing :)
+vnoremap <Leader>g :GBrowse<CR>
+"nnoremap <Leader>a <Plug>(ale_fix)
+lua vim.keymap.set('n', '<Leader>a', vim.lsp.buf.format) -- format the code
+nnoremap <Leader>; <cmd>Format<CR>
+nnoremap <Leader>r <C-r>
+nnoremap <Leader>s <cmd>lua require('spectre').toggle()<CR>
+nnoremap <Leader>sw <cmd>lua require('spectre').open_visual({select_word=true})<CR>
+vnoremap <Leader>sw <Esc><cmd>lua require('spectre').open_visual()<CR>
+nnoremap <Leader>sp <cmd>lua require('spectre').open_file_search({select_word=true})<CR>
+" buffers instead of tabs
+nnoremap <Leader>t <cmd>enew<CR>
+nnoremap <Leader>tn <cmd>bp<CR>
+nnoremap <Leader>to <cmd>bn<CR>
+lua vim.keymap.set({'n', 'v'}, '<Leader>tr', '<cmd>Oil --float<CR>') -- open the Oil tree
+lua vim.keymap.set({'n', 'v'}, '<Leader>tr.', '<cmd>Oil . --float<CR>') -- open the Oil tree
+"nnoremap 1t 1gt
+"nnoremap 2t 2gt
+"nnoremap 3t 3gt
+"nnoremap 4t 4gt
+"nnoremap 5t 5gt
+"nnoremap 6t 6gt
+"nnoremap 7t 7gt
+"nnoremap 8t 8gt
+"nnoremap 9t 9gt
+lua vim.keymap.set('n', '<Leader>c', vim.diagnostic.open_float) -- open the diagnostic window thing
+lua vim.keymap.set('n', '<Leader>co', '<cmd>CccPick<CR>') -- open the colour picker
+" add ii for 'in this indentation' or ip for 'in this paragraph' (surrounded
+" by empty lines), j/<Down> for 'current line and the one below it', can add numbers like 5<Down>
+nnoremap <Leader>v <cmd>set opfunc=ConcentricSort<CR>g@
 
--- Leader shortcuts
-vim.keymap.set('n', '<Leader>qu', '<cmd>q<CR>')
-vim.keymap.set('n', '<Leader>qun', '<cmd>q!<CR>')
-vim.keymap.set('n', '<Leader>q', '<cmd>bd<CR>')
-vim.keymap.set('n', '<Leader>qn', '<cmd>bd!<CR>')
-vim.keymap.set('n', '<Leader>qo', '<cmd>BufferLineCloseOthers<CR>')
+nnoremap <Leader>lw <cmd>HopWord<CR>
+vnoremap <Leader>lw <cmd>HopWord<CR>
+nnoremap <Leader>l <cmd>HopCamelCase<CR>
+vnoremap <Leader>l <cmd>HopCamelCase<CR>
+"nnoremap <Leader>u <Plug>(ale_previous_wrap)
+lua vim.keymap.set('n', '<Leader>u', vim.diagnostic.goto_prev) -- go to prev issue
+nnoremap <Leader>uu <C-W><C-K>
+"nnoremap <Leader>y <Plug>(ale_next_wrap)
+lua vim.keymap.set('n', '<Leader>y', vim.diagnostic.goto_next) -- go to next issue
+nnoremap <Leader>yy <C-W><C-J>
+nnoremap <Leader>n <<
+vnoremap <Leader>n <
+"lua vim.keymap.set('n', '<Leader>ne', '<cmd>enew<CR>') -- new untitled buffer
+nnoremap <Leader>e ddkP
+vnoremap <Leader>e dkP
+nnoremap <Leader>i ddp
+nnoremap <Leader>it <cmd>LazyGit<CR>
+vnoremap <Leader>i dp
+nnoremap <Leader>o >>
+vnoremap <Leader>o >
+nnoremap <Leader>, yyP
+vnoremap <Leader>, y0P
+nnoremap <Leader>. yyp
+vnoremap <Leader>. y`>p
+"nnoremap <Leader>/ :ALEHover<CR>
+"nnoremap <F12> :ALEGoToDefinition<CR>
+lua vim.keymap.set({'n', 'i'}, '<F12>', vim.lsp.buf.definition) -- go to definition
+lua vim.keymap.set({'n', 'i'}, '<F12><F12>', '<cmd>tab split | lua vim.lsp.buf.definition()<CR>') -- go to definition in a new tab
+lua vim.keymap.set('n', '<Leader>/', vim.lsp.buf.hover) -- open the intellisense thing
+lua vim.keymap.set('n', '<Leader>m', vim.lsp.buf.code_action) -- open the code actions thing
+"nnoremap <Leader>m :ALERename<CR> " covered by f2, my own layer
+nnoremap <Leader>md <Plug>MarkdownPreview
+nnoremap <Leader>mds <Plug>MarkdownPreviewStop
+"nnoremap <Leader>d gdcgn
+" git-conflict mappings
+nnoremap <Leader>1 <cmd>GitConflictListQf<CR>
+nnoremap <Leader>2 <Plug>(git-conflict-next-conflict)
+nnoremap <Leader>3 <Plug>(git-conflict-prev-conflict)
+nnoremap <Leader>4 <Plug>(git-conflict-ours)
+nnoremap <Leader>5 <Plug>(git-conflict-both)
+nnoremap <Leader>6 <Plug>(git-conflict-theirs)
+nnoremap <Leader>0 <Plug>(git-conflict-none)
 
-vim.keymap.set('n', '<Leader>w', warnMultiOrSingle)
+" see if I can get vscode shortcuts for prev/next change, prev/next issue
+" seems that only opt-sft-f5/f8 work, the without shift doesn't
+" :h META, D = cmd, M = opt, S = shift, C = ctrl
+nnoremap <M-S-F5> g;
+nnoremap <M-F5> g,
+lua vim.keymap.set('n', '<M-S-F8>', vim.diagnostic.goto_prev) -- go to prev issue
+lua vim.keymap.set('n', '<M-F8>', vim.diagnostic.goto_next) -- go to next issue
+nnoremap gl $
+nnoremap gh ^
 
-vim.keymap.set('n', '<Leader>wi', 'yiw$o<CR>console.warn(\'arst \', );<Esc>5hp3lp==')
-vim.keymap.set('n', '<Leader>x', '<cmd>x<CR>')
-vim.keymap.set('n', '<Leader>f', '<cmd>Telescope live_grep<CR>')
-vim.keymap.set('n', '<Leader>pf', '<cmd>Telescope find_files<CR>')
--- use :FrecencyValidate to clear the frecency DB)
-vim.keymap.set('n', '<Leader>p', '<cmd>Telescope frecency workspace=CWD<CR>')
-vim.keymap.set('n', '<Leader>po', '<cmd>Telescope buffers<CR>')
-vim.keymap.set('n', '<Leader>pr', '<cmd>Telescope resume<CR>')
-vim.keymap.set('n', '<Leader>g', '<Esc>v:\'<,\'>GBrowse<CR>')
--- for GBrowse, if use <cmd> instead of : , it doesn't add line number to link
--- (leveraging the auto '<,'> from typing :)
-vim.keymap.set('v', '<Leader>g', ':GBrowse<CR>')
-vim.keymap.set('n', '<Leader>a', vim.lsp.buf.format) -- format the code
-vim.keymap.set('n', '<Leader>;', '<cmd>Format<CR>')
-vim.keymap.set('n', '<Leader>r', '<C-r>')
-vim.keymap.set('n', '<Leader>s', '<cmd>lua require("spectre").toggle()<CR>')
-vim.keymap.set('n', '<Leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>')
-vim.keymap.set('x', '<Leader>sw', '<Esc><cmd>lua require("spectre").open_visual()<CR>')
-vim.keymap.set('n', '<Leader>sp', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>')
--- buffers instead of tabs
-vim.keymap.set('n', '<Leader>t', '<cmd>enew<CR>')
-vim.keymap.set('n', '<Leader>tn', '<cmd>bp<CR>')
-vim.keymap.set('n', '<Leader>to', '<cmd>bn<CR>')
-vim.keymap.set({'n', 'v'}, '<Leader>tr', '<cmd>Oil --float<CR>') -- open the Oil tree
-vim.keymap.set({'n', 'v'}, '<Leader>tr.', '<cmd>Oil . --float<CR>') -- open the Oil tree
-vim.keymap.set('n', '<Leader>c', vim.diagnostic.open_float) -- open the diagnostic window thing
-vim.keymap.set('n', '<Leader>co', '<cmd>CccPick<CR>') -- open the colour picker
--- add ii for 'in this indentation' or ip for 'in this paragraph' (surrounded
--- by empty lines), j/<Down> for 'current line and the one below it', can add numbers like 5<Down>
-vim.keymap.set('n', '<Leader>v', '<cmd>set opfunc=ConcentricSort<CR>g@')
-vim.keymap.set({'n', 'v'}, '<Leader>lw', '<cmd>HopWord<CR>')
-vim.keymap.set({'n', 'v'}, '<Leader>l', '<cmd>HopCamelCase<CR>')
-vim.keymap.set('n', '<Leader>y', vim.diagnostic.goto_next) -- go to next issue
-vim.keymap.set('n', '<Leader>yy', '<C-W><C-J>')
-vim.keymap.set('n', '<Leader>n', '<<')
-vim.keymap.set('x', '<Leader>n', '<')
-vim.keymap.set('n', '<Leader>e', 'ddkP')
-vim.keymap.set('x', '<Leader>e', 'dkP')
-vim.keymap.set('n', '<Leader>i', 'ddp')
-vim.keymap.set('n', '<Leader>it', '<cmd>LazyGit<CR>')
-vim.keymap.set('x', '<Leader>i', 'dp')
-vim.keymap.set('n', '<Leader>o', '>>')
-vim.keymap.set('x', '<Leader>o', '>')
-vim.keymap.set('n', '<Leader>,', 'yyP')
-vim.keymap.set('x', '<Leader>,', 'y0P')
-vim.keymap.set('n', '<Leader>.', 'yyp')
-vim.keymap.set('x', '<Leader>.', 'y`>p')
-vim.keymap.set({'n', 'i'}, '<F12>', vim.lsp.buf.definition) -- go to definition
-vim.keymap.set({'n', 'i'}, '<F12><F12>', '<cmd>tab split | lua vim.lsp.buf.definition()<CR>') -- go to definition in a new tab
-vim.keymap.set('n', '<Leader>/', vim.lsp.buf.hover) -- open the intellisense thing
-vim.keymap.set('n', '<Leader>m', vim.lsp.buf.code_action) -- open the code actions thing
-vim.keymap.set('n', '<Leader>md', '<Plug>MarkdownPreview')
-vim.keymap.set('n', '<Leader>mds', '<Plug>MarkdownPreviewStop')
--- git-conflict mappings
-vim.keymap.set('n', '<Leader>1', '<cmd>GitConflictListQf<CR>')
-vim.keymap.set('n', '<Leader>2', '<Plug>(git-conflict-next-conflict)')
-vim.keymap.set('n', '<Leader>3', '<Plug>(git-conflict-prev-conflict)')
-vim.keymap.set('n', '<Leader>4', '<Plug>(git-conflict-ours)')
-vim.keymap.set('n', '<Leader>5', '<Plug>(git-conflict-both)')
-vim.keymap.set('n', '<Leader>6', '<Plug>(git-conflict-theirs)')
-vim.keymap.set('n', '<Leader>0', '<Plug>(git-conflict-none)')
--- see if I can get vscode shortcuts for prev/next change, prev/next issue
--- seems that only opt-sft-f5/f8 work, the without shift doesn't
--- :h META, D = cmd, M = opt, S = shift, C = ctrl
-vim.keymap.set('n', '<M-S-F5>', 'g;')
-vim.keymap.set('n', '<M-F5>', 'g,')
-vim.keymap.set('n', '<M-S-F8>', vim.diagnostic.goto_prev) -- go to prev issue
-vim.keymap.set('n', '<M-F8>', vim.diagnostic.goto_next) -- go to next issue
-vim.keymap.set('n', 'gl', '$')
-vim.keymap.set('n', 'gh', '^')
--- make Y behave like other capitals
-vim.keymap.set('n', 'Y', 'y$')
--- go to opening bracket
-vim.keymap.set('n', '[[', '?{<CR>w99[{')
--- go to ending bracket
-vim.keymap.set('n', ']]', '/}<CR>b99]}')
--- not really sure anymore, also seems to go to opening bracket
-vim.keymap.set('n', '][', 'j0[[%/{<CR>')
--- not really sure anymore, top of function?
-vim.keymap.set('n', '[]', 'k$][%?}<CR>')
+" make Y behave like other capitals
+nnoremap Y y$
+" go to opening bracket
+nnoremap [[ ?{<CR>w99[{
+" go to ending bracket
+nnoremap ]] /}<CR>b99]}
+" not really sure anymore, also seems to go to opening bracket
+nnoremap ][ j0[[%/{<CR>
+" not really sure anymore, top of function?
+nnoremap [] k$][%?}<CR>
 
--- Code completion
-vim.keymap.set('i', '/arn', '() => <Esc>4hi')
-vim.keymap.set('i', '/arc', '() => {}<Esc>6hi')
-vim.keymap.set('i', '/arp', '() => ()<Esc>6hi')
-vim.keymap.set('i', '/fnc', 'function () {}<Esc>4hi')
-vim.keymap.set('i', '/stc', 'const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li')
-vim.keymap.set('i', '/jsd', '/**<cr> * <cr>*/<Esc>k$a')
-vim.keymap.set('i', '/cmt', '/**  */<Esc>2hi')
-vim.keymap.set('i', '/cow', 'console.warn();<Esc>hi')
-vim.keymap.set('i', '/coi', 'console.info();<Esc>hi')
-vim.keymap.set('i', '/col', 'console.log();<Esc>hi')
-vim.keymap.set('i', '/cop', '\'arst<Space>\',<Space><Esc>3hp3lp==')
--- make C-d in insert mode delete forward
-vim.keymap.set('i', '<C-d>', '<Del>')
--- make opt-right, opt-left work correctly, with camelCase and snake_case
-vim.keymap.set({'n', 'i', 'v'}, '<M-f>', '<cmd>lua require("spider").motion("w")<CR>')
-vim.keymap.set({'n', 'i', 'v'}, '<M-Right>', '<cmd>lua require("spider").motion("w")<CR>')
-vim.keymap.set({'n', 'i', 'v'}, '<M-b>', '<cmd>lua require("spider").motion("b")<CR>')
-vim.keymap.set({'n', 'i', 'v'}, '<M-Left>', '<cmd>lua require("spider").motion("b")<CR>')
-EOF
+" Code completion
+"inoremap {{ {}<Left>
+"inoremap {<CR> {<CR>}<Esc>O
+"inoremap (( ()<Left>
+"inoremap (<CR> (<CR>)<Esc>O
+"inoremap [[ []<Left>
+"inoremap [<CR> [<CR>]<Esc>O
+"inoremap "" ""<Left>
+"inoremap '' ''<Left>
+"inoremap `` ``<Left>
+"inoremap `<CR> `<CR>`<Esc>O
+inoremap /arn () => <Esc>4hi
+inoremap /arc () => {}<Esc>6hi
+inoremap /arp () => ()<Esc>6hi
+inoremap /fnc function () {}<Esc>4hi
+inoremap /stc const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li
+inoremap /jsd /**<cr> * <cr>*/<Esc>k$a
+inoremap /cmt /**  */<Esc>2hi
+inoremap /cow console.warn();<Esc>hi
+inoremap /coi console.info();<Esc>hi
+inoremap /col console.log();<Esc>hi
+inoremap /cop 'arst<Space>',<Space><Esc>3hp3lp==
+" make C-d in insert mode delete forward
+inoremap <C-d> <Del>
+" make opt-right, opt-left work correctly
+"nnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
+"inoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
+"vnoremap <M-f> <cmd>lua require('spider').motion('w')<CR>
+" camelCase snake_case
+"vnoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
+"inoremap <M-b> <cmd>lua require('spider').motion('b')<CR>
+lua vim.keymap.set({'n', 'i', 'v'}, '<M-f>', '<cmd>lua require("spider").motion("w")<CR>')
+lua vim.keymap.set({'n', 'i', 'v'}, '<M-Right>', '<cmd>lua require("spider").motion("w")<CR>')
+lua vim.keymap.set({'n', 'i', 'v'}, '<M-b>', '<cmd>lua require("spider").motion("b")<CR>')
+lua vim.keymap.set({'n', 'i', 'v'}, '<M-Left>', '<cmd>lua require("spider").motion("b")<CR>')
+
+" Navigation as spider, turn it off just so diw/ciw and w are consistent, type
+" thing. Don't think I need it for these. Just for opt+left/right is probably
+" fine
+"nnoremap w <cmd>lua require('spider').motion('w')<CR>
+"nnoremap e <cmd>lua require('spider').motion('e')<CR>
+"nnoremap b <cmd>lua require('spider').motion('b')<CR>
+"nnoremap ge <cmd>lua require('spider').motion('ge')<CR>
+
+" commands
+"command Bothers :BufferLineCloseOthers

@@ -1,78 +1,83 @@
-" Plugins
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-    silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall
-endif
+-- Lazy plugin manager
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        'git',
+        'clone',
+        '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable', -- latest stable release
+        lazypath,
+    })
+end
+vim.opt.rtp:prepend(lazypath)
 
-silent! if plug#begin()
-Plug 'lewis6991/gitsigns.nvim' " add/change/del line highlighting, git blame!
-Plug 'smoka7/hop.nvim', { 'version': '*' } " jump in vim, use smoka7's fork for the camelCase hopping on <Leader>l
-Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } " find in all files, open file in dir
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " for fuzzy searching/sorting
-Plug 'nvim-telescope/telescope-frecency.nvim' " frecency (frequency & recency) for telescope
-Plug 'nvim-pack/nvim-spectre' " find and replace in all files
-Plug 'nvim-tree/nvim-web-devicons' " optional fonticons for tree explorer
-Plug 'nvim-lualine/lualine.nvim' " status line
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-"Plug 'marko-cerovac/material.nvim' " material theme
-"Plug 'Mofiqul/dracula.nvim' " dracula theme
-"Plug 'EdenEast/nightfox.nvim' " nightfox nordfox theme
-"Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' } " nightfly theme
-"Plug 'folke/tokyonight.nvim' " tokyonight-moon theme
-Plug 'stevearc/oil.nvim' " apparently this is really cool instead of tree file explorers
-Plug 'tpope/vim-fugitive' " open line in github, lightline branch info
-Plug 'tpope/vim-rhubarb' " for fugitive + github links, check others for other sites
-Plug 'shumphrey/fugitive-gitlab.vim' " for fugitive + gitlab links
-"Plug 'dense-analysis/ale' " go to def, hover info, intellisense-type stuff
-Plug 'mattn/emmet-vim' " shortcut code
-Plug 'mattn/webapi-vim' " in conjunction with emmet-vim for custom snippets
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' } " better javascript syntax highlighting/completion
-"Plug 'nvim-treesitter/nvim-treesitter-textobjects' " select function/classes etc
-" LSP stuff
-Plug 'neovim/nvim-lspconfig' " supposedly language syntax/autocomplete/intellisense stuff?
-Plug 'williamboman/mason.nvim'           " Optional
-Plug 'williamboman/mason-lspconfig.nvim' " Optional
-Plug 'hrsh7th/nvim-cmp'         " Required
-Plug 'hrsh7th/cmp-nvim-lsp'     " Required
-Plug 'L3MON4D3/LuaSnip'         " Required
-Plug 'VonHeikemen/lsp-zero.nvim', { 'branch': 'v2.x' }
-" end of LSP stuff
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'leafOfTree/vim-svelte-plugin' " for Svelte + emmet
-Plug 'akinsho/git-conflict.nvim', { 'tag': '*' } " merge conflict resolution, latest tag (just in case main is broken)
-Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
-Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
-Plug 'chrisgrieser/nvim-spider' " camelCase and snake_case motion
-Plug 'chrisgrieser/nvim-various-textobjs' " camelCase, kebab-case and snake_case selection
-Plug 'machakann/vim-sandwich' " sandwich text in brackets/quotes/tags/etc, sadly not lua
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
-Plug 'windwp/nvim-autopairs' " auto ) for (
-Plug 'NMAC427/guess-indent.nvim' " guess the indent since autopairs etc seem to fuck it up
-"Plug 'kana/vim-textobj-indent' " supposedly required for CSS concentric sorting? Seems to work without it though?
-Plug 'bzf/vim-concentric-sort-motion' " CSS concentric sorting, gscii
-Plug 'sQVe/sort.nvim' " for sorting selections with :Sort
-Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " show buffers like tabs
-Plug 'uga-rosa/ccc.nvim' " colour picker and shower!
-Plug 'stevearc/conform.nvim' " for prettierd (from Mason)
-call plug#end()
-endif
-
-lua <<EOF
--- Settings: rest of my settings in lua
--- editorConfig is enabled by default in neovim: https://neovim.io/doc/user/editorconfig.html
--- To install all the nerd fonts:
--- brew tap homebrew/cask-fonts && brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true
+local plugins = {
+    'lewis6991/gitsigns.nvim', -- add/change/del line highlighting, git blame!
+    { 'smoka7/hop.nvim', version = '*' }, -- jump in vim, use smoka7's fork for the camelCase hopping on <Leader>l
+    'nvim-lua/plenary.nvim', -- required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
+    { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } }, -- find in all files, open file in dir
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' }, -- for fuzzy searching/sorting
+    'nvim-telescope/telescope-frecency.nvim', -- frecency (frequency & recency) for telescope
+    'nvim-pack/nvim-spectre', -- find and replace in all files
+    'nvim-tree/nvim-web-devicons', -- optional fonticons for tree explorer
+    'nvim-lualine/lualine.nvim', -- status line
+--    'marko-cerovac/material.nvim', -- material theme
+    { 'catppuccin/nvim', as = 'catppuccin' },
+--    'Mofiqul/dracula.nvim', -- dracula theme
+--    'EdenEast/nightfox.nvim', -- nightfox nordfox theme
+--    { 'bluz71/vim-nightfly-colors', as = 'nightfly' }, -- nightfly theme
+--    'folke/tokyonight.nvim', -- tokyonight-moon theme
+    'stevearc/oil.nvim', -- apparently this is really cool instead of tree file explorers
+    'tpope/vim-fugitive', -- open line in github, lightline branch info
+    'tpope/vim-rhubarb', -- for fugitive + github links, check others for other sites
+    'shumphrey/fugitive-gitlab.vim', -- for fugitive + gitlab links
+--    'dense-analysis/ale', -- go to def, hover info, intellisense-type stuff
+    { 'mattn/emmet-vim',
+        init = function ()
+            -- Emmet settings
+            vim.g.user_emmet_leader_key = ','
+            vim.g.user_emmet_expandabbr_key = '<A-Tab>'
+            vim.g.user_emmet_mode = 'a' -- a is all, n is normal, inv is insert/normal/visual (same as a)
+            vim.g.user_emmet_settings = "{ 'javascript': { 'extends': 'jsx,scss' }, 'javascript.jsx': { 'extends': 'jsx,scss' } }"
+        end
+    }, -- shortcut code
+    'mattn/webapi-vim', -- in conjunction with emmet-vim for custom snippets
+    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' }, -- better javascript syntax highlighting/completion
+--    'nvim-treesitter/nvim-treesitter-textobjects', -- select function/classes etc
+    -- LSP stuff
+    'neovim/nvim-lspconfig', -- supposedly language syntax/autocomplete/intellisense stuff?
+    'williamboman/mason.nvim',           -- Optional
+    'williamboman/mason-lspconfig.nvim', -- Optional
+    'hrsh7th/nvim-cmp',         -- Required
+    'hrsh7th/cmp-nvim-lsp',     -- Required
+    'L3MON4D3/LuaSnip',         -- Required
+    { 'VonHeikemen/lsp-zero.nvim', branch = 'v2.x' },
+    -- end of LSP stuff
+    { 'styled-components/vim-styled-components', branch = 'main' },
+    'leafOfTree/vim-svelte-plugin', -- for Svelte + emmet
+    { 'akinsho/git-conflict.nvim', version = '*', config = true }, -- merge conflict resolution, latest tag (just in case main is broken)
+    'yorickpeterse/nvim-pqf', -- for prettier git-conflict list page
+    'kdheepak/lazygit.nvim', -- full git ui but slow, git-conflict prob better
+--    'pocco81/auto-save.nvim', -- auto saving! can just use an autocmd with updatetime, works a bit better actually
+    'chrisgrieser/nvim-spider', -- camelCase and snake_case motion
+    'chrisgrieser/nvim-various-textobjs', -- camelCase, kebab-case and snake_case selection
+    'machakann/vim-sandwich', -- sandwich text in brackets/quotes/tags/etc, sadly not lua
+    { 'iamcco/markdown-preview.nvim', build = 'cd app && yarn install' },
+    'windwp/nvim-autopairs', -- auto ) for (
+    'NMAC427/guess-indent.nvim', -- guess the indent since autopairs etc seem to fuck it up
+--    'kana/vim-textobj-indent', -- supposedly required for CSS concentric sorting? Seems to work without it though?
+    'bzf/vim-concentric-sort-motion', -- CSS concentric sorting, gscii
+    'sQVe/sort.nvim', -- for sorting selections with :Sort
+    { 'akinsho/bufferline.nvim', version = '*', dependencies = 'nvim-tree/nvim-web-devicons' }, -- show buffers like tabs
+    'uga-rosa/ccc.nvim', -- colour picker and shower!
+    'stevearc/conform.nvim', -- for prettierd (from Mason)
+}
 
 vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct
 vim.g.maplocalleader = ' '
 
--- Emmet settings
-vim.g.user_emmet_leader_key = ','
-vim.g.user_emmet_expandabbr_key = '<A-Tab>'
-vim.g.user_emmet_mode = 'a' -- a is all, n is normal, inv is insert/normal/visual (same as a)
-vim.g.user_emmet_settings = "{ 'javascript': { 'extends': 'jsx,scss' }, 'javascript.jsx': { 'extends': 'jsx,scss' } }"
+require('lazy').setup(plugins)
 
 require 'oil'.setup {
     default_file_explorer = false, -- fuuuuck I still need netrw for :GBrowse, don't just disable it!!!
@@ -668,4 +673,3 @@ vim.keymap.set({'n', 'i', 'v'}, '<M-f>', '<cmd>lua require("spider").motion("w")
 vim.keymap.set({'n', 'i', 'v'}, '<M-Right>', '<cmd>lua require("spider").motion("w")<CR>')
 vim.keymap.set({'n', 'i', 'v'}, '<M-b>', '<cmd>lua require("spider").motion("b")<CR>')
 vim.keymap.set({'n', 'i', 'v'}, '<M-Left>', '<cmd>lua require("spider").motion("b")<CR>')
-EOF
