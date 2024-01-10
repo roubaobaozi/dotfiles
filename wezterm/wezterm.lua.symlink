@@ -34,6 +34,7 @@ config.window_frame = {
   font = wezterm.font(font, { weight = 'Bold' }),
   font_size = 16,
 }
+config.tab_max_width = 35
 
 local function tab_title(tab_info, showTabId)
   local title = tab_info.tab_title
@@ -48,33 +49,39 @@ local function tab_title(tab_info, showTabId)
   -- return current_dir == HOME_DIR and "." or string.gsub(current_dir, "(.*[/\\])(.*)", "%2")
   local activePane = tab_info.active_pane
   local currentDir = ('~' .. activePane.current_working_dir:gsub(HOME_DIR, '')):gsub('~file://', '')
-  local activeProcess = string.gsub(activePane.foreground_process_name, '(.*[/\\])(.*)', '%2')
+  -- local currentWorkingDir = wezterm.url.parse activePane:get_current_working_dir()
+  -- local currentDir = currentWorkingDir.path
+  -- too much in tab, get rid of active process
+  -- local activeProcess = string.gsub(activePane.foreground_process_name, '(.*[/\\])(.*)', '%2')
   local tabIndex = tab_info.tab_index
-  local tabId = (tabIndex < 8 and showTabId) and tabIndex + 1 .. ' 📁' or ''
-  local dirString = tabId .. (currentDir .. ' 🖥️ ' .. activeProcess .. ' ')
+  local tabId = (tabIndex < 8 and showTabId) and tabIndex + 1 or ''
+  -- local dirString = tabId .. (currentDir .. ' 🖥️ ' .. activeProcess .. ' ')
+  local dirString = ' 📁' .. (currentDir .. ' ') .. tabId
 
   if #dirString < 1 then
     dirString = tab_info.tab_id or tab_info.window_id or 'Untitled '
   end
 
-  return (activeProcess and #activeProcess > 0) and dirString
+  -- return (activeProcess and #activeProcess > 0) and dirString
+  return (currentDir and #currentDir > 0) and dirString
 end
 
 wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
   -- local title = string.format(" %s  %s ~ %s  ", "❯", tab_title(tab))
-  local title = tab_title(tab, true)
+  -- right align tab text so if it gets too big, left gets truncated
+  local title = wezterm.truncate_left(tab_title(tab, true), max_width)
 
   if (tab.is_active) then
     return {
-      { Background = { Color = '#7ca6fb' }},
-      { Foreground = { Color = '#111126' }},
+      { Background = { Color = '#7ca6fb' } },
+      { Foreground = { Color = '#111126' } },
       { Text = title },
     }
   end
 
   return {
-    { Background = { Color = '#222222' }},
-    { Foreground = { Color = '#eeeeee' }},
+    { Background = { Color = '#222222' } },
+    { Foreground = { Color = '#eeeeee' } },
     { Text = title },
   }
 end)
@@ -84,7 +91,7 @@ wezterm.on('format-window-title', function(tab, pane, tabs, panes, config)
 
   local index = ''
   if #tabs > 1 then
-    index = string.format('%d/%d 📁', tab.tab_index + 1, #tabs)
+    index = string.format('%d/%d', tab.tab_index + 1, #tabs)
   end
 
   return index .. title .. '😊 wezterm'
