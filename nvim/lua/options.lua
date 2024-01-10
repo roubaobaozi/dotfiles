@@ -51,7 +51,15 @@ o.listchars = {
 }
 o.textwidth = 0
 o.clipboard = 'unnamedplus'
-o.wildignore.extends = '**/node_modules/**,.git/**,dist/**,**/*.jpg,**/*.jpeg,**/*.png,**/*.gif'
+o.wildignore:append({
+    '**/node_modules/**',
+    '.git/**',
+    'dist/**',
+    '**/*.jpg',
+    '**/*.jpeg',
+    '**/*.png',
+    '**/*.gif',
+})
 
 local numberToggle = vim.api.nvim_create_augroup('number_toggle', { clear = false })
 vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'WinEnter' }, {
@@ -106,4 +114,5 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
 vim.g.vim_svelte_plugin_use_typescript = 1
 vim.g.vim_svelte_plugin_use_sass = 1
 
-vim.cmd.colorscheme "catppuccin-mocha"
+-- set the colorscheme
+vim.cmd.colorscheme 'catppuccin-mocha'
