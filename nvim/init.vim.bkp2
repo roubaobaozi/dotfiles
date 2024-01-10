@@ -1,65 +1,69 @@
-" Plugins
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-    silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall
-endif
-
-silent! if plug#begin()
-Plug 'lewis6991/gitsigns.nvim' " add/change/del line highlighting, git blame!
-Plug 'smoka7/hop.nvim', { 'version': '*' } " jump in vim, use smoka7's fork for the camelCase hopping on <Leader>l
-Plug 'nvim-lua/plenary.nvim' " required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } " find in all files, open file in dir
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } " for fuzzy searching/sorting
-Plug 'nvim-telescope/telescope-frecency.nvim' " frecency (frequency & recency) for telescope
-Plug 'nvim-pack/nvim-spectre' " find and replace in all files
-Plug 'nvim-tree/nvim-web-devicons' " optional fonticons for tree explorer
-Plug 'nvim-lualine/lualine.nvim' " status line
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
-"Plug 'marko-cerovac/material.nvim' " material theme
-"Plug 'Mofiqul/dracula.nvim' " dracula theme
-"Plug 'EdenEast/nightfox.nvim' " nightfox nordfox theme
-"Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' } " nightfly theme
-"Plug 'folke/tokyonight.nvim' " tokyonight-moon theme
-Plug 'stevearc/oil.nvim' " apparently this is really cool instead of tree file explorers
-Plug 'tpope/vim-fugitive' " open line in github, lightline branch info
-Plug 'tpope/vim-rhubarb' " for fugitive + github links, check others for other sites
-Plug 'shumphrey/fugitive-gitlab.vim' " for fugitive + gitlab links
-"Plug 'dense-analysis/ale' " go to def, hover info, intellisense-type stuff
-Plug 'mattn/emmet-vim' " shortcut code
-Plug 'mattn/webapi-vim' " in conjunction with emmet-vim for custom snippets
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' } " better javascript syntax highlighting/completion
-"Plug 'nvim-treesitter/nvim-treesitter-textobjects' " select function/classes etc
-" LSP stuff
-Plug 'neovim/nvim-lspconfig' " supposedly language syntax/autocomplete/intellisense stuff?
-Plug 'williamboman/mason.nvim'           " Optional
-Plug 'williamboman/mason-lspconfig.nvim' " Optional
-Plug 'hrsh7th/nvim-cmp'         " Required
-Plug 'hrsh7th/cmp-nvim-lsp'     " Required
-Plug 'L3MON4D3/LuaSnip'         " Required
-Plug 'VonHeikemen/lsp-zero.nvim', { 'branch': 'v2.x' }
-" end of LSP stuff
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'leafOfTree/vim-svelte-plugin' " for Svelte + emmet
-Plug 'akinsho/git-conflict.nvim', { 'tag': '*' } " merge conflict resolution, latest tag (just in case main is broken)
-Plug 'yorickpeterse/nvim-pqf' " for prettier git-conflict list page
-Plug 'kdheepak/lazygit.nvim' " full git ui but slow, git-conflict prob better
-Plug 'chrisgrieser/nvim-spider' " camelCase and snake_case motion
-Plug 'chrisgrieser/nvim-various-textobjs' " camelCase, kebab-case and snake_case selection
-Plug 'machakann/vim-sandwich' " sandwich text in brackets/quotes/tags/etc, sadly not lua
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
-Plug 'windwp/nvim-autopairs' " auto ) for (
-Plug 'NMAC427/guess-indent.nvim' " guess the indent since autopairs etc seem to fuck it up
-"Plug 'kana/vim-textobj-indent' " supposedly required for CSS concentric sorting? Seems to work without it though?
-Plug 'bzf/vim-concentric-sort-motion' " CSS concentric sorting, gscii
-Plug 'sQVe/sort.nvim' " for sorting selections with :Sort
-Plug 'akinsho/bufferline.nvim', { 'tag': '*' } " show buffers like tabs
-Plug 'uga-rosa/ccc.nvim' " colour picker and shower!
-Plug 'stevearc/conform.nvim' " for prettierd (from Mason)
-call plug#end()
-endif
-
 lua <<EOF
+vim.cmd [[
+    if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+        silent execute '!curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+        autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+    endif
+]]
+
+local Plug = vim.fn['plug#']
+
+vim.call('plug#begin', '~/.share/local/nvim/plugged')
+
+-- add/change/del line highlighting, git blame!
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'smoka7/hop.nvim', { 'version': '*' } -- jump in vim, use smoka7's fork for the camelCase hopping on <Leader>l
+Plug 'nvim-lua/plenary.nvim' -- required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '*' } -- find in all files, open file in dir
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' } -- for fuzzy searching/sorting
+Plug 'nvim-telescope/telescope-frecency.nvim' -- frecency (frequency & recency) for telescope
+Plug 'nvim-pack/nvim-spectre' -- find and replace in all files
+Plug 'nvim-tree/nvim-web-devicons' -- optional fonticons for tree explorer
+Plug 'nvim-lualine/lualine.nvim' -- status line
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+-- Plug 'marko-cerovac/material.nvim' " material theme
+-- Plug 'Mofiqul/dracula.nvim' " dracula theme
+-- Plug 'EdenEast/nightfox.nvim' " nightfox nordfox theme
+-- Plug 'bluz71/vim-nightfly-colors', { 'as': 'nightfly' } " nightfly theme
+-- Plug 'folke/tokyonight.nvim' " tokyonight-moon theme
+Plug 'stevearc/oil.nvim' -- apparently this is really cool instead of tree file explorers
+Plug 'tpope/vim-fugitive' -- open line in github, lightline branch info
+Plug 'tpope/vim-rhubarb' -- for fugitive + github links, check others for other sites
+Plug 'shumphrey/fugitive-gitlab.vim' -- for fugitive + gitlab links
+-- Plug 'dense-analysis/ale' -- go to def, hover info, intellisense-type stuff
+Plug 'mattn/emmet-vim' -- shortcut code
+-- Plug 'mattn/webapi-vim' -- in conjunction with emmet-vim for custom snippets
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' } -- better javascript syntax highlighting/completion
+-- Plug 'nvim-treesitter/nvim-treesitter-textobjects' " select function/classes etc
+-- LSP stuff
+Plug 'neovim/nvim-lspconfig' -- supposedly language syntax/autocomplete/intellisense stuff?
+Plug 'williamboman/mason.nvim'           -- Optional
+Plug 'williamboman/mason-lspconfig.nvim' -- Optional
+Plug 'hrsh7th/nvim-cmp'         -- Required
+Plug 'hrsh7th/cmp-nvim-lsp'     -- Required
+Plug 'L3MON4D3/LuaSnip'         -- Required
+Plug 'VonHeikemen/lsp-zero.nvim', { 'branch': 'v2.x' }
+-- end of LSP stuff
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'leafOfTree/vim-svelte-plugin' -- for Svelte + emmet
+Plug 'akinsho/git-conflict.nvim', { 'tag': '*' } -- merge conflict resolution, latest tag (just in case main is broken)
+Plug 'yorickpeterse/nvim-pqf' -- for prettier git-conflict list page
+Plug 'kdheepak/lazygit.nvim' -- full git ui but slow, git-conflict prob better
+Plug 'chrisgrieser/nvim-spider' -- camelCase and snake_case motion
+Plug 'chrisgrieser/nvim-various-textobjs' -- camelCase, kebab-case and snake_case selection
+Plug 'machakann/vim-sandwich' -- sandwich text in brackets/quotes/tags/etc, sadly not lua
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
+Plug 'windwp/nvim-autopairs' -- auto ) for (
+Plug 'NMAC427/guess-indent.nvim' -- guess the indent since autopairs etc seem to fuck it up
+-- Plug 'kana/vim-textobj-indent' -- supposedly required for CSS concentric sorting? Seems to work without it though?
+Plug 'bzf/vim-concentric-sort-motion' -- CSS concentric sorting, gscii
+Plug 'sQVe/sort.nvim' -- for sorting selections with :Sort
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' } -- show buffers like tabs
+Plug 'uga-rosa/ccc.nvim' -- colour picker and shower!
+Plug 'stevearc/conform.nvim' -- for prettierd (from Mason)
+
+vim.call('plug#end')
+
 -- Settings: rest of my settings in lua
 -- editorConfig is enabled by default in neovim: https://neovim.io/doc/user/editorconfig.html
 -- To install all the nerd fonts:
