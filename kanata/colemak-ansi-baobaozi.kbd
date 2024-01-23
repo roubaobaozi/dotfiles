@@ -1,5 +1,8 @@
 (defcfg
-    linux-dev-names-include apple
+    macos-dev-names-include (
+        "Apple Internal Keyboard / Trackpad"
+    )
+
     process-unmapped-keys yes
 )
 
