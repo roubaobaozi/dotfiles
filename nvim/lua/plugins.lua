@@ -66,7 +66,7 @@ vim.call('plug#end')
 require 'oil'.setup {
     default_file_explorer = false, -- fuuuuck I still need netrw for :GBrowse, don't just disable it!!!
     delete_to_trash = true,
-    trash_command = 'trash',
+    -- trash_command = 'trash', -- now has native trash apparently!
     view_options = {
         show_hidden = true,
     },

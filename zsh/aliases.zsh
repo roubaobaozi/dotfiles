@@ -175,8 +175,8 @@ nr() {
         CMD+="run watch";
     elif [ "$1" = "ciw" ]
     then
-        echo "Running: rm -rf node_modules && npm ci && npm run watch";
-        eval "rm -rf node_modules && npm ci && npm run watch";
+        echo "Running: trash node_modules && npm ci && npm run watch";
+        eval "trash node_modules && npm ci && npm run watch";
         break;
     elif [ "$1" = "bv" ]
     then

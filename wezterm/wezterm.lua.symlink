@@ -58,12 +58,12 @@ local function tab_title(tab_info, showTabId)
   -- local dirString = tabId .. (currentDir .. ' 🖥️ ' .. activeProcess .. ' ')
   local dirString = ' 📁' .. (currentDir .. ' ') .. tabId
 
-  if #dirString < 1 then
-    dirString = tab_info.tab_id or tab_info.window_id or 'Untitled '
-  end
+  -- if (string.find(tab_info.tab_name, 'wezterm Configuration Error') ~= nil) then
+  --   return tab_info.tab_name
+  -- end
 
   -- return (activeProcess and #activeProcess > 0) and dirString
-  return (currentDir and #currentDir > 0) and dirString
+  return dirString
 end
 
 wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
@@ -94,7 +94,7 @@ wezterm.on('format-window-title', function(tab, pane, tabs, panes, config)
     index = string.format('%d/%d', tab.tab_index + 1, #tabs)
   end
 
-  return index .. title .. '😊 wezterm'
+  return index .. title .. '🖥️ wezterm'
 end)
 
 -- keyboard shortcuts --
@@ -104,6 +104,11 @@ config.keys = {
     key = 'd',
     mods = 'CMD',
     action = act.SplitHorizontal { domain = 'CurrentPaneDomain' },
+  },
+  {
+    key = 'd',
+    mods = 'CMD|CTRL',
+    action = act.SplitHorizontal { domain = 'CurrentPaneDomain', args = { 'wezterm cli split-pane --left' } },
   },
   {
     key = 'd',
