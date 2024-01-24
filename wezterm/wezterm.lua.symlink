@@ -97,8 +97,27 @@ wezterm.on('format-window-title', function(tab, pane, tabs, panes, config)
   return index .. title .. '🖥️ wezterm'
 end)
 
--- keyboard shortcuts --
 local act = wezterm.action
+
+-- mouse actions --
+config.mouse_bindings = {
+    -- Change the default click behaviour so that it only selects
+    -- text and doesn't open hyperlinks
+    {
+        event = { Up = { streak = 1, button = "Left" } },
+        mods = "NONE",
+        action = act.CompleteSelection 'ClipboardAndPrimarySelection'
+    },
+
+    -- and make ALT-Click open hyperlinks
+    {
+        event = { Up = { streak = 1, button = "Left" } },
+        mods = "ALT",
+        action = act.OpenLinkAtMouseCursor,
+    },
+}
+
+-- keyboard shortcuts --
 config.keys = {
   {
     key = 'd',
