@@ -24,6 +24,10 @@ config.inactive_pane_hsb = {
   brightness = 0.7,
 }
 
+-- size --
+config.initial_rows = 46
+config.initial_cols = 235
+
 -- Fonts --
 local font = 'FantasqueSansM Nerd Font Mono'
 config.font = wezterm.font(font)

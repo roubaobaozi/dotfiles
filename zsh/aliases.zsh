@@ -464,8 +464,8 @@ flushroutes() {
 }
 
 kb() {
-    echo "Start up a kmonad layout\n";
-    CMD="sudo kmonad ~/repos/personal/kmonad/keymap/user/baobaozi/colemak-";
+    echo "Start up a kanata layout\n";
+    CMD="sudo kanata --cfg ~/.dotfiles/kanata/colemak-";
     if [ $1 ]
     then
         OPTIONS=("baobaozi-ansi" "extend-ansi" "dh-extend-ansi");
