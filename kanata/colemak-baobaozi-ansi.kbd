@@ -25,6 +25,7 @@
 (defalias
     nav  (layer-toggle navlayer) ;; Bind 'nav' to the Navigation Layer
     syn  (layer-toggle synlayer) ;; Bind 'syn' to the Symbols/Numbers Layer
+    snk  (layer-toggle snklayer) ;; Bind 'snk' to the Symbols/Numbers faux mod mask Layer
 ;;    sym  (layer-toggle symlayer) ;; Bind 'sym' to Symbols Layer
 ;;    smk  (layer-toggle smklayer) ;; Bind 'smk' to Symbol Mask Layer (faux modmask)
 ;;    num  (layer-toggle numlayer) ;; Bind 'num' to Numbers Layer
@@ -36,6 +37,7 @@
 ;;  One-shots
     olsf (one-shot 5000 lsft)
     olkbl (one-shot 5000 @kbl)
+    osnkl (one-shot 5000 @snk)
 
 ;;  Layer taps
     lqnav (tap-hold 180 180 q @nav)
@@ -143,6 +145,23 @@
     _         S-,    [      S-[    S-9    \      _      /      4      5      6      0      XX
 ;; ├─────────┴──┬ Z ┴──┬ X ┴──┬ C ┴──┬ V ┴──┬ B ┴──┬ K ┴──┬ M ┴──┬ , ┴──┬ . ┴──┬ / ┴──┬───┴──┬─────────┤
     _            left   up     down   rght   @mbuf  _      S-8    1      2      3      .      _
+;; ├─ Fn ─┬─────┴┬─────┴┬─────┴┬─────┴──────┴──────┴──────┴─────┬┴─────┬┴─────┬┴─────┬┴─────┬┴─────────┤
+    _      _      _      _                  @osnkl               _      _      _      _      _
+;; └──────┴──────┴──────┴──────┴────────────────────────────────┴──────┴──────┴──────┴──────┴──────────┘
+)
+
+;; faux mod mask layer for synlayer
+(deflayer snklayer
+;; ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬─touchID┐
+    _      _      _      _      _      _      _      _      _      _      _      _      _
+;; ├──────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬───────┤
+    _       f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    del
+;; ├───────┴┬─ Q ─┴┬─ W ─┴┬─ F ─┴┬─ P ─┴┬─ G ─┴┬─ J ─┴┬─ L ─┴┬─ U ─┴┬─ Y ─┴┬─ ; ─┴┬─────┴┬─────┴┬──────┤
+    _        S-=    S--    S-;    S-,    @mjsp  _      -      S-7    S-8    S-9    +      XX     XX
+;; ├────────┴┬─ A ─┴┬─ R ─┴┬─ S ─┴┬─ T ─┴┬─ D ─┴┬─ H ─┴┬─ N ─┴┬─ E ─┴┬─ I ─┴┬─ O ─┴┬─────┴┬─────┴──────┤
+    _         S-.    ]      S-]    S-0    S-\    _      S-/    S-4    S-5    S-6    S-0      XX
+;; ├─────────┴──┬ Z ┴──┬ X ┴──┬ C ┴──┬ V ┴──┬ B ┴──┬ K ┴──┬ M ┴──┬ , ┴──┬ . ┴──┬ / ┴──┬───┴──┬─────────┤
+    _            S-left S-up   S-down S-rght @mbuf  _      S-8    S-1    S-2    S-3    .      _
 ;; ├─ Fn ─┬─────┴┬─────┴┬─────┴┬─────┴──────┴──────┴──────┴─────┬┴─────┬┴─────┬┴─────┬┴─────┬┴─────────┤
     _      _      _      _                  _                    _      _      _      _      _
 ;; └──────┴──────┴──────┴──────┴────────────────────────────────┴──────┴──────┴──────┴──────┴──────────┘
