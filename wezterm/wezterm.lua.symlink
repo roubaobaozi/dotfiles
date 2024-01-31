@@ -53,7 +53,8 @@ local function tab_title(tab_info, showTabId)
   -- return current_dir == HOME_DIR and "." or string.gsub(current_dir, "(.*[/\\])(.*)", "%2")
   local activePane = tab_info.active_pane
   local currentDir = ('~' .. activePane.current_working_dir:gsub(HOME_DIR, '')):gsub('~file://', '')
-  -- local currentWorkingDir = wezterm.url.parse activePane:get_current_working_dir()
+  -- latest two versions say you should be able to use get_current_working_dir() but it isn't working? and old way isn't working either. 13 July 2023 is last known good version
+  -- local currentWorkingDir = activePane:get_current_working_dir()
   -- local currentDir = currentWorkingDir.path
   -- too much in tab, get rid of active process
   -- local activeProcess = string.gsub(activePane.foreground_process_name, '(.*[/\\])(.*)', '%2')
