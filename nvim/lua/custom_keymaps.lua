@@ -110,8 +110,8 @@ vim.keymap.set('n', '<M-S-F5>', 'g;')
 vim.keymap.set('n', '<M-F5>', 'g,')
 vim.keymap.set('n', '<M-S-F8>', vim.diagnostic.goto_prev) -- go to prev issue
 vim.keymap.set('n', '<M-F8>', vim.diagnostic.goto_next) -- go to next issue
-vim.keymap.set('n', 'gl', '$')
-vim.keymap.set('n', 'gh', '^')
+vim.keymap.set('n', '<S-l>', '$')
+vim.keymap.set('n', '<S-h>', '^')
 -- make Y behave like other capitals
 vim.keymap.set('n', 'Y', 'y$')
 -- go to opening bracket
