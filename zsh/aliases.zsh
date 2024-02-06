@@ -304,12 +304,12 @@ addpc() {
 
         if [ "$2" = "d" ]
         then
-            SAVE_TYPE="save-dev";
+            SAVE_TYPE="D";
         else
-            SAVE_TYPE="save"
+            SAVE_TYPE="S"
         fi;
 
-        CMD="npm i --$SAVE_TYPE \"$PACKAGE\"";
+        CMD="npm i -E$SAVE_TYPE \"$PACKAGE\"";
         echo "$CMD\n";
         eval $CMD;
     fi;
