@@ -33,6 +33,7 @@ Plug 'shumphrey/fugitive-gitlab.vim' -- for fugitive + gitlab links
 Plug 'mattn/emmet-vim' -- shortcut code
 -- Plug 'mattn/webapi-vim' -- in conjunction with emmet-vim for custom snippets
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' }) -- better javascript syntax highlighting/completion
+Plug 'code-biscuits/nvim-biscuits' -- nice labels on ending brackets so you can tell
 -- Plug 'nvim-treesitter/nvim-treesitter-textobjects' " select function/classes etc
 -- LSP stuff
 Plug 'neovim/nvim-lspconfig' -- supposedly language syntax/autocomplete/intellisense stuff?
@@ -286,6 +287,27 @@ require 'nvim-treesitter.configs'.setup {
         },
     },
 }
+
+require 'nvim-biscuits'.setup {
+    default_config = {
+--        max_length = 12,
+        min_distance = 5,
+        prefix_string = "📎 "
+    },
+    language_config = {
+        html = {
+            prefix_string = "🌐 "
+        },
+        javascript = {
+            prefix_string = "🥠 ", -- ✨
+            max_length = 80
+        },
+--        python = {
+--            disabled = true
+--        }
+    }
+}
+
 require 'telescope'.setup {
     defaults = {
         file_ignore_patterns = {".git/", "tmp/", "node_modules/", "dist/", ".DS_Store"},

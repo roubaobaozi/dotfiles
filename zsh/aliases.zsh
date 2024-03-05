@@ -10,6 +10,9 @@ it() {
 # vim
 alias vim='nvim'
 
+# wezterm
+alias wsl='wezterm cli split-pane --left'
+
 # Directory navigation
 alias ..='function navigate() {
     CMD="";

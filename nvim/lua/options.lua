@@ -16,7 +16,7 @@ vim.api.nvim_create_autocmd({'CursorHoldI', 'CursorHold'}, {
 
 local o = vim.opt
 
---.syntax = true
+--.syntax = true -- what is it?
 o.updatetime = 1000 -- for how long to wait until writing to swapfile
 o.showmode = false
 o.timeoutlen = 300
