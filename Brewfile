@@ -20,6 +20,7 @@ brew 'n'
 brew 'neovim'
 brew 'node'
 brew 'readline'
+brew 'rename' # requires python I think, but this is neat
 brew 'roundup'
 brew 'tmux'
 brew 'trash'
