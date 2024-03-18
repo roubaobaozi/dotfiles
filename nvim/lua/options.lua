@@ -30,6 +30,7 @@ o.encoding = 'utf-8'
 o.showmatch = true -- Shows matching brackets
 o.ruler = true -- Always shows location in file (line# and column, this is in status bar)
 o.number = true -- show line numbers in insert mode, and below autocmd to also show relative line numbers otherwise
+o.cursorline = true
 
 o.smarttab = true -- Auto-tabs for certain code
 o.backspace = 'indent,eol,start'

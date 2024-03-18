@@ -61,6 +61,7 @@ Plug 'sQVe/sort.nvim' -- for sorting selections with :Sort
 Plug('akinsho/bufferline.nvim', { ['tag'] = '*' }) -- show buffers like tabs
 Plug 'uga-rosa/ccc.nvim' -- colour picker and shower!
 Plug 'stevearc/conform.nvim' -- for prettierd (from Mason)
+-- Plug 'rasulomaroff/reactive.nvim' -- for curr line changes based on mode! but it's a bit slow and I don't like the insert green
 
 vim.call('plug#end')
 
@@ -356,7 +357,7 @@ require 'spectre'.setup {
            map = "<leader>sq"
        },
        ['replace_cmd'] = {
-           map = "<leader>sc"
+           map = "<leader>sr"
        },
        ['change_view_mode'] = {
            map = "<leader>sv"
@@ -425,5 +426,13 @@ require 'bufferline'.setup {
         },
     }
 }
+
+-- require 'reactive'.setup {
+--   builtin = {
+--     cursorline = true,
+--     cursor = true,
+--     modemsg = true,
+--   }
+-- }
 
 -- require('lazy').setup(plugins) -- not using Lazy because emmet-vim doesn't work properly with it
