@@ -8,10 +8,10 @@ it() {
 }
 
 # vim
-alias vim='nvim'
+alias vim='eval "nvim $@";'
 
 # wezterm
-alias wsl='wezterm cli split-pane --left'
+alias wsl='eval "wezterm cli split-pane --left $@"'
 
 # Directory navigation
 alias ..='function navigate() {
@@ -321,7 +321,7 @@ addpc() {
 # delete them goldens
 alias rg='echo "rm -rf test/visual/screenshots/golden\n" && rm -rf test/visual/screenshots/golden'
 
-viz() {
+oviz() {
     echo "delete goldens && npm run viz:golden OR npm run viz:specified TEST_NAME\n";
     if [ ! $1 ]
     then
@@ -330,6 +330,8 @@ viz() {
         npm run viz:specified $1
     fi;
 }
+
+alias viz='echo "npm run test-storybook:golden\n" && npm run test-storybook:golden';
 
 # cli giphy selector!
 giphy() {

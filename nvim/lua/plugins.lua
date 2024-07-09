@@ -13,7 +13,7 @@ vim.call('plug#begin', '~/.local/share/nvim/plugged')
 Plug 'lewis6991/gitsigns.nvim'
 Plug('smoka7/hop.nvim', { ['version'] = '*' }) -- jump in vim, use smoka7's fork for the camelCase hopping on <Leader>l
 Plug 'nvim-lua/plenary.nvim' -- required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
-Plug('nvim-telescope/telescope.nvim', { ['tag'] = '*' }) -- find in all files, open file in dir
+Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.6' }) -- find in all files, open file in dir, 0.1.7 and 0.1.8 are breaking
 Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' }) -- for fuzzy searching/sorting
 Plug 'nvim-telescope/telescope-frecency.nvim' -- frecency (frequency & recency) for telescope
 Plug 'nvim-pack/nvim-spectre' -- find and replace in all files
@@ -61,6 +61,7 @@ Plug 'sQVe/sort.nvim' -- for sorting selections with :Sort
 Plug('akinsho/bufferline.nvim', { ['tag'] = '*' }) -- show buffers like tabs
 Plug 'uga-rosa/ccc.nvim' -- colour picker and shower!
 Plug 'stevearc/conform.nvim' -- for prettierd (from Mason)
+Plug 'rachartier/tiny-inline-diagnostic.nvim' -- better inline error messages, bit of work to get it to play with gitsigns' current_line_blame, but works!
 -- Plug 'rasulomaroff/reactive.nvim' -- for curr line changes based on mode! but it's a bit slow and I don't like the insert green
 
 vim.call('plug#end')
@@ -74,6 +75,15 @@ require 'oil'.setup {
     },
     float = {
         padding = 3,
+    },
+    keymaps = {
+        ['yp'] = {
+            desc = 'Copy filepath to system clipboard',
+            callback = function ()
+                require('oil.actions').copy_entry_path.callback()
+                vim.fn.setreg("+", vim.fn.getreg(vim.v.register))
+            end,
+        },
     },
 }
 require 'conform'.setup {
@@ -170,10 +180,16 @@ require 'lualine'.setup {
 --         colors.editor.cursor = "#F4DBD6"
 --     end
 -- }
+
+require 'tiny-inline-diagnostic'.setup {}
+
 require 'gitsigns'.setup {
     numhl = true,
     word_diff = true,
-    current_line_blame = true
+    current_line_blame = true,
+    current_line_blame_opts = {
+        virt_text_priority = 2049, -- be under tiny-inline-diagnostic, which seems to be 2048!
+    },
 }
 require 'hop'.setup {
     keys = 'ntesiroamvclpufywhdx',
@@ -292,6 +308,7 @@ require 'nvim-treesitter.configs'.setup {
 require 'nvim-biscuits'.setup {
     default_config = {
 --        max_length = 12,
+        cursor_line_only = true,
         min_distance = 5,
         prefix_string = "📎 "
     },

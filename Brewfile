@@ -16,7 +16,7 @@ brew 'jq'
 brew 'libgit2'
 brew 'mackup'
 brew 'mas'
-brew 'n'
+# brew 'n' # work prefers nvm
 brew 'neovim'
 brew 'node'
 brew 'readline'

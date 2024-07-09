@@ -49,6 +49,7 @@ unset config_files
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+export NVM_AUTO_USE=true # for nvm to auto-use, supposed to be before being loaded?
 zplug check || zplug install
 zplug load
 
@@ -60,7 +61,7 @@ export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 export PATH="$PATH:./node_modules/.bin"
 export PATH="$HOME/.local/bin:$PATH"
 # Kayo Fox stop friggin’ downloading chromium
-export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 # commit verification
 export GPG_TTY=$(tty)
 # 1Password biometrics

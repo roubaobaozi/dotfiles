@@ -14,10 +14,13 @@ vim.api.nvim_create_autocmd({'CursorHoldI', 'CursorHold'}, {
   command = 'silent! update'
 })
 
+-- For tiny-inline-diagnostic.nvim to not double-up, remove default diagnostics
+vim.diagnostic.config({ virtual_text = false });
+
 local o = vim.opt
 
 --.syntax = true -- what is it?
-o.updatetime = 1000 -- for how long to wait until writing to swapfile
+o.updatetime = 5000 -- for how long to wait until writing to swapfile
 o.showmode = false
 o.timeoutlen = 300
 o.whichwrap = 'b,s,<,>'
