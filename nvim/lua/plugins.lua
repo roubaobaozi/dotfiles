@@ -63,6 +63,7 @@ Plug 'uga-rosa/ccc.nvim' -- colour picker and shower!
 Plug 'stevearc/conform.nvim' -- for prettierd (from Mason)
 Plug 'rachartier/tiny-inline-diagnostic.nvim' -- better inline error messages, bit of work to get it to play with gitsigns' current_line_blame, but works!
 -- Plug 'rasulomaroff/reactive.nvim' -- for curr line changes based on mode! but it's a bit slow and I don't like the insert green
+Plug 'OXY2DEV/markview.nvim' -- in-vim markdown! Needs to be after treesitter and web-devicons (dependencies)
 
 vim.call('plug#end')
 
@@ -181,14 +182,19 @@ require 'lualine'.setup {
 --     end
 -- }
 
-require 'tiny-inline-diagnostic'.setup {}
+require 'tiny-inline-diagnostic'.setup {
+    virt_texts = {
+        priority = 999,
+    },
+}
 
 require 'gitsigns'.setup {
     numhl = true,
     word_diff = true,
     current_line_blame = true,
     current_line_blame_opts = {
-        virt_text_priority = 2049, -- be under tiny-inline-diagnostic, which seems to be 2048!
+        virt_text_pos = 'right_align', -- stay away from tiny-inline-diagnostic too
+        virt_text_priority = 1000, -- be under tiny-inline-diagnostic
     },
 }
 require 'hop'.setup {

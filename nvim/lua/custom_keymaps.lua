@@ -93,7 +93,8 @@ vim.keymap.set({'n', 'i'}, '<F12>', vim.lsp.buf.definition) -- go to definition
 vim.keymap.set({'n', 'i'}, '<F12><F12>', '<cmd>tab split | lua vim.lsp.buf.definition()<CR>') -- go to definition in a new tab
 vim.keymap.set('n', '<Leader>/', vim.lsp.buf.hover) -- open the intellisense thing
 vim.keymap.set('n', '<Leader>m', vim.lsp.buf.code_action) -- open the code actions thing
-vim.keymap.set('n', '<Leader>md', '<Plug>MarkdownPreview')
+vim.keymap.set('n', '<Leader>md', '<cmd>Markview<CR>')
+-- vim.keymap.set('n', '<Leader>md', '<Plug>MarkdownPreview')
 vim.keymap.set('n', '<Leader>mds', '<Plug>MarkdownPreviewStop')
 -- git-conflict mappings
 vim.keymap.set('n', '<Leader>1', '<cmd>GitConflictListQf<CR>')
