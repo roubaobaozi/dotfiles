@@ -94,6 +94,7 @@ vim.keymap.set({'n', 'i'}, '<F12><F12>', '<cmd>tab split | lua vim.lsp.buf.defin
 vim.keymap.set('n', '<Leader>/', vim.lsp.buf.hover) -- open the intellisense thing
 vim.keymap.set('n', '<Leader>m', vim.lsp.buf.code_action) -- open the code actions thing
 vim.keymap.set('n', '<Leader>md', '<cmd>Markview<CR>')
+vim.keymap.set({'n', 'x'}, '<Leader>mm', '<Plug>(matchup-[%)<CR>')
 -- vim.keymap.set('n', '<Leader>md', '<Plug>MarkdownPreview')
 vim.keymap.set('n', '<Leader>mds', '<Plug>MarkdownPreviewStop')
 -- git-conflict mappings
@@ -123,6 +124,9 @@ vim.keymap.set('n', ']]', '/}<CR>b99]}')
 vim.keymap.set('n', '][', 'j0[[%/{<CR>')
 -- not really sure anymore, top of function?
 vim.keymap.set('n', '[]', 'k$][%?}<CR>')
+
+-- use matchup instead
+vim.keymap.set({'n', 'x'}, '%', '<Plug>(matchup-%)<CR>')
 
 -- Code completion
 vim.keymap.set('i', '/arn', '() => <Esc>4hi')

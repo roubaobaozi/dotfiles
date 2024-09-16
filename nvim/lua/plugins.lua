@@ -13,7 +13,7 @@ vim.call('plug#begin', '~/.local/share/nvim/plugged')
 Plug 'lewis6991/gitsigns.nvim'
 Plug('smoka7/hop.nvim', { ['version'] = '*' }) -- jump in vim, use smoka7's fork for the camelCase hopping on <Leader>l
 Plug 'nvim-lua/plenary.nvim' -- required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
-Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.6' }) -- find in all files, open file in dir, 0.1.7 and 0.1.8 are breaking
+Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.8' }) -- find in all files, open file in dir, * is breaking, think it's installing wrong latest tag
 Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' }) -- for fuzzy searching/sorting
 Plug 'nvim-telescope/telescope-frecency.nvim' -- frecency (frequency & recency) for telescope
 Plug 'nvim-pack/nvim-spectre' -- find and replace in all files
@@ -64,6 +64,7 @@ Plug 'stevearc/conform.nvim' -- for prettierd (from Mason)
 Plug 'rachartier/tiny-inline-diagnostic.nvim' -- better inline error messages, bit of work to get it to play with gitsigns' current_line_blame, but works!
 -- Plug 'rasulomaroff/reactive.nvim' -- for curr line changes based on mode! but it's a bit slow and I don't like the insert green
 Plug 'OXY2DEV/markview.nvim' -- in-vim markdown! Needs to be after treesitter and web-devicons (dependencies)
+Plug 'andymass/vim-matchup' -- better %, see if it works with `
 
 vim.call('plug#end')
 
@@ -93,20 +94,20 @@ require 'conform'.setup {
         -- Conform will run multiple formatters sequentially
         -- python = { "isort", "black" },
         -- Use a sub-list to run only the first available formatter
-        javascript = { { "prettierd", "prettier" } },
+        javascript = { { 'prettier', 'prettierd' } },
         -- run with conform.format()
     },
 }
-vim.api.nvim_create_user_command("Format", function(args)
+vim.api.nvim_create_user_command('Format', function(args)
   local range = nil
   if args.count ~= -1 then
     local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
     range = {
       start = { args.line1, 0 },
-      ["end"] = { args.line2, end_line:len() },
+      ['end'] = { args.line2, end_line:len() },
     }
   end
-  require("conform").format({ async = true, lsp_fallback = true, range = range })
+  require('conform').format({ async = true, lsp_fallback = true, range = range })
 end, { range = true })
 --require 'nvim-treesitter.configs'.setup {
 --    textobjects = {
@@ -241,7 +242,7 @@ cmp.event:on(
     cmp_autopairs.on_confirm_done()
 )
 
-require('lspconfig').tsserver.setup{
+require('lspconfig').ts_ls.setup{
     on_attach = on_attach,
     flags = lsp_flags,
     settings = {
@@ -309,6 +310,10 @@ require 'nvim-treesitter.configs'.setup {
             node_decremental = "V",
         },
     },
+    matchup = {
+        enable = true,                 -- mandatory, false will disable the whole extension
+        -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
+  },
 }
 
 require 'nvim-biscuits'.setup {

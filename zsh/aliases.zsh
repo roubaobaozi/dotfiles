@@ -321,7 +321,7 @@ addpc() {
 # delete them goldens
 alias rg='echo "rm -rf test/visual/screenshots/golden\n" && rm -rf test/visual/screenshots/golden'
 
-oviz() {
+viz() {
     echo "delete goldens && npm run viz:golden OR npm run viz:specified TEST_NAME\n";
     if [ ! $1 ]
     then
@@ -331,7 +331,7 @@ oviz() {
     fi;
 }
 
-alias viz='echo "npm run test-storybook:golden\n" && npm run test-storybook:golden';
+alias viztr='echo "npm run test-storybook:golden\n" && npm run test-storybook:golden';
 
 # cli giphy selector!
 giphy() {
