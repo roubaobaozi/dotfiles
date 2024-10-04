@@ -65,6 +65,7 @@
     mqch C-S-spc ;; quicksilver clipboard history
     msss C-M-S-3 ;; screenshot entire screen to clipboard
     mssa C-M-S-4 ;; screenshot area of screen to clipboard
+    mdnd C-S-down ;; do not disturb mode
 
 ;;  Macros
     murl (macro h t t p s S-; / /)
@@ -108,7 +109,7 @@
 
 (deflayer colemak
 ;; ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬─touchID┐
-    esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
+    esc    brdn   brup   C-up   C-spc  XX     @mdnd  prev   pp     next   mute   vold   volu
 ;; ├──────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬───────┤
     grv     1      2      3      4      5      XX     6      7      8      9      0      -      bspc
 ;; ├───────┴┬─ Q ─┴┬─ W ─┴┬─ F ─┴┬─ P ─┴┬─ G ─┴┬─ J ─┴┬─ L ─┴┬─ U ─┴┬─ Y ─┴┬─ ; ─┴┬─────┴┬─────┴┬──────┤
@@ -124,7 +125,7 @@
 
 (deflayer fn
 ;; ┌──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬──────┬─touchID┐
-    _      brdn   brup   _      _      _      _      prev   pp     next   mute   vold   volu
+    _      f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
 ;; ├──────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬─────┴┬───────┤
     _       _      _      _      _      _      _      _      _      _      _      _      _      _
 ;; ├───────┴┬─ Q ─┴┬─ W ─┴┬─ F ─┴┬─ P ─┴┬─ G ─┴┬─ J ─┴┬─ L ─┴┬─ U ─┴┬─ Y ─┴┬─ ; ─┴┬─────┴┬─────┴┬──────┤
