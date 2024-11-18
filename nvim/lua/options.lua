@@ -2,7 +2,7 @@ vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappin
 vim.g.maplocalleader = ' '
 
 -- Emmet settings
-vim.g.user_emmet_leader_key = ','
+-- vim.g.user_emmet_leader_key = ','
 vim.g.user_emmet_expandabbr_key = '<A-Tab>'
 vim.g.user_emmet_mode = 'a' -- a is all, n is normal, inv is insert/normal/visual (same as a)
 -- with lazy.nvim, emmet no longer works on styled-components sadly

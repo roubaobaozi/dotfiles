@@ -15,9 +15,10 @@ cask 'zeplin'
 # Developer applications
 cask 'charles'
 cask 'cyberduck'
-cask 'docker'
+#cask 'docker'
 cask 'firefox --language=en-GB'
 cask 'insomnia'
+cask 'rancher' # rancher instead of docker
 #cask 'virtualbox'
 #cask 'sublime-text'
 
