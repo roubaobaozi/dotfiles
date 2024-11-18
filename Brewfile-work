@@ -16,6 +16,7 @@ cask 'zeplin'
 cask 'charles'
 cask 'cyberduck'
 #cask 'docker'
+brew 'docker-completion' # for CLI completion I guess?
 cask 'firefox --language=en-GB'
 cask 'insomnia'
 cask 'rancher' # rancher instead of docker
