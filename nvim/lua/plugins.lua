@@ -438,7 +438,9 @@ require 'git-conflict'.setup {
 }
 require 'pqf'.setup {}
 require 'spider'.setup { skipInsignificantPunctuation = true }
-require 'various-textobjs'.setup { useDefaultKeymaps = true }
+require 'various-textobjs'.setup {
+    keymaps = { defaultKeymaps = true }
+}
 -- various-textobjs sets camelCase/snake_case parts to S which I find annoying,
 -- choosing e as it doesn't exist
 vim.keymap.set({ 'o', 'x' }, 'ae', '<cmd>lua require("various-textobjs").subword(false)<CR>')
