@@ -7,6 +7,7 @@ vim.g.user_emmet_expandabbr_key = '<A-Tab>'
 vim.g.user_emmet_mode = 'a' -- a is all, n is normal, inv is insert/normal/visual (same as a)
 -- with lazy.nvim, emmet no longer works on styled-components sadly
 vim.g.user_emmet_settings = "{ 'javascript': { 'extends': 'jsx,scss' }, 'javascript.jsx': { 'extends': 'jsx,scss' } }"
+-- vim.g.user_emmet_settings = "webapi#json#decode(join(readfile(expand('~/.dotfiles/emmet-snippets.json')), \"\n\"))"
 
 -- Auto-save modified buffer during idle after 'updatetime' has elapsed (default 4 sec)
 vim.api.nvim_create_autocmd({'CursorHoldI', 'CursorHold'}, {

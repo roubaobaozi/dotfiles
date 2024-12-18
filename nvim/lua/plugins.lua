@@ -36,9 +36,9 @@ Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' }) -- better java
 Plug 'code-biscuits/nvim-biscuits' -- nice labels on ending brackets so you can tell
 -- Plug 'nvim-treesitter/nvim-treesitter-textobjects' " select function/classes etc
 -- LSP stuff
-Plug 'neovim/nvim-lspconfig' -- supposedly language syntax/autocomplete/intellisense stuff?
-Plug 'williamboman/mason.nvim'           -- Optional
+Plug 'williamboman/mason.nvim'           -- Optional, if :Mason isn't installing updates with no version found, do `npm cache clean -fd`
 Plug 'williamboman/mason-lspconfig.nvim' -- Optional
+Plug 'neovim/nvim-lspconfig' -- supposedly language syntax/autocomplete/intellisense stuff?
 Plug 'hrsh7th/nvim-cmp'         -- Required
 Plug 'hrsh7th/cmp-nvim-lsp'     -- Required
 Plug 'L3MON4D3/LuaSnip'         -- Required
@@ -228,15 +228,33 @@ cmp.setup({
                     local entry = cmp.get_selected_entry()
                         if not entry then
                             cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                        else
-                            cmp.confirm()
                         end
+                        cmp.confirm()
                 else
                     fallback()
                 end
             end, {"i","s","c",}),
-    }
+    },
+    -- https://mskelton.dev/bytes/emmet-for-styled-components-in-neovim
+    -- code highlight works in styled components, but emmet suggestions don't, sigh
+    sources = cmp.config.sources({
+            {
+                name = "nvim_lsp",
+                entry_filter = function(entry)
+                  local client_name = entry.source.source.client.name
+                  local context = require("cmp.config.context")
+
+                  -- Only return Emmet results in styled-component template strings
+                  return client_name ~= "emmet_language_server"
+                    or entry.context.filetype == "css"
+                    or context.in_treesitter_capture("styled")
+                end,
+            },
+        },
+        { name = 'buffer' }
+    )
 })
+
 cmp.event:on(
     'confirm_done',
     cmp_autopairs.on_confirm_done()
