@@ -65,6 +65,7 @@ Plug 'rachartier/tiny-inline-diagnostic.nvim' -- better inline error messages, b
 -- Plug 'rasulomaroff/reactive.nvim' -- for curr line changes based on mode! but it's a bit slow and I don't like the insert green
 Plug 'OXY2DEV/markview.nvim' -- in-vim markdown! Needs to be after treesitter and web-devicons (dependencies)
 Plug 'andymass/vim-matchup' -- better %, see if it works with `
+Plug 'numToStr/Comment.nvim' -- better commenting
 
 vim.call('plug#end')
 
@@ -501,6 +502,8 @@ require 'bufferline'.setup {
         },
     }
 }
+
+require 'Comment'.setup()
 
 -- require 'reactive'.setup {
 --   builtin = {
