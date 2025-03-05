@@ -66,6 +66,8 @@ Plug 'rachartier/tiny-inline-diagnostic.nvim' -- better inline error messages, b
 Plug 'OXY2DEV/markview.nvim' -- in-vim markdown! Needs to be after treesitter and web-devicons (dependencies)
 Plug 'andymass/vim-matchup' -- better %, see if it works with `
 Plug 'numToStr/Comment.nvim' -- better commenting
+Plug('skardyy/neo-img', { ['do'] = 'cd ttyimg && go build' }) -- image preview in Oil, but it doesn't work atm
+-- Plug('zbirenbaum/copilot.lua', { ['on'] = 'InsertEnter'}) -- Copilot
 
 vim.call('plug#end')
 
@@ -217,6 +219,10 @@ end)
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 
 require('nvim-autopairs').setup {}
+
+-- Copilot
+-- require('copilot').setup {}
+
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 local cmp = require('cmp')
 
@@ -504,6 +510,29 @@ require 'bufferline'.setup {
 }
 
 require 'Comment'.setup()
+
+require 'neo-img'.setup({
+  supported_extensions = {
+    ['png'] = true,
+    ['jpg'] = true,
+    ['jpeg'] = true,
+    ['webp'] = true,
+    ['svg'] = true,
+    ['tiff'] = true
+  },
+  auto_open = true,             -- Automatically open images when buffer is loaded
+  oil_preview = true,           -- changes oil preview of images too
+  backend = "auto",             -- auto detect: kitty / iterm / sixel
+  size = {                      --scales the width, will maintain aspect ratio
+    oil = { x = 400, y = 400 }, -- a number (oil = 400) will set both at once
+    main = { x = 800, y = 800 }
+  },
+  offset = {
+    oil = { x = 5, y = 3 }, -- a number will only change the x
+    main = { x = 10, y = 3 }
+  },
+  resizeMode = "Fit" -- Fit / Strech / Crop
+})
 
 -- require 'reactive'.setup {
 --   builtin = {

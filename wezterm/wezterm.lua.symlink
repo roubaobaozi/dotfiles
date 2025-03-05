@@ -29,13 +29,17 @@ config.initial_rows = 46
 config.initial_cols = 235
 
 -- Fonts --
-local font = 'FantasqueSansM Nerd Font Mono'
-config.font = wezterm.font(font)
-config.font_size = 27
+-- local font = 'FantasqueSansM Nerd Font Mono'
+-- local font = 'ProFontWindows Nerd Font Mono'
+-- local font = 'SpaceMono Nerd Font Mono'
+local font = 'IosevkaTerm Nerd Font Mono'
+config.font = wezterm.font(font, { weight = 'Medium' })
+config.font_size = 26
+config.cell_width = 1.05
 
 -- Tab bar --
 config.window_frame = {
-  font = wezterm.font(font, { weight = 'Bold' }),
+  font = wezterm.font(font, { weight = 'ExtraBold' }),
   font_size = 16,
 }
 config.tab_max_width = 35
