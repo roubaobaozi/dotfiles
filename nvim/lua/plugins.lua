@@ -381,15 +381,15 @@ return {
                         {
                             name = "nvim_lsp",
                             group_index = 2,
-                            -- entry_filter = function(entry)
-                            --   local client_name = entry.source.source.client.name
-                            --   local context = require("cmp.config.context")
+                            entry_filter = function(entry)
+                                local client_name = entry.source.source.client.name
+                                local context = require("cmp.config.context")
 
-                            --   -- Only return Emmet results in styled-component template strings
-                            --   return client_name ~= "emmet_language_server"
-                            --     or entry.context.filetype == "css"
-                            --     or context.in_treesitter_capture("styled")
-                            -- end,
+                                -- Only return Emmet results in styled-component template strings
+                                return client_name ~= "emmet_language_server"
+                                    or entry.context.filetype == "css"
+                                    or context.in_treesitter_capture("styled")
+                            end,
                         },
                         -- Other Sources
                         { name = "path", group_index = 2 },
@@ -549,15 +549,15 @@ return {
                 },
             }
             vim.api.nvim_create_user_command('Format', function(args)
-              local range = nil
-              if args.count ~= -1 then
-                local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
-                range = {
-                  start = { args.line1, 0 },
-                  ['end'] = { args.line2, end_line:len() },
-                }
-              end
-              require('conform').format({ async = true, lsp_fallback = true, range = range })
+                local range = nil
+                if args.count ~= -1 then
+                    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+                    range = {
+                        start = { args.line1, 0 },
+                        ['end'] = { args.line2, end_line:len() },
+                    }
+                end
+                require('conform').format({ async = true, lsp_fallback = true, range = range })
             end, { range = true })
         end,
     },
@@ -588,26 +588,26 @@ return {
         build = 'cd ttyimg && go build',
         config = function ()
             require 'neo-img'.setup {
-              supported_extensions = {
-                ['png'] = true,
-                ['jpg'] = true,
-                ['jpeg'] = true,
-                ['webp'] = true,
-                ['svg'] = true,
-                ['tiff'] = true
-              },
-              auto_open = true,             -- Automatically open images when buffer is loaded
-              oil_preview = true,           -- changes oil preview of images too
-              backend = "auto",             -- auto detect: kitty / iterm / sixel
-              size = {                      --scales the width, will maintain aspect ratio
-                oil = { x = 400, y = 400 }, -- a number (oil = 400) will set both at once
-                main = { x = 800, y = 800 }
-              },
-              offset = {
-                oil = { x = 5, y = 3 }, -- a number will only change the x
-                main = { x = 10, y = 3 }
-              },
-              resizeMode = "Fit" -- Fit / Strech / Crop
+                supported_extensions = {
+                    ['png'] = true,
+                    ['jpg'] = true,
+                    ['jpeg'] = true,
+                    ['webp'] = true,
+                    ['svg'] = true,
+                    ['tiff'] = true
+                },
+                auto_open = true,             -- Automatically open images when buffer is loaded
+                oil_preview = true,           -- changes oil preview of images too
+                backend = "auto",             -- auto detect: kitty / iterm / sixel
+                size = {                      --scales the width, will maintain aspect ratio
+                    oil = { x = 400, y = 400 }, -- a number (oil = 400) will set both at once
+                    main = { x = 800, y = 800 }
+                },
+                offset = {
+                    oil = { x = 5, y = 3 }, -- a number will only change the x
+                    main = { x = 10, y = 3 }
+                },
+                resizeMode = "Fit" -- Fit / Strech / Crop
             }
         end,
     },
