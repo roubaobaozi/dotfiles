@@ -322,10 +322,10 @@ addpc() {
 alias rg='echo "rm -rf test/visual/screenshots/golden\n" && rm -rf test/visual/screenshots/golden'
 
 viz() {
-    echo "delete goldens && npm run viz:golden OR npm run viz:specified TEST_NAME\n";
+    echo "nr viz:clean && nr viz:golden\n - OR -\nnr viz:specified TEST_NAME\n";
     if [ ! $1 ]
     then
-        rg && npm run viz:golden
+        npm run viz:clean && npm run viz:golden
     else
         npm run viz:specified $1
     fi;

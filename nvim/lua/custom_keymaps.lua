@@ -128,6 +128,12 @@ vim.keymap.set('n', '[]', 'k$][%?}<CR>')
 -- use matchup instead
 vim.keymap.set({'n', 'x'}, '%', '<Plug>(matchup-%)<CR>')
 
+-- switching buffers
+vim.keymap.set('n', '<A-4>', '<C-w>h') -- left
+vim.keymap.set('n', '<A-5>', '<C-w>k') -- up
+vim.keymap.set('n', '<A-6>', '<C-w>j') -- down
+vim.keymap.set('n', '<A-0>', '<C-w>l') -- right
+
 -- Code completion
 vim.keymap.set('i', '/arn', '() => <Esc>4hi')
 vim.keymap.set('i', '/arc', '() => {}<Esc>6hi')

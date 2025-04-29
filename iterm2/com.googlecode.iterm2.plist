@@ -2406,8 +2406,12 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>CustomTabBarFontSize</key>
+	<real>16</real>
 	<key>Default Bookmark Guid</key>
 	<string>FDCD10A9-77EE-4E91-96CE-137900F72580</string>
+	<key>DefaultTabBarHeight</key>
+	<real>28</real>
 	<key>DimBackgroundWindows</key>
 	<true/>
 	<key>DimOnlyText</key>
@@ -2515,6 +2519,8 @@
 	<true/>
 	<key>IRMemory</key>
 	<integer>4</integer>
+	<key>MinimumTabLabelWidth</key>
+	<real>40</real>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -2524,6 +2530,8 @@
 			<true/>
 			<key>Ambiguous Double Width</key>
 			<false/>
+			<key>Animate Movement</key>
+			<true/>
 			<key>Ansi 0 Color</key>
 			<dict>
 				<key>Alpha Component</key>
@@ -3086,7 +3094,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>FantasqueSansMNFM-Regular 27</string>
+			<string>IosevkaNFM-Medium 27</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -3146,7 +3154,7 @@
 					<key>auto-rainbow style</key>
 					<integer>0</integer>
 					<key>font</key>
-					<string>.AppleSystemUIFont 12</string>
+					<string>Helvetica 16</string>
 					<key>remove empty components</key>
 					<false/>
 				</dict>
@@ -3169,6 +3177,21 @@
 								<integer>0</integer>
 								<key>path</key>
 								<string>path</string>
+								<key>shared font</key>
+								<string></string>
+								<key>shared text color</key>
+								<dict>
+									<key>Alpha Component</key>
+									<real>1</real>
+									<key>Blue Component</key>
+									<real>1</real>
+									<key>Color Space</key>
+									<string>P3</string>
+									<key>Green Component</key>
+									<real>1</real>
+									<key>Red Component</key>
+									<real>0.99999994039535522</real>
+								</dict>
 							</dict>
 							<key>layout advanced configuration dictionary value</key>
 							<dict>
@@ -3177,7 +3200,7 @@
 								<key>auto-rainbow style</key>
 								<integer>0</integer>
 								<key>font</key>
-								<string>.AppleSystemUIFont 12</string>
+								<string>Helvetica 16</string>
 								<key>remove empty components</key>
 								<false/>
 							</dict>
@@ -3200,6 +3223,19 @@
 								<real>+infinity</real>
 								<key>minwidth</key>
 								<integer>0</integer>
+								<key>shared text color</key>
+								<dict>
+									<key>Alpha Component</key>
+									<real>1</real>
+									<key>Blue Component</key>
+									<real>1</real>
+									<key>Color Space</key>
+									<string>P3</string>
+									<key>Green Component</key>
+									<real>1</real>
+									<key>Red Component</key>
+									<real>0.99999994039535522</real>
+								</dict>
 							</dict>
 							<key>layout advanced configuration dictionary value</key>
 							<dict>
@@ -3207,6 +3243,8 @@
 								<integer>0</integer>
 								<key>auto-rainbow style</key>
 								<integer>0</integer>
+								<key>font</key>
+								<string>Helvetica 16</string>
 								<key>remove empty components</key>
 								<false/>
 							</dict>
@@ -3227,6 +3265,21 @@
 								<real>+infinity</real>
 								<key>minwidth</key>
 								<integer>0</integer>
+								<key>shared font</key>
+								<string></string>
+								<key>shared text color</key>
+								<dict>
+									<key>Alpha Component</key>
+									<real>1</real>
+									<key>Blue Component</key>
+									<real>1</real>
+									<key>Color Space</key>
+									<string>P3</string>
+									<key>Green Component</key>
+									<real>1</real>
+									<key>Red Component</key>
+									<real>0.99999994039535522</real>
+								</dict>
 							</dict>
 							<key>layout advanced configuration dictionary value</key>
 							<dict>
@@ -3235,7 +3288,7 @@
 								<key>auto-rainbow style</key>
 								<integer>0</integer>
 								<key>font</key>
-								<string>.AppleSystemUIFont 12</string>
+								<string>Helvetica 16</string>
 								<key>remove empty components</key>
 								<false/>
 							</dict>
@@ -3279,6 +3332,8 @@
 	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
+	<key>OptimumTabWidth</key>
+	<integer>250</integer>
 	<key>PointerActions</key>
 	<dict>
 		<key>Button,1,1,,</key>
@@ -3330,8 +3385,14 @@
 	<false/>
 	<key>SwitchPaneModifier</key>
 	<integer>5</integer>
+	<key>TabTitlesUseSmartTruncation</key>
+	<true/>
+	<key>ToolbeltFontSize</key>
+	<real>0.0</real>
 	<key>UseBorder</key>
 	<false/>
+	<key>UseCustomTabBarFontSize</key>
+	<true/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>findMode_iTerm</key>

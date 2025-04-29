@@ -111,6 +111,61 @@ return {
         end,
     },
     {
+        'sindrets/diffview.nvim',
+        -- command = 'DiffviewOpen',
+        config = function ()
+            require 'diffview'.setup {
+                -- key_bindings = {
+                --     file_panel = {
+                --         ["j"] = "<Down>",
+                --         ["k"] = "<Up>",
+                --         ["<CR>"] = "select_entry",
+                --         ["o"] = "select_entry",
+                --         ["R"] = "refresh_files",
+                --         ["<C-r>"] = "refresh_files",
+                --         ["<C-s>"] = "toggle_stage_entry",
+                --         ["U"] = "unstage_entry",
+                --         ["X"] = "restore_entry",
+                --         ["D"] = "delete_entry",
+                --         ["<C-q>"] = "close",
+                --     },
+                --     file_history_panel = {
+                --         ["g!"] = "options",
+                --         ["<C-d>"] = "diff_file",
+                --         ["<CR>"] = "select_entry",
+                --         ["o"] = "select_entry",
+                --         ["<C-q>"] = "close",
+                --     },
+                --     view = {
+                --         ["<C-q>"] = "close",
+                --     },
+                --     diff_options = {
+                --         ["scrollbar"] = true,
+                --     },
+                -- },
+            }
+
+            vim.keymap.set('n', '<Leader><Leader>d', function ()
+                  if next(require('diffview.lib').views) == nil then
+                      vim.cmd('DiffviewOpen')
+                  else
+                      vim.cmd('DiffviewClose')
+                  end
+            end)
+
+            vim.opt.diffopt = {
+                "internal",
+                "filler",
+                "closeoff",
+                "context:12",
+                "algorithm:histogram",
+                "linematch:200",
+                "indent-heuristic",
+                "iwhite" -- I toggle this one, it doesn't fit all cases.
+            }
+        end,
+    },
+    {
         'nvim-tree/nvim-web-devicons', -- optional fonticons for tree explorer
     },
     {
@@ -324,10 +379,31 @@ return {
             }
 
             -- grammarly in html is a WIP so eh just turn it off atm
-            require('lspconfig').grammarly.setup {
-                config = {
-                    suggestionCategories = { oxfordComma = "on" } },
-                    -- filetypes = { 'markdown', 'javascriptreact' }
+            -- it's also pretty much a dead project, so remove it
+            -- require('lspconfig').grammarly.setup {
+            --     config = {
+            --         suggestionCategories = { oxfordComma = "on" } },
+            --         -- filetypes = { 'markdown', 'javascriptreact' }
+            -- }
+
+            -- require('lspconfig').vale_ls.setup {
+            --     initializationParams = {
+            --         configPath = '~/.dotfiles/nvim/.vale.ini',
+            --     },
+            -- }
+
+            require('lspconfig').typos_lsp.setup {
+                -- Logging level of the language server. Logs appear in :LspLog. Defaults to error.
+                cmd_env = { RUST_LOG = 'warning' },
+                init_options = {
+                    -- Custom config. Used together with a config file found in the workspace or its parents,
+                    -- taking precedence for settings declared in both.
+                    -- Equivalent to the typos `--config` cli argument.
+                    config = '~/.dotfiles/nvim/typos.toml',
+                    -- How typos are rendered in the editor, can be one of an Error, Warning, Info or Hint.
+                    -- Defaults to error.
+                    diagnosticSeverity = 'Hint'
+                }
             }
 
             lsp.setup()
@@ -347,9 +423,9 @@ return {
                 formatting = {
                     -- needs https://github.com/onsails/lspkind.nvim , also, it interferes with Up/Down arrows on cmp, but sometimes doesn't even work, kinda annoying
                     format = lspkind.cmp_format({
-                        mode = "symbol",
+                        mode = 'symbol',
                         max_width = 50,
-                        symbol_map = { Copilot = "" }
+                        symbol_map = { Copilot = '' }
                     })
                 },
                 mapping = {
@@ -365,7 +441,7 @@ return {
                             else
                                 fallback()
                             end
-                        end, {"i","s","c",}),
+                        end, {'i','s','c',}),
                     ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item()),
                     ['<PageDown>'] = cmp.mapping(cmp.mapping.select_next_item()),
                     -- ['<PageDown>'] = cmp.mapping(cmp.mapping.scroll_docs(4)),
@@ -377,23 +453,23 @@ return {
                 -- code highlight works in styled components, but emmet suggestions don't, sigh
                 sources = cmp.config.sources({
                         -- Copilot Source
-                        { name = "copilot", group_index = 2 },
+                        { name = 'copilot', group_index = 2 },
                         {
-                            name = "nvim_lsp",
+                            name = 'nvim_lsp',
                             group_index = 2,
                             entry_filter = function(entry)
                                 local client_name = entry.source.source.client.name
-                                local context = require("cmp.config.context")
+                                local context = require('cmp.config.context')
 
                                 -- Only return Emmet results in styled-component template strings
-                                return client_name ~= "emmet_language_server"
-                                    or entry.context.filetype == "css"
-                                    or context.in_treesitter_capture("styled")
+                                return client_name ~= 'emmet_language_server'
+                                    or entry.context.filetype == 'css'
+                                    or context.in_treesitter_capture('styled')
                             end,
                         },
                         -- Other Sources
-                        { name = "path", group_index = 2 },
-                        { name = "luasnip", group_index = 2 },
+                        { name = 'path', group_index = 2 },
+                        { name = 'luasnip', group_index = 2 },
                     },
                     { name = 'buffer' }
                 )
@@ -504,18 +580,18 @@ return {
         config = function ()
             require 'bufferline'.setup {
                 options = {
-                    diagnostics = "nvim_lsp",
+                    diagnostics = 'nvim_lsp',
                     max_name_length = 23,
                     max_prefix_length = 20,
-                    middle_mouse_command = "%bd|e#", -- doesn't work with iTerm
-                    numbers = "buffer_id",
-                    right_mouse_command = "%bd|e#", -- doesn't work with iTerm
+                    middle_mouse_command = '%bd|e#', -- doesn't work with iTerm
+                    numbers = 'buffer_id',
+                    right_mouse_command = '%bd|e#', -- doesn't work with iTerm
                     tab_size = 23,
                     offsets = {
                         {
-                            filetype = "oil",
-                            text = "Oil",
-                            text_align = "center",
+                            filetype = 'oil',
+                            text = 'Oil',
+                            text_align = 'center',
                             separator = true,
                         }
                     },
@@ -540,9 +616,9 @@ return {
         config = function ()
             require 'conform'.setup {
                 formatters_by_ft = {
-                    -- lua = { "stylua" },
+                    -- lua = { 'stylua' },
                     -- Conform will run multiple formatters sequentially
-                    -- python = { "isort", "black" },
+                    -- python = { 'isort', 'black' },
                     -- Use a sub-list to run only the first available formatter
                     javascript = { { 'prettier', 'prettierd' } },
                     -- run with conform.format()
@@ -598,7 +674,7 @@ return {
                 },
                 auto_open = true,             -- Automatically open images when buffer is loaded
                 oil_preview = true,           -- changes oil preview of images too
-                backend = "auto",             -- auto detect: kitty / iterm / sixel
+                backend = 'auto',             -- auto detect: kitty / iterm / sixel
                 size = {                      --scales the width, will maintain aspect ratio
                     oil = { x = 400, y = 400 }, -- a number (oil = 400) will set both at once
                     main = { x = 800, y = 800 }
@@ -607,14 +683,14 @@ return {
                     oil = { x = 5, y = 3 }, -- a number will only change the x
                     main = { x = 10, y = 3 }
                 },
-                resizeMode = "Fit" -- Fit / Strech / Crop
+                resizeMode = 'Fit' -- Fit / Stretch / Crop
             }
         end,
     },
     {
         'zbirenbaum/copilot.lua', -- Copilot
-        cmd = "Copilot",
-        event = "InsertEnter",
+        cmd = 'Copilot',
+        event = 'InsertEnter',
         config = function ()
             require 'copilot'.setup {
                 suggestion = { enabled = false },
@@ -1151,7 +1227,7 @@ return {
 --     oil = { x = 5, y = 3 }, -- a number will only change the x
 --     main = { x = 10, y = 3 }
 --   },
---   resizeMode = "Fit" -- Fit / Strech / Crop
+--   resizeMode = "Fit" -- Fit / Stretch / Crop
 -- })
 -- 
 -- -- require 'reactive'.setup {
