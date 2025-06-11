@@ -145,6 +145,7 @@ vim.keymap.set('i', '/cmt', '/**  */<Esc>2hi')
 vim.keymap.set('i', '/cow', 'console.warn();<Esc>hi')
 vim.keymap.set('i', '/coi', 'console.info();<Esc>hi')
 vim.keymap.set('i', '/col', 'console.log();<Esc>hi')
+vim.keymap.set('i', '/coe', 'console.error();<Esc>hi')
 vim.keymap.set('i', '/cop', '\'arst<Space>\',<Space><Esc>3hp3lp==')
 -- make C-d in insert mode delete forward
 vim.keymap.set('i', '<C-d>', '<Del>')

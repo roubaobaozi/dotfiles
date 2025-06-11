@@ -242,7 +242,7 @@ return {
         cmd = 'TSUpdate',
         config = function ()
             require 'nvim-treesitter.configs'.setup {
-                ensure_installed = { "astro", "c", "css", "glimmer", "html", "javascript", "jsdoc", "json", "lua", "markdown", "query", "regex", "scss", "svelte", "tsx", "typescript", "vim", "vimdoc", "yaml" },
+                ensure_installed = { "astro", "c", "css", "glimmer", "html", "javascript", "jsdoc", "json", "lua", "markdown", "query", "regex", "scss", "styled", "svelte", "tsx", "typescript", "vim", "vimdoc", "yaml" },
                 highlight = {
                    enable = true,
                    additional_vim_regex_highlighting = true
@@ -654,11 +654,48 @@ return {
         'andymass/vim-matchup', -- better %, see if it works with `
     },
     {
-        'numToStr/Comment.nvim', -- better commenting
+        'JoosepAlviste/nvim-ts-context-commentstring', -- pre-commit hook for Comment.nvim for TSX/JSX!
         config = function ()
-            require 'Comment'.setup {}
+            require 'ts_context_commentstring'.setup {
+                enable_autocmd = false,
+            }
         end,
     },
+    {
+        'numToStr/Comment.nvim', -- better commenting
+        config = function ()
+            require 'Comment'.setup {
+                pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+                -- toggler = {
+                --     ---Line-comment toggle keymap
+                --     line = '<Leader>cc',
+                --     ---Block-comment toggle keymap
+                --     block = '<Leader>bc',
+                -- },
+                -- ---LHS of operator-pending mappings in NORMAL and VISUAL mode
+                -- opleader = {
+                --     ---Line-comment keymap
+                --     line = '<Leader>c',
+                --     ---Block-comment keymap
+                --     block = '<Leader>b',
+                -- },
+                -- extra = {
+                --     ---Add comment on the line above
+                --     above = '<Leader>cO',
+                --     ---Add comment on the line below
+                --     below = '<Leader>co',
+                --     ---Add comment at the end of line
+                --     eol = '<Leader>cA',
+                -- },
+            }
+        end,
+    },
+    -- {
+    --     'folke/ts-comments.nvim', -- better commenting for TSX/JSX?
+    --     opts = {},
+    --     event = "VeryLazy",
+    --     enabled = vim.fn.has("nvim-0.10.0") == 1,
+    -- },
     {
         'skardyy/neo-img', -- image preview in Oil, but it doesn't work atm
         build = 'cd ttyimg && go build',

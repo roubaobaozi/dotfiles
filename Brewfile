@@ -23,6 +23,7 @@ brew 'node'
 brew 'readline'
 brew 'rename' # requires python I think, but this is neat
 brew 'roundup'
+brew 'ruby' # for concentric sort in neovim
 brew 'tmux'
 brew 'trash'
 brew 'wget'

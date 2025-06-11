@@ -8,10 +8,12 @@ it() {
 }
 
 # vim
-alias vim='eval "nvim $@";'
+vim() {
+    eval "nvim $@";
+}
 
 # wezterm
-alias wsl='eval "wezterm cli split-pane --left $@"'
+alias wsl='exec "wezterm cli split-pane --left $@"'
 
 # Directory navigation
 alias ..='function navigate() {
