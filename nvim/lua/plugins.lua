@@ -350,6 +350,9 @@ return {
                     }
                 }
             }
+
+            require('lspconfig').cssmodules_ls.setup {}
+
             require('lspconfig').ember.setup {} -- not sure if this actually does anything, but anyway, for handlebars
 
             require('lspconfig').emmet_language_server.setup {
@@ -391,6 +394,8 @@ return {
             --         configPath = '~/.dotfiles/nvim/.vale.ini',
             --     },
             -- }
+
+            require('lspconfig').stylelint_lsp.setup {}
 
             require('lspconfig').typos_lsp.setup {
                 -- Logging level of the language server. Logs appear in :LspLog. Defaults to error.
@@ -711,7 +716,7 @@ return {
                 },
                 auto_open = true,             -- Automatically open images when buffer is loaded
                 oil_preview = true,           -- changes oil preview of images too
-                backend = 'auto',             -- auto detect: kitty / iterm / sixel
+                backend = 'auto',             -- auto detect: kitty / iTerm / sixel
                 size = {                      --scales the width, will maintain aspect ratio
                     oil = { x = 400, y = 400 }, -- a number (oil = 400) will set both at once
                     main = { x = 800, y = 800 }
@@ -1255,7 +1260,7 @@ return {
 --   },
 --   auto_open = true,             -- Automatically open images when buffer is loaded
 --   oil_preview = true,           -- changes oil preview of images too
---   backend = "auto",             -- auto detect: kitty / iterm / sixel
+--   backend = "auto",             -- auto detect: kitty / iTerm / sixel
 --   size = {                      --scales the width, will maintain aspect ratio
 --     oil = { x = 400, y = 400 }, -- a number (oil = 400) will set both at once
 --     main = { x = 800, y = 800 }
