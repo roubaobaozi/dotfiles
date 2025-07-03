@@ -226,6 +226,11 @@ return {
         end,
     },
     {
+        'benomahony/oil-git.nvim',
+        dependencies = { 'stevearc/oil.nvim' },
+        -- No opts or config needed! Works automatically
+    },
+    {
         'tpope/vim-fugitive', -- open line in github, lightline branch info
     },
     {
@@ -625,8 +630,16 @@ return {
                     -- Conform will run multiple formatters sequentially
                     -- python = { 'isort', 'black' },
                     -- Use a sub-list to run only the first available formatter
-                    javascript = { { 'prettier', 'prettierd' } },
+                    javascript = { 'prettierd', 'prettier', stop_after_first = true },
+                    javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+                    typescript = { 'prettierd', 'prettier', stop_after_first = true },
+                    typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
                     -- run with conform.format()
+                },
+                format_on_save = {
+                    -- I recommend these options. See :help conform.format for details.
+                    lsp_format = "fallback",
+                    timeout_ms = 500,
                 },
             }
             vim.api.nvim_create_user_command('Format', function(args)
