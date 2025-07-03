@@ -9,14 +9,14 @@ return {
     },
     {
         'lewis6991/gitsigns.nvim', -- add/change/del line highlighting, git blame!
-        config = function ()
+        config = function()
             require 'gitsigns'.setup {
                 numhl = true,
                 word_diff = true,
                 current_line_blame = true,
                 current_line_blame_opts = {
                     virt_text_pos = 'right_align', -- stay away from tiny-inline-diagnostic too
-                    virt_text_priority = 1000, -- be under tiny-inline-diagnostic
+                    virt_text_priority = 1000,     -- be under tiny-inline-diagnostic
                 },
             }
         end,
@@ -37,10 +37,10 @@ return {
         dependencies = {
             'nvim-lua/plenary.nvim', -- required for telescope for find-in-all-files, and nvim-spectre find & replace in all files
         },
-        config = function ()
+        config = function()
             require 'telescope'.setup {
                 defaults = {
-                    file_ignore_patterns = {".git/", "tmp/", "node_modules/", "dist/", ".DS_Store"},
+                    file_ignore_patterns = { ".git/", "tmp/", "node_modules/", "dist/", ".DS_Store" },
                     vimgrep_arguments = {
                         'rg',
                         '--color=never',
@@ -63,16 +63,16 @@ return {
                 },
                 extensions = {
                     fzf = {
-                        fuzzy = true,                    -- false will only do exact matching
-                        override_generic_sorter = true,  -- override the generic sorter
-                        override_file_sorter = true,     -- override the file sorter
-                        case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                                         -- the default case_mode is "smart_case"
+                        fuzzy = true,                   -- false will only do exact matching
+                        override_generic_sorter = true, -- override the generic sorter
+                        override_file_sorter = true,    -- override the file sorter
+                        case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+                        -- the default case_mode is "smart_case"
                     },
                     frecency = {
                         show_scores = true,
                         show_unindexed = true,
-                        ignore_patterns = {".git/", "tmp/", "node_modules/", "dist/", ".DS_Store"},
+                        ignore_patterns = { ".git/", "tmp/", "node_modules/", "dist/", ".DS_Store" },
                     },
                 },
             }
@@ -89,23 +89,23 @@ return {
     },
     {
         'nvim-pack/nvim-spectre', -- find and replace in all files
-        config = function ()
+        config = function()
             require 'spectre'.setup {
                 open_cmd = 'tabnew',
                 is_insert_mode = true,
                 mapping = {
-                   ['send_to_qf'] = {
-                       map = "<leader>sq"
-                   },
-                   ['replace_cmd'] = {
-                       map = "<leader>sr"
-                   },
-                   ['change_view_mode'] = {
-                       map = "<leader>sv"
-                   },
-                   ['resume_last_search'] = {
-                     map = "<leader>sl"
-                   }
+                    ['send_to_qf'] = {
+                        map = "<leader>sq"
+                    },
+                    ['replace_cmd'] = {
+                        map = "<leader>sr"
+                    },
+                    ['change_view_mode'] = {
+                        map = "<leader>sv"
+                    },
+                    ['resume_last_search'] = {
+                        map = "<leader>sl"
+                    }
                 }
             }
         end,
@@ -113,7 +113,7 @@ return {
     {
         'sindrets/diffview.nvim',
         -- command = 'DiffviewOpen',
-        config = function ()
+        config = function()
             require 'diffview'.setup {
                 -- key_bindings = {
                 --     file_panel = {
@@ -145,12 +145,12 @@ return {
                 -- },
             }
 
-            vim.keymap.set('n', '<Leader><Leader>d', function ()
-                  if next(require('diffview.lib').views) == nil then
-                      vim.cmd('DiffviewOpen')
-                  else
-                      vim.cmd('DiffviewClose')
-                  end
+            vim.keymap.set('n', '<Leader><Leader>d', function()
+                if next(require('diffview.lib').views) == nil then
+                    vim.cmd('DiffviewOpen')
+                else
+                    vim.cmd('DiffviewClose')
+                end
             end)
 
             vim.opt.diffopt = {
@@ -170,7 +170,7 @@ return {
     },
     {
         'nvim-lualine/lualine.nvim', -- status line
-        config = function ()
+        config = function()
             require 'lualine'.setup {
                 options = {
                     -- theme = 'material',
@@ -190,7 +190,7 @@ return {
     {
         'catppuccin/nvim', -- current theme
         name = 'catppuccin',
-        config = function ()
+        config = function()
             require 'catppuccin'.setup {
                 color_overrides = {
                     mocha = {
@@ -202,7 +202,7 @@ return {
     },
     {
         'stevearc/oil.nvim', -- apparently this is really cool instead of tree file explorers
-        config = function ()
+        config = function()
             require 'oil'.setup {
                 default_file_explorer = false, -- fuuuuck I still need netrw for :GBrowse, don't just disable it!!!
                 delete_to_trash = true,
@@ -216,7 +216,7 @@ return {
                 keymaps = {
                     ['yp'] = {
                         desc = 'Copy filepath to system clipboard',
-                        callback = function ()
+                        callback = function()
                             require('oil.actions').copy_entry_path.callback()
                             vim.fn.setreg("+", vim.fn.getreg(vim.v.register))
                         end,
@@ -225,11 +225,11 @@ return {
             }
         end,
     },
-    {
+    --[[ {
         'benomahony/oil-git.nvim',
         dependencies = { 'stevearc/oil.nvim' },
         -- No opts or config needed! Works automatically
-    },
+    }, ]]
     {
         'tpope/vim-fugitive', -- open line in github, lightline branch info
     },
@@ -244,13 +244,15 @@ return {
     },
     {
         'nvim-treesitter/nvim-treesitter', -- better javascript syntax highlighting/completion
+        dependencies = { 'OXY2DEV/markview.nvim' },
+        lazy = false,
         cmd = 'TSUpdate',
-        config = function ()
+        config = function()
             require 'nvim-treesitter.configs'.setup {
                 ensure_installed = { "astro", "c", "css", "glimmer", "html", "javascript", "jsdoc", "json", "lua", "markdown", "query", "regex", "scss", "styled", "svelte", "tsx", "typescript", "vim", "vimdoc", "yaml" },
                 highlight = {
-                   enable = true,
-                   additional_vim_regex_highlighting = true
+                    enable = true,
+                    additional_vim_regex_highlighting = true
                 },
                 incremental_selection = {
                     enable = true,
@@ -260,18 +262,18 @@ return {
                     },
                 },
                 matchup = {
-                    enable = true,                 -- mandatory, false will disable the whole extension
+                    enable = true, -- mandatory, false will disable the whole extension
                     -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
-              },
+                },
             }
         end,
     },
     {
         'code-biscuits/nvim-biscuits', -- nice labels on ending brackets so you can tell
-        config = function ()
+        config = function()
             require 'nvim-biscuits'.setup {
                 default_config = {
-            --        max_length = 12,
+                    --        max_length = 12,
                     cursor_line_only = true,
                     min_distance = 5,
                     prefix_string = "📎 "
@@ -284,9 +286,9 @@ return {
                         prefix_string = "🥠 ", -- ✨
                         max_length = 80
                     },
-            --        python = {
-            --            disabled = true
-            --        }
+                    --        python = {
+                    --            disabled = true
+                    --        }
                 }
             }
         end,
@@ -300,13 +302,13 @@ return {
     },
     {
         'neovim/nvim-lspconfig', -- supposedly language syntax/autocomplete/intellisense stuff?
-        config = function ()
+        config = function()
             local lsp = require('lsp-zero').preset({})
 
             lsp.on_attach(function(_, bufnr)
                 -- see :help lsp-zero-keybindings
                 -- to learn the available actions
-                lsp.default_keymaps({buffer = bufnr})
+                lsp.default_keymaps({ buffer = bufnr })
             end)
 
             -- " (Optional) Configure lua language server for neovim
@@ -339,8 +341,8 @@ return {
                     javascript = {
                         format = {
                             convertTabsToSpaces = true, -- prob don't need this if editorConfig
-                            tabSize = 4, -- prob don't need this if editorConfig
-                            semicolons = 'insert', -- prob don't need this if editorConfig
+                            tabSize = 4,                -- prob don't need this if editorConfig
+                            semicolons = 'insert',      -- prob don't need this if editorConfig
                             insertSpaceAfterOpeningAndBeforeClosingEmptyBraces = false,
                             insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces = false,
                             insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = false,
@@ -365,24 +367,24 @@ return {
                 -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
                 -- **Note:** only the options listed in the table are supported.
                 -- init_options = {
-                    --- @type table<string, string>
-                    -- includeLanguages = {},
-                    --- @type string[]
-                    -- excludeLanguages = {},
-                    --- @type string[]
-                    -- extensionsPath = {},
-                    --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
-                    -- preferences = {},
-                    --- @type boolean Defaults to `true`
-                    -- showAbbreviationSuggestions = true,
-                    --- @type "always" | "never" Defaults to `"always"`
-                    -- showExpandedAbbreviation = "always",
-                    --- @type boolean Defaults to `false`
-                    -- showSuggestionsAsSnippets = false,
-                    --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
-                    -- syntaxProfiles = {},
-                    --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
-                    -- variables = {},
+                --- @type table<string, string>
+                -- includeLanguages = {},
+                --- @type string[]
+                -- excludeLanguages = {},
+                --- @type string[]
+                -- extensionsPath = {},
+                --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+                -- preferences = {},
+                --- @type boolean Defaults to `true`
+                -- showAbbreviationSuggestions = true,
+                --- @type "always" | "never" Defaults to `"always"`
+                -- showExpandedAbbreviation = "always",
+                --- @type boolean Defaults to `false`
+                -- showSuggestionsAsSnippets = false,
+                --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
+                -- syntaxProfiles = {},
+                --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
+                -- variables = {},
                 -- },
             }
 
@@ -420,11 +422,11 @@ return {
         end,
     },
     {
-        'hrsh7th/nvim-cmp', -- Required
+        'hrsh7th/nvim-cmp',         -- Required
         dependencies = {
             'onsails/lspkind.nvim', -- for icons in suggestions, eg. Copilot
         },
-        config = function ()
+        config = function()
             local cmp_autopairs = require('nvim-autopairs.completion.cmp')
             local cmp = require('cmp')
             local lspkind = require('lspkind')
@@ -439,19 +441,19 @@ return {
                     })
                 },
                 mapping = {
-                    ['<CR>'] = cmp.mapping.confirm({select = false}),
+                    ['<CR>'] = cmp.mapping.confirm({ select = false }),
                     ['<Tab>'] = cmp.mapping(function(fallback)
-                            -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
-                            if cmp.visible() then
-                                local entry = cmp.get_selected_entry()
-                                    if not entry then
-                                        cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-                                    end
-                                    cmp.confirm()
-                            else
-                                fallback()
+                        -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
+                        if cmp.visible() then
+                            local entry = cmp.get_selected_entry()
+                            if not entry then
+                                cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
                             end
-                        end, {'i','s','c',}),
+                            cmp.confirm()
+                        else
+                            fallback()
+                        end
+                    end, { 'i', 's', 'c', }),
                     ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item()),
                     ['<PageDown>'] = cmp.mapping(cmp.mapping.select_next_item()),
                     -- ['<PageDown>'] = cmp.mapping(cmp.mapping.scroll_docs(4)),
@@ -478,7 +480,7 @@ return {
                             end,
                         },
                         -- Other Sources
-                        { name = 'path', group_index = 2 },
+                        { name = 'path',    group_index = 2 },
                         { name = 'luasnip', group_index = 2 },
                     },
                     { name = 'buffer' }
@@ -512,7 +514,7 @@ return {
     {
         'akinsho/git-conflict.nvim', -- merge conflict resolution, latest tag (just in case main is broken)
         version = '*',
-        config = function ()
+        config = function()
             require 'git-conflict'.setup {
                 default_mappings = {
                     ours = 'co',
@@ -531,7 +533,7 @@ return {
     },
     {
         'yorickpeterse/nvim-pqf', -- for prettier git-conflict list page
-        config = function ()
+        config = function()
             require 'pqf'.setup {}
         end,
     },
@@ -540,13 +542,13 @@ return {
     },
     {
         'chrisgrieser/nvim-spider', -- camelCase and snake_case motion
-        config = function ()
+        config = function()
             require 'spider'.setup { skipInsignificantPunctuation = true }
         end,
     },
     {
         'chrisgrieser/nvim-various-textobjs', -- camelCase, kebab-case and snake_case selection
-        config = function ()
+        config = function()
             require 'various-textobjs'.setup {
                 keymaps = { defaultKeymaps = true }
             }
@@ -565,13 +567,13 @@ return {
     },
     {
         'windwp/nvim-autopairs', -- auto ) for (
-        config = function ()
+        config = function()
             require('nvim-autopairs').setup {}
         end,
     },
     {
         'NMAC427/guess-indent.nvim', -- guess the indent since autopairs etc seem to fuck it up
-        config = function ()
+        config = function()
             require('guess-indent').setup {}
         end,
     },
@@ -580,14 +582,14 @@ return {
     },
     {
         'sQVe/sort.nvim', -- for sorting selections with :Sort
-        config = function ()
+        config = function()
             require 'sort'.setup {}
         end,
     },
     {
         'akinsho/bufferline.nvim', -- show buffers like tabs
         version = '*',
-        config = function ()
+        config = function()
             require 'bufferline'.setup {
                 options = {
                     diagnostics = 'nvim_lsp',
@@ -595,7 +597,7 @@ return {
                     max_prefix_length = 20,
                     middle_mouse_command = '%bd|e#', -- doesn't work with iTerm
                     numbers = 'buffer_id',
-                    right_mouse_command = '%bd|e#', -- doesn't work with iTerm
+                    right_mouse_command = '%bd|e#',  -- doesn't work with iTerm
                     tab_size = 23,
                     offsets = {
                         {
@@ -611,7 +613,7 @@ return {
     },
     {
         'uga-rosa/ccc.nvim', -- colour picker and shower!
-        config = function ()
+        config = function()
             -- h/l for left/right on sliders, a toggles the alpha channel
             require 'ccc'.setup {
                 highlighter = {
@@ -623,7 +625,7 @@ return {
     },
     {
         'stevearc/conform.nvim', -- for prettierd (from Mason)
-        config = function ()
+        config = function()
             require 'conform'.setup {
                 formatters_by_ft = {
                     -- lua = { 'stylua' },
@@ -657,7 +659,7 @@ return {
     },
     {
         'rachartier/tiny-inline-diagnostic.nvim', -- better inline error messages, bit of work to get it to play with gitsigns' current_line_blame, but works!
-        config = function ()
+        config = function()
             require 'tiny-inline-diagnostic'.setup {
                 virt_texts = {
                     priority = 999,
@@ -667,13 +669,16 @@ return {
     },
     {
         'OXY2DEV/markview.nvim', -- in-vim markdown! Needs to be after treesitter and web-devicons (dependencies)
+        lazy = false,
+        -- For `nvim-treesitter` users.
+        priority = 49,
     },
     {
         'andymass/vim-matchup', -- better %, see if it works with `
     },
     {
         'JoosepAlviste/nvim-ts-context-commentstring', -- pre-commit hook for Comment.nvim for TSX/JSX!
-        config = function ()
+        config = function()
             require 'ts_context_commentstring'.setup {
                 enable_autocmd = false,
             }
@@ -681,7 +686,7 @@ return {
     },
     {
         'numToStr/Comment.nvim', -- better commenting
-        config = function ()
+        config = function()
             require 'Comment'.setup {
                 pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
                 -- toggler = {
@@ -717,7 +722,7 @@ return {
     {
         'skardyy/neo-img', -- image preview in Oil, but it doesn't work atm
         build = 'cd ttyimg && go build',
-        config = function ()
+        config = function()
             require 'neo-img'.setup {
                 supported_extensions = {
                     ['png'] = true,
@@ -727,10 +732,10 @@ return {
                     ['svg'] = true,
                     ['tiff'] = true
                 },
-                auto_open = true,             -- Automatically open images when buffer is loaded
-                oil_preview = true,           -- changes oil preview of images too
-                backend = 'auto',             -- auto detect: kitty / iTerm / sixel
-                size = {                      --scales the width, will maintain aspect ratio
+                auto_open = true,               -- Automatically open images when buffer is loaded
+                oil_preview = true,             -- changes oil preview of images too
+                backend = 'auto',               -- auto detect: kitty / iTerm / sixel
+                size = {                        --scales the width, will maintain aspect ratio
                     oil = { x = 400, y = 400 }, -- a number (oil = 400) will set both at once
                     main = { x = 800, y = 800 }
                 },
@@ -746,7 +751,7 @@ return {
         'zbirenbaum/copilot.lua', -- Copilot
         cmd = 'Copilot',
         event = 'InsertEnter',
-        config = function ()
+        config = function()
             require 'copilot'.setup {
                 suggestion = { enabled = false },
                 panel = { enabled = false },
@@ -755,7 +760,7 @@ return {
     },
     {
         'zbirenbaum/copilot-cmp',
-        config = function ()
+        config = function()
             require 'copilot_cmp'.setup {}
         end,
     },
@@ -936,13 +941,13 @@ return {
 -- --         colors.editor.cursor = "#F4DBD6"
 -- --     end
 -- -- }
--- 
+--
 -- require 'tiny-inline-diagnostic'.setup {
 --     virt_texts = {
 --         priority = 999,
 --     },
 -- }
--- 
+--
 -- require 'gitsigns'.setup {
 --     numhl = true,
 --     word_diff = true,
@@ -956,27 +961,27 @@ return {
 --     keys = 'ntesiroamvclpufywhdx',
 --     uppercase_labels = true
 -- }
--- 
+--
 -- -- LSP stuff
 -- local lsp = require('lsp-zero').preset({})
--- 
+--
 -- lsp.on_attach(function(_, bufnr)
 --   -- see :help lsp-zero-keybindings
 --   -- to learn the available actions
 --   lsp.default_keymaps({buffer = bufnr})
 -- end)
--- 
+--
 -- -- " (Optional) Configure lua language server for neovim
 -- require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
--- 
+--
 -- require('nvim-autopairs').setup {}
--- 
+--
 -- -- Copilot
 -- -- require('copilot').setup {}
--- 
+--
 -- local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 -- local cmp = require('cmp')
--- 
+--
 -- cmp.setup({
 --     mapping = {
 --         ['<CR>'] = cmp.mapping.confirm({select = false}),
@@ -1001,7 +1006,7 @@ return {
 --                 entry_filter = function(entry)
 --                   local client_name = entry.source.source.client.name
 --                   local context = require("cmp.config.context")
--- 
+--
 --                   -- Only return Emmet results in styled-component template strings
 --                   return client_name ~= "emmet_language_server"
 --                     or entry.context.filetype == "css"
@@ -1012,12 +1017,12 @@ return {
 --         { name = 'buffer' }
 --     )
 -- })
--- 
+--
 -- cmp.event:on(
 --     'confirm_done',
 --     cmp_autopairs.on_confirm_done()
 -- )
--- 
+--
 -- require('lspconfig').ts_ls.setup{
 --     on_attach = on_attach,
 --     flags = lsp_flags,
@@ -1062,7 +1067,7 @@ return {
 --     }
 -- }
 -- require('lspconfig').ember.setup {} -- not sure if this actually does anything, but anyway, for handlebars
--- 
+--
 -- require('lspconfig').emmet_language_server.setup {
 --   filetypes = { "css", "html", "javascript", "javascriptreact", "less", "sass", "scss", "typescriptreact" },
 --   -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
@@ -1088,18 +1093,18 @@ return {
 --     -- variables = {},
 --   -- },
 -- }
--- 
+--
 -- -- grammarly in html is a WIP so eh just turn it off atm
 -- require('lspconfig').grammarly.setup {
 --     config = {
 --         suggestionCategories = { oxfordComma = "on" } },
 -- --        filetypes = { 'markdown', 'javascriptreact' }
 -- }
--- 
+--
 -- lsp.setup()
--- 
+--
 -- require('guess-indent').setup {}
--- 
+--
 -- require 'nvim-treesitter.configs'.setup {
 --     ensure_installed = { "astro", "c", "css", "glimmer", "html", "javascript", "jsdoc", "json", "lua", "markdown", "query", "regex", "scss", "svelte", "tsx", "typescript", "vim", "vimdoc", "yaml" },
 --     highlight = {
@@ -1118,7 +1123,7 @@ return {
 --         -- disable = { "c", "ruby" },  -- optional, list of language that will be disabled
 --   },
 -- }
--- 
+--
 -- require 'nvim-biscuits'.setup {
 --     default_config = {
 -- --        max_length = 12,
@@ -1139,7 +1144,7 @@ return {
 -- --        }
 --     }
 -- }
--- 
+--
 -- require 'telescope'.setup {
 --     defaults = {
 --         file_ignore_patterns = {".git/", "tmp/", "node_modules/", "dist/", ".DS_Store"},
@@ -1221,9 +1226,9 @@ return {
 -- -- choosing e as it doesn't exist
 -- vim.keymap.set({ 'o', 'x' }, 'ae', '<cmd>lua require("various-textobjs").subword(false)<CR>')
 -- vim.keymap.set({ 'o', 'x' }, 'ie', '<cmd>lua require("various-textobjs").subword(true)<CR>')
--- 
+--
 -- require 'sort'.setup {}
--- 
+--
 -- -- h/l for left/right on sliders, a toggles the alpha channel
 -- require 'ccc'.setup {
 --     highlighter = {
@@ -1231,7 +1236,7 @@ return {
 --         lsp = true,
 --     },
 -- }
--- 
+--
 -- require 'catppuccin'.setup {
 --     color_overrides = {
 --         mocha = {
@@ -1239,7 +1244,7 @@ return {
 --         },
 --     },
 -- }
--- 
+--
 -- require 'bufferline'.setup {
 --     options = {
 --         diagnostics = "nvim_lsp",
@@ -1259,9 +1264,9 @@ return {
 --         },
 --     }
 -- }
--- 
+--
 -- require 'Comment'.setup()
--- 
+--
 -- require 'neo-img'.setup({
 --   supported_extensions = {
 --     ['png'] = true,
@@ -1284,7 +1289,7 @@ return {
 --   },
 --   resizeMode = "Fit" -- Fit / Stretch / Crop
 -- })
--- 
+--
 -- -- require 'reactive'.setup {
 -- --   builtin = {
 -- --     cursorline = true,
@@ -1292,5 +1297,5 @@ return {
 -- --     modemsg = true,
 -- --   }
 -- -- }
--- 
+--
 -- -- require('lazy').setup(plugins) -- not using Lazy because emmet-vim doesn't work properly with it
