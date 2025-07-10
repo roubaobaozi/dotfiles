@@ -5,8 +5,7 @@ cask 'avast-security'
 cask 'dropbox'
 cask 'handbrake'
 cask 'malwarebytes'
-cask 'transmission'
 
 # Chat applications
 cask 'skype'
-cask 'zoomus'
+cask 'zoom'
