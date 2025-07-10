@@ -267,6 +267,7 @@ return {
     },
     {
         'code-biscuits/nvim-biscuits', -- nice labels on ending brackets so you can tell
+        ensure_installed = 'maintained',
         config = function()
             require 'nvim-biscuits'.setup {
                 default_config = {
@@ -277,11 +278,11 @@ return {
                 },
                 language_config = {
                     html = {
-                        prefix_string = "🌐 "
+                        prefix_string = "🌐 ",
                     },
                     javascript = {
                         prefix_string = "🥠 ", -- ✨
-                        max_length = 80
+                        max_length = 80,
                     },
                     --        python = {
                     --            disabled = true
@@ -295,7 +296,7 @@ return {
         'neovim/nvim-lspconfig', -- supposedly language syntax/autocomplete/intellisense stuff?
         config = function()
             vim.lsp.config('typos_lsp', {
-                root_markers = { '~/.dotfiles/nvim/typos.toml' },
+                root_markers = { '~/.dotfiles/nvim/spell/typos.toml' },
             })
         end,
     },
