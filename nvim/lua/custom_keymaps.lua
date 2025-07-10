@@ -128,6 +128,12 @@ vim.keymap.set('n', '[]', 'k$][%?}<CR>')
 -- use matchup instead
 vim.keymap.set({'n', 'x'}, '%', '<Plug>(matchup-%)<CR>')
 
+-- switching buffers
+vim.keymap.set('n', '<A-4>', '<C-w>h') -- left
+vim.keymap.set('n', '<A-5>', '<C-w>k') -- up
+vim.keymap.set('n', '<A-6>', '<C-w>j') -- down
+vim.keymap.set('n', '<A-0>', '<C-w>l') -- right
+
 -- Code completion
 vim.keymap.set('i', '/arn', '() => <Esc>4hi')
 vim.keymap.set('i', '/arc', '() => {}<Esc>6hi')
@@ -139,6 +145,7 @@ vim.keymap.set('i', '/cmt', '/**  */<Esc>2hi')
 vim.keymap.set('i', '/cow', 'console.warn();<Esc>hi')
 vim.keymap.set('i', '/coi', 'console.info();<Esc>hi')
 vim.keymap.set('i', '/col', 'console.log();<Esc>hi')
+vim.keymap.set('i', '/coe', 'console.error();<Esc>hi')
 vim.keymap.set('i', '/cop', '\'arst<Space>\',<Space><Esc>3hp3lp==')
 -- make C-d in insert mode delete forward
 vim.keymap.set('i', '<C-d>', '<Del>')

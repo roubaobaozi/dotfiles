@@ -1,6 +1,3 @@
-vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct, except not using lazy because it breaks emmet
-vim.g.maplocalleader = ' '
-
 -- Emmet settings
 -- vim.g.user_emmet_leader_key = ','
 vim.g.user_emmet_expandabbr_key = '<A-Tab>'
