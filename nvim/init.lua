@@ -3,7 +3,8 @@
 -- To install all the nerd fonts:
 -- brew tap homebrew/cask-fonts && brew search '/font-.*-nerd-font/' | awk '{ print $1 }' | xargs -I{} brew install --cask {} || true
 
-vim.g.mapleader = ' ' -- Make sure to set `mapleader` before lazy so your mappings are correct, except not using lazy because it breaks emmet
+vim.g.mapleader =
+' '                   -- Make sure to set `mapleader` before lazy so your mappings are correct, except not using lazy because it breaks emmet
 vim.g.maplocalleader = ' '
 
 -- Bootstrap lazy.nvim
@@ -14,7 +15,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     if vim.v.shell_error ~= 0 then
         vim.api.nvim_echo({
             { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-            { out, "WarningMsg" },
+            { out,                            "WarningMsg" },
             { "\nPress any key to exit..." },
         }, true, {})
         vim.fn.getchar()
@@ -23,9 +24,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins")
+require('lazy').setup('plugins')
 
 -- require('plugins')
 require('options')
 require('custom_keymaps')
-

@@ -33,8 +33,11 @@ brew 'zplug'
 #brew 'go'
 #brew 'postgresql'
 #brew 'spaceman-diff'
+
+# Neovim
 brew 'fd' # for vim's Telescope
 brew 'ripgrep' # for vim's Telescope
+brew 'tree-sitter' # for nvim-treesitter
 brew 'typescript' # for tsserver for vim's ALE
 brew 'jesseduffield/lazygit/lazygit'
 brew 'gnu-sed' # for nvim-spectre
