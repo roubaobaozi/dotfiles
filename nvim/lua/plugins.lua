@@ -15,9 +15,10 @@ return {
                 word_diff = true,
                 current_line_blame = true,
                 current_line_blame_opts = {
-                    virt_text_pos = 'right_align', -- stay away from tiny-inline-diagnostic too
-                    virt_text_priority = 1000,     -- be under tiny-inline-diagnostic
+                    virt_text_pos = 'eol',     -- stay away from tiny-inline-diagnostic too
+                    virt_text_priority = 1000, -- be under tiny-inline-diagnostic
                 },
+                sign_priority = 1000,
             }
         end,
     },
@@ -31,7 +32,7 @@ return {
             }
         end,
     },
-    {
+    --[[ {
         'nvim-telescope/telescope.nvim', -- find in all files, open file in dir, * is breaking, think it's installing wrong latest tag
         version = '0.1.8',
         dependencies = {
@@ -86,8 +87,49 @@ return {
     },
     {
         'nvim-telescope/telescope-frecency.nvim', -- frecency (frequency & recency) for telescope
-    },
+    }, ]]
     {
+        'folke/snacks.nvim',
+        priority = 1000,
+        lazy = false,
+        ---@type snacks.Config
+        keys = {},
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+            bigfile = { enabled = true },
+            dashboard = { enabled = true },
+            explorer = { enabled = false },
+            image = { enabled = false }, -- requires wezterm, kitty, ghostty
+            indent = { enabled = true },
+            input = { enabled = true },
+            picker = {
+                enabled = true,
+                matcher = {
+                    frecency = true,
+                },
+            },
+            notifier = { enabled = false },
+            quickfile = { enabled = true },
+            scope = { enabled = true },
+            scroll = {
+                enabled = true,
+                animate = {
+                    duration = { step = 15, total = 100 },
+                },
+            },
+            statuscolumn = { enabled = true },
+            words = { enabled = false },
+            zen = {
+                enabled = true,
+                -- show = {
+                --     statusline = true, -- can only be shown when using the global statusline
+                -- },
+            },
+        },
+    },
+    --[[ {
         'nvim-pack/nvim-spectre', -- find and replace in all files
         config = function()
             require 'spectre'.setup {
@@ -109,7 +151,7 @@ return {
                 }
             }
         end,
-    },
+    }, ]]
     {
         'sindrets/diffview.nvim',
         -- command = 'DiffviewOpen',
@@ -246,7 +288,28 @@ return {
         cmd = 'TSUpdate',
         config = function()
             require 'nvim-treesitter.configs'.setup {
-                ensure_installed = { "astro", "c", "css", "glimmer", "html", "javascript", "jsdoc", "json", "lua", "markdown", "query", "regex", "scss", "styled", "svelte", "tsx", "typescript", "vim", "vimdoc", "yaml" },
+                ensure_installed = {
+                    "astro",
+                    "c",
+                    "css",
+                    "glimmer",
+                    "html",
+                    "javascript",
+                    "jsdoc",
+                    "json",
+                    "lua",
+                    "markdown",
+                    "query",
+                    "regex",
+                    "scss",
+                    "styled",
+                    "svelte",
+                    "tsx",
+                    "typescript",
+                    "vim",
+                    "vimdoc",
+                    "yaml",
+                },
                 highlight = {
                     enable = true,
                     additional_vim_regex_highlighting = true
@@ -560,7 +623,7 @@ return {
         config = function()
             require 'tiny-inline-diagnostic'.setup {
                 virt_texts = {
-                    priority = 999,
+                    priority = 900,
                 },
             }
         end,
@@ -617,7 +680,7 @@ return {
     --     event = "VeryLazy",
     --     enabled = vim.fn.has("nvim-0.10.0") == 1,
     -- },
-    {
+    --[[ {
         'skardyy/neo-img', -- image preview in Oil, but it doesn't work atm
         build = 'cd ttyimg && go build',
         config = function()
@@ -644,7 +707,7 @@ return {
                 resizeMode = 'Fit' -- Fit / Stretch / Crop
             }
         end,
-    },
+    }, ]]
     {
         'zbirenbaum/copilot.lua', -- Copilot
         cmd = 'Copilot',
@@ -664,5 +727,6 @@ return {
     },
     --[[ {
         'r0nsha/multinput.nvim',
+        opts = {},
     }, ]]
 }
