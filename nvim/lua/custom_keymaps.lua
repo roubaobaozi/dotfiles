@@ -136,7 +136,8 @@ vim.keymap.set('n', '][', 'j0[[%/{<CR>')
 vim.keymap.set('n', '[]', 'k$][%?}<CR>')
 
 -- use matchup instead
-vim.keymap.set({ 'n', 'x' }, '%', '<Plug>(matchup-%)<CR>')
+vim.keymap.set({ 'n', 'x' }, '%', '<Plug>(matchup-%)<CR>', { desc = "Matchup bracket" })
+vim.keymap.set({ 'n', 'x' }, 'D', '"_d', { desc = "Delete without yank" })
 
 -- switching buffers
 vim.keymap.set('n', '<A-4>', '<C-w>h') -- left
