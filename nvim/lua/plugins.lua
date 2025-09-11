@@ -123,6 +123,17 @@ return {
                 matcher = {
                     frecency = true,
                 },
+                win = {
+                    input = {
+                        keys = {
+                            -- to close the picker on ESC instead of going to normal mode,
+                            -- add the following keymap to your config
+                            -- ["<Esc>"] = { "close", mode = { "n", "i" } },
+                            ["<PageDown>"] = { "list_scroll_down", mode = { "i", "n" } },
+                            ["<PageUp>"] = { "list_scroll_up", mode = { "i", "n" } },
+                        },
+                    },
+                },
             },
             notifier = { enabled = false },
             quickfile = { enabled = true },

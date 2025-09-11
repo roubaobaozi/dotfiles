@@ -1,6 +1,7 @@
 -- x is visual mode only. v is visual & select mode. s is select mode only
 
-local function warnMultiOrSingle()
+-- this stopped working with a new neovim release .. vim.cmd.getline doesn't exist, vim.cmd.col has wrong # of args ...
+--[[ local function warnMultiOrSingle()
     local command = "yiw$%o\\<CR>console.warn('arst ', );\\<Esc>5hp3lp=="
 
     -- if the end of the line ends in ;, then it's a single-line function, don't need % to get me to the end of the function
@@ -10,7 +11,7 @@ local function warnMultiOrSingle()
     end
 
     return command
-end
+end ]]
 
 local function compare_to_clipboard()
     local ftype = vim.api.nvim_eval("&filetype")
@@ -37,9 +38,12 @@ vim.keymap.set('n', '<Leader>q', '<cmd>bd<CR>', { desc = "Close buffer" })
 vim.keymap.set('n', '<Leader>qn', '<cmd>bd!<CR>', { desc = "Close buffer ignoring unsaved" })
 vim.keymap.set('n', '<Leader>qo', '<cmd>BufferLineCloseOthers<CR>', { desc = "Close all other buffers" })
 
-vim.keymap.set('n', '<Leader>w', warnMultiOrSingle, { desc = "Create console warn" })
-
-vim.keymap.set('n', '<Leader>wi', 'yiw$o<CR>console.warn(\'arst \', );<Esc>5hp3lp==',
+-- vim.keymap.set('n', '<Leader>w', warnMultiOrSingle, { desc = "Create console warn" })
+vim.keymap.set('n', '<Leader>w',
+    'yiw$%o<CR>console.warn(\'%c--- HERE WARN ---\', \'background-color:goldenrod;color:#000;font-weight: bold;\', {});<Esc>3hp==',
+    { desc = "Create console warn" })
+vim.keymap.set('n', '<Leader>wi',
+    'yiw$o<CR>console.warn(\'%c--- HERE WARN ---\', \'background-color:goldenrod;color:#000;font-weight: bold;\', {});<Esc>3hp==',
     { desc = "Create inline console warn" })
 vim.keymap.set('n', '<Leader>x', '<cmd>x<CR>', { desc = "Save and Quit" })
 -- vim.keymap.set('n', '<Leader>f', '<cmd>Telescope live_grep<CR>')
@@ -148,16 +152,24 @@ vim.keymap.set('n', '<A-6>', '<C-w>j', { desc = "Switch to buffer below" })
 vim.keymap.set('n', '<A-0>', '<C-w>l', { desc = "Switch to buffer on right" })
 
 -- Code completion
-vim.keymap.set('i', '/arn', '() => <Esc>4hi', { desc = "Fat-arrow function" })
-vim.keymap.set('i', '/fnc', 'function () {<CR><CR>}<Esc><<^2k09li', { desc = "Classic function" })
-vim.keymap.set('i', '/stc', 'const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li', { desc = "Styled div" })
+vim.keymap.set('i', '/fat', '() => <Esc>4hi', { desc = "Fat-arrow function" })
+vim.keymap.set('i', '/fun', 'function () {<CR><CR>}<Esc><<^2k09li', { desc = "Classic function" })
+vim.keymap.set('i', '/sty', 'const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li', { desc = "Styled div" })
 vim.keymap.set('i', '/jsd', '/**<cr> * <cr>*/<Esc>k$a', { desc = "JS Doc" })
 vim.keymap.set('i', '/cmt', '/**  */<Esc>2hi', { desc = "Comment" })
-vim.keymap.set('i', '/cow', 'console.warn();<Esc>hi', { desc = "Console warn" })
-vim.keymap.set('i', '/coi', 'console.info();<Esc>hi', { desc = "Console info" })
-vim.keymap.set('i', '/col', 'console.log();<Esc>hi', { desc = "Console log" })
-vim.keymap.set('i', '/coe', 'console.error();<Esc>hi', { desc = "Console error" })
-vim.keymap.set('i', '/cop', '\'arst<Space>\',<Space><Esc>3hp3lp==', { desc = "Console innards" })
+vim.keymap.set('i', '/cow',
+   'console.warn(\'%c--- HERE WARN ---\', \'background-color:goldenrod;color:#000;font-weight: bold;\', {});<Esc>3hp',
+   { desc = "Console warn" })
+vim.keymap.set('i', '/coi',
+   'console.info(\'%c--- HERE INFO ---\', \'background-color:skyblue;color:#000;font-weight: bold;\', {});<Esc>3hp',
+   { desc = "Console info" })
+vim.keymap.set('i', '/col',
+   'console.log(\'%c--- HERE LOG ---\', \'background-color:#117;color:#fff;font-weight: bold;\', {});<Esc>3hp',
+   { desc = "Console log" })
+vim.keymap.set('i', '/coe',
+   'console.error(\'%c--- HERE ERROR ---\', \'background-color:#711;color:#fff;font-weight: bold;\', {});<Esc>3hp',
+   { desc = "Console error" })
+-- vim.keymap.set('i', '/cop', '\'arst<Space>\',<Space><Esc>3hp3lp==', { desc = "Console innards" })
 -- make C-d in insert mode delete forward
 vim.keymap.set('i', '<C-d>', '<Del>', { desc = "Delete forward" })
 -- make opt-right, opt-left work correctly, with camelCase and snake_case
