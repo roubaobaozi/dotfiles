@@ -1,4 +1,5 @@
 -- x is visual mode only. v is visual & select mode. s is select mode only
+-- :h META, D = cmd, M = opt, S = shift, C = ctrl
 
 -- this stopped working with a new neovim release .. vim.cmd.getline doesn't exist, vim.cmd.col has wrong # of args ...
 --[[ local function warnMultiOrSingle()
@@ -123,15 +124,13 @@ vim.keymap.set('n', '<Leader>6', '<Plug>(git-conflict-theirs)', { desc = "Take t
 vim.keymap.set('n', '<Leader>0', '<Plug>(git-conflict-none)', { desc = "Take none" })
 -- see if I can get vscode shortcuts for prev/next change, prev/next issue
 -- seems that only opt-sft-f5/f8 work, the without shift doesn't
--- :h META, D = cmd, M = opt, S = shift, C = ctrl
 vim.keymap.set('n', '<M-S-F5>', 'g;', { desc = "Go to previous change" })
 vim.keymap.set('n', '<M-F5>', 'g,', { desc = "Go to next change" })
 vim.keymap.set('n', '<M-S-F8>', vim.diagnostic.goto_prev, { desc = "Go to previous issue" })
 vim.keymap.set('n', '<M-F8>', vim.diagnostic.goto_next, { desc = "Go to next issue" })
 vim.keymap.set('n', '<S-l>', '$', { desc = "Go to end of line" })
 vim.keymap.set('n', '<S-h>', '^', { desc = "Go to start of line" })
--- make Y behave like other capitals
-vim.keymap.set('n', 'Y', 'y$', { desc = "Yank to end of line" })
+
 -- go to opening bracket
 vim.keymap.set('n', '[[', '?{<CR>w99[{', { desc = "Go to opening bracket" })
 -- go to ending bracket
@@ -143,7 +142,11 @@ vim.keymap.set('n', '[]', 'k$][%?}<CR>', { desc = "Maybe go to top of function?"
 
 -- use matchup instead
 vim.keymap.set({ 'n', 'x' }, '%', '<Plug>(matchup-%)<CR>', { desc = "Matchup bracket" })
+
+-- Sometimes I don't want to yank
 vim.keymap.set({ 'n', 'x' }, 'D', '"_d', { desc = "Delete without yank" })
+-- make Y behave like other capitals
+vim.keymap.set('n', 'Y', 'y$', { desc = "Yank to end of line" })
 
 -- switching buffers
 vim.keymap.set('n', '<A-4>', '<C-w>h', { desc = "Switch to buffer on left" })
@@ -158,17 +161,17 @@ vim.keymap.set('i', '/sty', 'const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li', {
 vim.keymap.set('i', '/jsd', '/**<cr> * <cr>*/<Esc>k$a', { desc = "JS Doc" })
 vim.keymap.set('i', '/cmt', '/**  */<Esc>2hi', { desc = "Comment" })
 vim.keymap.set('i', '/cow',
-   'console.warn(\'%c--- HERE WARN ---\', \'background-color:goldenrod;color:#000;font-weight: bold;\', {});<Esc>3hp',
-   { desc = "Console warn" })
+    'console.warn(\'%c--- HERE WARN ---\', \'background-color:goldenrod;color:#000;font-weight: bold;\', {});<Esc>3hp',
+    { desc = "Console warn" })
 vim.keymap.set('i', '/coi',
-   'console.info(\'%c--- HERE INFO ---\', \'background-color:skyblue;color:#000;font-weight: bold;\', {});<Esc>3hp',
-   { desc = "Console info" })
+    'console.info(\'%c--- HERE INFO ---\', \'background-color:skyblue;color:#000;font-weight: bold;\', {});<Esc>3hp',
+    { desc = "Console info" })
 vim.keymap.set('i', '/col',
-   'console.log(\'%c--- HERE LOG ---\', \'background-color:#117;color:#fff;font-weight: bold;\', {});<Esc>3hp',
-   { desc = "Console log" })
+    'console.log(\'%c--- HERE LOG ---\', \'background-color:#117;color:#fff;font-weight: bold;\', {});<Esc>3hp',
+    { desc = "Console log" })
 vim.keymap.set('i', '/coe',
-   'console.error(\'%c--- HERE ERROR ---\', \'background-color:#711;color:#fff;font-weight: bold;\', {});<Esc>3hp',
-   { desc = "Console error" })
+    'console.error(\'%c--- HERE ERROR ---\', \'background-color:#711;color:#fff;font-weight: bold;\', {});<Esc>3hp',
+    { desc = "Console error" })
 -- vim.keymap.set('i', '/cop', '\'arst<Space>\',<Space><Esc>3hp3lp==', { desc = "Console innards" })
 -- make C-d in insert mode delete forward
 vim.keymap.set('i', '<C-d>', '<Del>', { desc = "Delete forward" })
