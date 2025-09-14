@@ -41,11 +41,11 @@ vim.keymap.set('n', '<Leader>qo', '<cmd>BufferLineCloseOthers<CR>', { desc = "Cl
 
 -- vim.keymap.set('n', '<Leader>w', warnMultiOrSingle, { desc = "Create console warn" })
 vim.keymap.set('n', '<Leader>w',
-    'yiw$%o<CR>console.warn(\'%c--- HERE WARN ---\', \'background-color:goldenrod;color:#000;font-weight: bold;\', {});<Esc>3hp==',
-    { desc = "Create console warn" })
+    'yiw%o<CR>console.warn(\'%c--- HERE WARN ---\', \'background-color:goldenrod;color:#000;font-weight: bold;\', {});<Esc>3hp==',
+    { desc = "Create console warn (should always work)" })
 vim.keymap.set('n', '<Leader>wi',
     'yiw$o<CR>console.warn(\'%c--- HERE WARN ---\', \'background-color:goldenrod;color:#000;font-weight: bold;\', {});<Esc>3hp==',
-    { desc = "Create inline console warn" })
+    { desc = "Create explicitly inline console warn" })
 vim.keymap.set('n', '<Leader>x', '<cmd>x<CR>', { desc = "Save and Quit" })
 -- vim.keymap.set('n', '<Leader>f', '<cmd>Telescope live_grep<CR>')
 vim.keymap.set('n', '<Leader>f', function() Snacks.picker.grep() end, { desc = "Open Snacks text grep" })
