@@ -156,7 +156,7 @@ vim.keymap.set('n', '<A-0>', '<C-w>l', { desc = "Switch to buffer on right" })
 
 -- Code completion
 vim.keymap.set('i', '/fat', '() => <Esc>4hi', { desc = "Fat-arrow function" })
-vim.keymap.set('i', '/fun', 'function () {<CR><CR>}<Esc><<^2k09li', { desc = "Classic function" })
+vim.keymap.set('i', '/fun', 'function () {<CR><CR>}<Esc><<^2k$3hi', { desc = "Classic function" })
 vim.keymap.set('i', '/sty', 'const  = styled.div`<CR>    <CR>`;<Esc><<^2k6li', { desc = "Styled div" })
 vim.keymap.set('i', '/jsd', '/**<cr> * <cr>*/<Esc>k$a', { desc = "JS Doc" })
 vim.keymap.set('i', '/cmt', '/**  */<Esc>2hi', { desc = "Comment" })
