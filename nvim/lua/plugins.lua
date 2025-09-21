@@ -750,6 +750,10 @@ return {
             require 'copilot_cmp'.setup {}
         end,
     },
+    {
+        'dimtion/guttermarks.nvim',
+        event = 'VeryLazy',
+    },
     --[[ {
         'r0nsha/multinput.nvim',
         opts = {},

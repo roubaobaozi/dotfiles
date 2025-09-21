@@ -7,9 +7,9 @@ vim.g.user_emmet_settings = "{ 'javascript': { 'extends': 'jsx,scss' }, 'javascr
 -- vim.g.user_emmet_settings = "webapi#json#decode(join(readfile(expand('~/.dotfiles/emmet-snippets.json')), \"\n\"))"
 
 -- Auto-save modified buffer during idle after 'updatetime' has elapsed (default 4 sec)
-vim.api.nvim_create_autocmd({'CursorHoldI', 'CursorHold'}, {
-  pattern = {"*"},
-  command = 'silent! update'
+vim.api.nvim_create_autocmd({ 'CursorHoldI', 'CursorHold' }, {
+    pattern = { "*" },
+    command = 'silent! update'
 })
 
 -- For tiny-inline-diagnostic.nvim to not double-up, remove default diagnostics
@@ -29,8 +29,8 @@ o.smarttab = true
 o.scrolloff = 5
 o.encoding = 'utf-8'
 o.showmatch = true -- Shows matching brackets
-o.ruler = true -- Always shows location in file (line# and column, this is in status bar)
-o.number = true -- show line numbers in insert mode, and below autocmd to also show relative line numbers otherwise
+o.ruler = true     -- Always shows location in file (line# and column, this is in status bar)
+o.number = true    -- show line numbers in insert mode, and below autocmd to also show relative line numbers otherwise
 o.cursorline = true
 
 o.smarttab = true -- Auto-tabs for certain code
@@ -110,6 +110,17 @@ vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
     pattern = '*.astro',
     group = setFtSyntax,
     command = 'set syntax=html',
+})
+
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+    pattern = '*.lua.symlink',
+    group = setFtSyntax,
+    command = 'set filetype=lua',
+})
+vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+    pattern = '*.lua.symlink',
+    group = setFtSyntax,
+    command = 'set syntax=lua',
 })
 
 -- svelte plugin
