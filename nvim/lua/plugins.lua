@@ -412,9 +412,20 @@ return {
         },
     },
     {
-        'hrsh7th/nvim-cmp',         -- Required
+        'hrsh7th/nvim-cmp',          -- Required
         dependencies = {
-            'onsails/lspkind.nvim', -- for icons in suggestions, eg. Copilot
+            'onsails/lspkind.nvim',  -- for icons in suggestions, eg. Copilot
+            'nvim-lua/plenary.nvim', -- required for telescope for find-in-all-files, and nvim-spectre find & replace in all files, also seems required for css-vars
+            {
+                'jdrupal-dev/css-vars.nvim',
+                opts = {
+                    -- If you use CSS-in-JS, you can add the autocompletion to JS/TS files.
+                    cmp_filetypes = { 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+                    -- WARNING: The search is not optimized to look for variables in JS files.
+                    -- If you change the search_extensions you might get false positives and weird completion results.
+                    search_extensions = { '.css', '.scss', '.jsx', '.tsx' }
+                },
+            },
         },
         config = function()
             local cmp_autopairs = require('nvim-autopairs.completion.cmp')
@@ -444,12 +455,12 @@ return {
                             fallback()
                         end
                     end, { 'i', 's', 'c', }),
-                    ['<Down>'] = cmp.mapping(cmp.mapping.select_next_item()),
-                    ['<PageDown>'] = cmp.mapping(cmp.mapping.select_next_item()),
-                    -- ['<PageDown>'] = cmp.mapping(cmp.mapping.scroll_docs(4)),
-                    ['<Up>'] = cmp.mapping(cmp.mapping.select_prev_item()),
-                    ['<PageUp>'] = cmp.mapping(cmp.mapping.select_prev_item()),
-                    -- ['<PageUp>'] = cmp.mapping(cmp.mapping.scroll_docs(-4)),
+                    ['<Down>'] = cmp.mapping.select_next_item(),
+                    ['<PageDown>'] = cmp.mapping.select_next_item({ count = 4 }),
+                    -- ['<PageDown>'] = cmp.mapping.scroll_docs(4), -- does not work
+                    ['<Up>'] = cmp.mapping.select_prev_item(),
+                    ['<PageUp>'] = cmp.mapping.select_prev_item({ count = 4 }),
+                    -- ['<PageUp>'] = cmp.mapping.scroll_docs(-4), -- does not work
                 },
                 -- https://mskelton.dev/bytes/emmet-for-styled-components-in-neovim
                 -- code highlight works in styled components, but emmet suggestions don't, sigh
@@ -470,6 +481,7 @@ return {
                             end,
                         },
                         -- Other Sources
+                        { name = 'css_vars' },
                         { name = 'path',    group_index = 2 },
                         { name = 'luasnip', group_index = 2 },
                     },
