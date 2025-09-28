@@ -1,7 +1,7 @@
 -- Pull in the wezterm API --
 local wezterm = require 'wezterm'
 
--- local resurrect = wezterm.plugin.require("https://github.com/MLFlexer/resurrect.wezterm")
+local resurrect = wezterm.plugin.require('https://github.com/MLFlexer/resurrect.wezterm')
 
 -- This table will hold the configuration. --
 local config = {}
@@ -202,12 +202,53 @@ config.keys = {
     mods = 'CMD|ALT',
     action = act.ActivateTabRelative(1),
   },
-  --[[ {
+  {
     key = 'w',
     mods = 'ALT',
     action = resurrect.window_state.save_window_action(),
-  }, ]]
+  },
+  {
+    key = "r",
+    mods = "ALT",
+    action = wezterm.action_callback(function(win, pane)
+      resurrect.fuzzy_loader.fuzzy_load(win, pane, function(id, label)
+        local type = string.match(id, "^([^/]+)") -- match before '/'
+        id = string.match(id, "([^/]+)$")         -- match after '/'
+        id = string.match(id, "(.+)%..+$")        -- remove file extension
+        local opts = {
+          relative = true,
+          restore_text = true,
+          on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+        }
+        if type == "workspace" then
+          local state = resurrect.state_manager.load_state(id, "workspace")
+          resurrect.workspace_state.restore_workspace(state, opts)
+        elseif type == "window" then
+          local state = resurrect.state_manager.load_state(id, "window")
+          resurrect.window_state.restore_window(pane:window(), state, opts)
+        elseif type == "tab" then
+          local state = resurrect.state_manager.load_state(id, "tab")
+          resurrect.tab_state.restore_tab(pane:tab(), state, opts)
+        end
+      end)
+    end),
+  },
 }
+
+-- https://github.com/MLFlexer/.dotfiles/blob/main/home-manager/config/wezterm/wezterm.luasnip
+resurrect.state_manager.periodic_save({
+  interval_seconds = 15 * 60,
+  save_workspaces = true,
+  save_windows = true,
+  save_tabs = true,
+})
+
+wezterm.on('gui-startup', resurrect.state_manager.resurrect_on_gui_startup)
+
+wezterm.on("resurrect.error", function(err)
+  wezterm.log_error("ERROR!")
+  wezterm.gui.gui_windows()[1]:toast_notification("resurrect", err, nil, 3000)
+end)
 
 -- Debugging --
 -- config.debug_key_events = true
