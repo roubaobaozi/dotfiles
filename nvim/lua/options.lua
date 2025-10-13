@@ -129,3 +129,9 @@ vim.g.vim_svelte_plugin_use_sass = 1
 
 -- set the colorscheme
 vim.cmd.colorscheme 'catppuccin-mocha'
+
+-- vim-fubitive plugin for fugitive non-standard bitbucket links
+-- vim.g.fubitive_domain_pattern = 'bitbucket.iag.alpha-1-ap-se-2.guidewire.net'
+
+-- Lazy.nvim close on Esc
+require('lazy.view.config').keys.close = '<Esc>'

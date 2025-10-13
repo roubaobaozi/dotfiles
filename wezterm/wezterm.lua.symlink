@@ -235,7 +235,7 @@ config.keys = {
   },
 }
 
--- https://github.com/MLFlexer/.dotfiles/blob/main/home-manager/config/wezterm/wezterm.luasnip
+-- https://github.com/MLFlexer/.dotfiles/blob/main/home-manager/config/wezterm/wezterm.lua
 resurrect.state_manager.periodic_save({
   interval_seconds = 15 * 60,
   save_workspaces = true,
@@ -243,12 +243,12 @@ resurrect.state_manager.periodic_save({
   save_tabs = true,
 })
 
-wezterm.on('gui-startup', resurrect.state_manager.resurrect_on_gui_startup)
-
-wezterm.on("resurrect.error", function(err)
-  wezterm.log_error("ERROR!")
-  wezterm.gui.gui_windows()[1]:toast_notification("resurrect", err, nil, 3000)
+wezterm.on('resurrect.error', function(err)
+  wezterm.log_error('ERROR!')
+  wezterm.gui.gui_windows()[1]:toast_notification('resurrect', err, nil, 3000)
 end)
+
+wezterm.on('gui-startup', resurrect.state_manager.resurrect_on_gui_startup)
 
 -- Debugging --
 -- config.debug_key_events = true

@@ -281,6 +281,7 @@ return {
                     padding = 3,
                 },
                 keymaps = {
+                    ['<Esc>'] = { 'actions.close', mode = 'n' }, -- close Oil.nvim on Esc
                     ['yp'] = {
                         desc = 'Copy filepath to system clipboard',
                         callback = function()
@@ -717,8 +718,8 @@ return {
     --     event = "VeryLazy",
     --     enabled = vim.fn.has("nvim-0.10.0") == 1,
     -- },
-    --[[ {
-        'skardyy/neo-img', -- image preview in Oil, but it doesn't work atm
+    {
+        'skardyy/neo-img', -- image preview in Oil, but it doesn't work that well atm
         build = 'cd ttyimg && go build',
         config = function()
             require 'neo-img'.setup {
@@ -730,21 +731,21 @@ return {
                     ['svg'] = true,
                     ['tiff'] = true
                 },
-                auto_open = true,               -- Automatically open images when buffer is loaded
-                oil_preview = true,             -- changes oil preview of images too
-                backend = 'auto',               -- auto detect: kitty / iTerm / sixel
-                size = {                        --scales the width, will maintain aspect ratio
+                auto_open = true,   -- Automatically open images when buffer is loaded
+                oil_preview = true, -- changes oil preview of images too
+                backend = 'auto',   -- auto detect: kitty / iTerm / sixel
+                --[[ size = {                        --scales the width, will maintain aspect ratio
                     oil = { x = 400, y = 400 }, -- a number (oil = 400) will set both at once
                     main = { x = 800, y = 800 }
                 },
                 offset = {
                     oil = { x = 5, y = 3 }, -- a number will only change the x
                     main = { x = 10, y = 3 }
-                },
+                }, ]]
                 resizeMode = 'Fit' -- Fit / Stretch / Crop
             }
         end,
-    }, ]]
+    },
     {
         'zbirenbaum/copilot.lua', -- Copilot
         cmd = 'Copilot',
