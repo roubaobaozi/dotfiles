@@ -123,6 +123,12 @@ ytd() {
     fi;
 }
 
+convert() {
+    for file in *.flac;
+        do ffmpeg -i "$file" -c:v copy -q:a 0 "${file%.flac}.mp3";
+    done
+}
+
 alias ytda='echo "This alias is deprecated, you can just use ytd now for everything, yay!\n" && ytd'
 alias ytdr='echo "This alias is deprecated, you can just use ytd now for everything, yay!\n" && ytd'
 

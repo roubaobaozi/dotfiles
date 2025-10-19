@@ -407,8 +407,9 @@ return {
                 'gh_actions_ls',
                 'lua_ls',
                 'stylelint_lsp',
-                'ts_ls',
+                -- 'ts_ls',
                 'typos_lsp',
+                'vtsls',
             }
         },
     },
@@ -501,6 +502,10 @@ return {
     },
     {
         'L3MON4D3/LuaSnip', -- Required
+        -- follow latest release.
+        version = "v2.*",   -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+        -- install jsregexp (optional!).
+        -- build = "make install_jsregexp"
     },
     -- end of LSP stuff
     {
