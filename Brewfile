@@ -60,10 +60,11 @@ brew 'ruby-build'
 # Core applications
 cask 'google-chrome'
 cask 'brave-browser'
+cask 'middleclick' --no-quarantine
 cask 'obsidian'
 cask 'quicksilver'
 cask 'shortcat'
-cask 'stretchly'
+cask 'stretchly' --no-quarantine
 cask 'the-unarchiver'
 #cask 'aerial'
 #cask 'alfred'

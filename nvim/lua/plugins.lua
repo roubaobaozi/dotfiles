@@ -599,9 +599,9 @@ return {
                     diagnostics = 'nvim_lsp',
                     max_name_length = 23,
                     max_prefix_length = 20,
-                    middle_mouse_command = '%bd|e#', -- doesn't work with iTerm
+                    middle_mouse_command = 'bd! %d', -- four-finger trackpad tap in macOS with middleclick
                     numbers = 'buffer_id',
-                    right_mouse_command = '%bd|e#',  -- doesn't work with iTerm
+                    right_mouse_command = 'silent GBrowse',
                     tab_size = 23,
                     offsets = {
                         {
