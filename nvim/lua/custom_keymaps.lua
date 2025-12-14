@@ -145,6 +145,8 @@ vim.keymap.set({ 'n', 'x' }, '%', '<Plug>(matchup-%)<CR>', { desc = "Matchup bra
 
 -- Sometimes I don't want to yank
 vim.keymap.set({ 'n', 'x' }, 'D', '"_d', { desc = "Delete without yank" })
+vim.keymap.set({ 'n', 'x' }, 'C', '"_c', { desc = "Change without yank" })
+vim.keymap.set({ 'n', 'x' }, 'S', '"_s', { desc = "Substitute without yank" })
 -- make Y behave like other capitals
 vim.keymap.set('n', 'Y', 'y$', { desc = "Yank to end of line" })
 
