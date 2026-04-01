@@ -15,6 +15,12 @@ vim() {
 # wezterm
 alias wsl='exec "wezterm cli split-pane --left $@"'
 
+# virus scanner
+clam() {
+    echo "clamdscan --fdpass $@\n";
+    eval "clamdscan --fdpass $@";
+}
+
 # Directory navigation
 alias ..='function navigate() {
     CMD="";
